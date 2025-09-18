@@ -4,8 +4,7 @@
 
 {
   imports = [
-    # ../modules/hyprland
-    # ../modules/hyprland
+    # ../../modules/hyprland
   ];
 
   home.stateVersion = "25.05"; # DO NOT EDIT! NOT EVEN WHEN UPDATING!
