@@ -25,7 +25,7 @@ in inputs.nixpkgs.lib.nixosSystem {
     #    `pkgs` is automatically passed to all submodules.
     {
       nixpkgs = { 
-	# hostPlatform = system; # -- in NixOS this is automatically included in `hardware-configuration.nix` -- https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
+	hostPlatform = system;
         overlays = overlays;
 	config.allowUnfree = true;
       };
