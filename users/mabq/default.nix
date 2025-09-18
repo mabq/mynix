@@ -1,6 +1,6 @@
 { inputs, ... }:
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [
@@ -18,45 +18,45 @@
   # Packages I always want installed. Most packages I install using
   # per-project flakes sourced with direnv and nix-shell, so this is
   # not a huge list.
-  home.packages = with pkgs; [
-    # bitwarden-desktop
-    # _1password-cli
-    # asciinema
-    bat
+  home.packages = [
+    # pkgs.bitwarden-desktop
+    # pkgs._1password-cli
+    # pkgs.asciinema
+    pkgs.bat
     # chezmoi
-    eza
-    fd
-    fzf
-    gh
-    btop
-    jq
-    ripgrep
-    # sentry-cli
-    tree
-    # watch
+    pkgs.eza
+    pkgs.fd
+    pkgs.fzf
+    pkgs.gh
+    pkgs.btop
+    pkgs.jq
+    pkgs.ripgrep
+    # pkgs.sentry-cli
+    pkgs.tree
+    # pkgs.watch
 
-    yazi
+    # pkgs.gopls
+    # pkgs.zigpkgs."0.14.0"
 
-    neovim
-
-    # gopls
-    # zigpkgs."0.14.0"
-
-    # claude-code
-    # codex
+    # pkgs.claude-code
+    # pkgs.codex
 
     # Node is required for Copilot.vim
-    # nodejs
+    # pkgs.nodejs
  
-    # chromium
-    # firefox
-    # rofi
-    # valgrind
-    # zathura
-    # xfce.xfce4-terminal
+    # pkgs.chromium
+    # pkgs.firefox
+    # pkgs.rofi
+    # pkgs.valgrind
+    # pkgs.zathura
+    # pkgs.xfce.xfce4-terminal
 
-    pciutils # lspci
-    usbutils # lsusb
+    pkgs.pciutils # lspci
+    pkgs.usbutils # lsusb
+
+    # -- Unstable versions
+    pkgs-unstable.neovim
+    pkgs-unstable.yazi
   ];
 
   #---------------------------------------------------------------------

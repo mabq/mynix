@@ -15,6 +15,11 @@ in inputs.nixpkgs.lib.nixosSystem {
     thisMachine = machine;
     thisSystem = system;
     thisUser = user;
+    # -- pkgs is passed automatically, this version is not.
+    pkgs-unstable = import inputs.nixpkgs-unstable {
+      hostPlatform = system;
+      config.allowUnfree = true;
+    };
   };
 
   modules = [

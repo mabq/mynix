@@ -26,7 +26,7 @@
   };
 
   outputs = inputs@{ self, ... }: let
-    overlays = []; # -- See https://github.com/mitchellh/nixos-config/blob/abf96c785af158021bab59af969b7ec5ceda2f7f/flake.nix#L64
+    overlays = []; # -- be carefull with overlays https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
     mkSystem = import ./lib/mksystem.nix {
       inherit inputs overlays;
     };
