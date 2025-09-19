@@ -6,15 +6,15 @@
   userNixosConfig = ../users/${user}/nixos.nix;
   homeManagerConfig = ../users/${user}/home-manager.nix;
 
+  # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
   pkgs-unstable = import inputs.nixpkgs-unstable {
-    hostPlatform = system;
+    inherit system; # -- must use `system`, not `hostPlatform` here.
     config.allowUnfree = true;
   };
 
 in inputs.nixpkgs.lib.nixosSystem {
 
-  # -- Pass additional attributes to all nixos modules.
-  #    https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
+  # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
   specialArgs = { 
     inherit inputs pkgs-unstable;
     thisMachine = machine;
@@ -30,7 +30,7 @@ in inputs.nixpkgs.lib.nixosSystem {
     #    `pkgs` is automatically passed to all submodules.
     {
       nixpkgs = { 
-	hostPlatform = system;
+	hostPlatform = system;      	
         overlays = overlays;
 	config.allowUnfree = true;
       };
@@ -45,7 +45,7 @@ in inputs.nixpkgs.lib.nixosSystem {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.${user} = import homeManagerConfig {
-	# -- Pass additional attributes to home-manager modules
+	# -- `specialArgs` works for NixOS modules only, pass it manually
 	inherit inputs pkgs-unstable;
       };
     }

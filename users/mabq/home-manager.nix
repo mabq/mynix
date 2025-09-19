@@ -32,6 +32,7 @@
     pkgs.btop
     pkgs.jq
     pkgs.ripgrep
+    pkgs.ncdu
     # pkgs.sentry-cli
     pkgs.tree
     # pkgs.watch
