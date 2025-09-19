@@ -1,11 +1,12 @@
-{ inputs, ... }:
+{ inputs, pkgs-unstable }:
 
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  imports = [
+
+  # imports = [
     # ../../modules/hyprland
-  ];
+  # ];
 
   home.stateVersion = "25.05"; # DO NOT EDIT! NOT EVEN WHEN UPDATING!
 

@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -26,7 +26,7 @@
   };
 
   outputs = inputs@{ self, ... }: let
-    overlays = []; # -- be carefull with overlays https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
+    overlays = []; # -- be carefull, see https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
     mkSystem = import ./lib/mksystem.nix {
       inherit inputs overlays;
     };

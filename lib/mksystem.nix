@@ -2,24 +2,24 @@
 
 { machine, system, user }: let
 
-  machineNixosConfig = ../machines/${machine}/configuration.nix;
+  machineNixosConfig = ../machines/${machine}/nixos.nix;
   userNixosConfig = ../users/${user}/nixos.nix;
-  homeManagerConfig = ../users/${user};
+  homeManagerConfig = ../users/${user}/home-manager.nix;
+
+  pkgs-unstable = import inputs.nixpkgs-unstable {
+    hostPlatform = system;
+    config.allowUnfree = true;
+  };
 
 in inputs.nixpkgs.lib.nixosSystem {
 
-  # -- Pass additional attributes to all sub-modules.
+  # -- Pass additional attributes to all nixos modules.
   #    https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
   specialArgs = { 
-    inherit inputs;
+    inherit inputs pkgs-unstable;
     thisMachine = machine;
     thisSystem = system;
     thisUser = user;
-    # -- pkgs is passed automatically, this version is not.
-    pkgs-unstable = import inputs.nixpkgs-unstable {
-      hostPlatform = system;
-      config.allowUnfree = true;
-    };
   };
 
   modules = [
@@ -45,7 +45,8 @@ in inputs.nixpkgs.lib.nixosSystem {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.${user} = import homeManagerConfig {
-        inherit inputs;
+	# -- Pass additional attributes to home-manager modules
+	inherit inputs pkgs-unstable;
       };
     }
   ];
