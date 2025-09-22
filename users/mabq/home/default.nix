@@ -1,12 +1,11 @@
-{ inputs, pkgs-unstable }:
-
-{ config, lib, pkgs, ... }:
-
 {
-
-  # imports = [
-    # ../../modules/hyprland
-  # ];
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
+  imports = [
+    ./neovim
+  ];
 
   home.stateVersion = "25.05"; # DO NOT EDIT! NOT EVEN WHEN UPDATING!
 
@@ -37,6 +36,8 @@
     pkgs.tree
     # pkgs.watch
 
+    pkgs.just
+
     # pkgs.gopls
     # pkgs.zigpkgs."0.14.0"
 
@@ -45,7 +46,7 @@
 
     # Node is required for Copilot.vim
     # pkgs.nodejs
- 
+
     # pkgs.chromium
     # pkgs.firefox
     # pkgs.rofi
@@ -57,7 +58,6 @@
     pkgs.usbutils # lsusb
 
     # -- Unstable versions
-    pkgs-unstable.neovim
     pkgs-unstable.yazi
   ];
 
@@ -101,7 +101,7 @@
   #   "i3/config".text = builtins.readFile ./i3;
   #   "rofi/config.rasi".text = builtins.readFile ./rofi;
   #   "ghostty/config".text = builtins.readFile ./ghostty.linux;
-  # } 
+  # }
 
   #---------------------------------------------------------------------
   # Programs

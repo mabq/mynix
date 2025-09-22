@@ -1,6 +1,10 @@
-{ config, pkgs, lib, thisMachine, ... }:
-
+# -- Default configurations to all machines --
 {
+  pkgs,
+  lib,
+  machine,
+  ...
+}: {
   boot = {
     loader = {
       systemd-boot.enable = true;
@@ -10,11 +14,11 @@
 
   nix = {
     package = pkgs.nixVersions.latest;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = ["nix-command" "flakes"];
   };
-  
+
   networking = {
-    hostName = lib.mkDefault "${thisMachine}";
+    hostName = lib.mkDefault "${machine}";
 
     useDHCP = lib.mkDefault true;
     #interfaces.enp1s0.useDHCP = lib.mkDefault true;
