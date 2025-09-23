@@ -1,5 +1,5 @@
 {
-  description = "NixOS and Home-manager setup";
+  description = "mynix - My NixOS and Home-manager setup";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
@@ -29,7 +29,7 @@
   outputs = inputs @ {self, ...}: let
     overlays = []; # -- see https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
     mkSystem = import ./lib/mksystem.nix {
-      inherit inputs overlays;
+      inherit self inputs overlays;
     };
   in {
     nixosConfigurations."nuc" = mkSystem {

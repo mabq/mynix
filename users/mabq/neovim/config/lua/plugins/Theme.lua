@@ -1,0 +1,1 @@
+/home/mabq/.config/mabq/current/theme/neovim.lua
