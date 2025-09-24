@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
+# Use this script during development only, just to quickly switch themes
+# without needing to re-build the system.
+# This script creates links that cannot be overriden by home-manager.
+# I have included a `clean-dev` command in `/Justfile`.
+
 if [[ -z $1 && $1 != "CNCLD" ]]; then
   echo "Usage: mynix-theme-set <theme-name>"
   exit 1
 fi
 
-THEMES_DIR="$HOME/.config/mynix/themes/"
+THEMES_DIR="$HOME/.local/share/mynix/themes"
 CURRENT_THEME_DIR="$HOME/.config/mynix/current/theme"
 
 THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')

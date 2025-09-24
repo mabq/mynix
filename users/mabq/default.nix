@@ -7,21 +7,14 @@
   ...
 }: let
   # -- User settings:
-  #    Change to any in `/themes`.
-  theme = "osaka-jade";
+  theme = "tokyo-night"; # -- any in `/themes`
 in {
   imports = [
     ./neovim
   ];
 
   # -- Create an "out-of-store" symlink to the selected theme:
-  home.file.".config/mynix//themes".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/";
-  home.file.".config/mynix/current/theme".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/${theme}/";
-
-  # -- Add our scrips directory to path
-  home.sessionPath = [
-    "$HOME/.local/share/mynix/bin/"
-  ];
+  home.file.".config/mynix/current/theme".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/${theme}";
 
   # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

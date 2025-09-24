@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  environment.localBinInPath = true; # -- Add ~/.local/bin to PATH
+  # environment.localBinInPath = true; # -- Add ~/.local/bin to PATH
 
   users.users.mabq = {
     isNormalUser = true;

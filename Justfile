@@ -1,3 +1,7 @@
+clean-dev:
+  # Clean links not created by nix.
+  rm ~/.config/mynix/current/theme
+
 deploy:
   sudo nixos-rebuild switch --flake .#nuc
 

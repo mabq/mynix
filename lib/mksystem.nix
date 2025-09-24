@@ -1,5 +1,4 @@
 {
-  self,
   inputs,
   overlays,
 }: {
@@ -7,15 +6,15 @@
   system,
   user,
 }: let
-  # -- "Out of store" symlings:
+  # -- "Out of store" symlinks:
   #    In order to reflect changes in configuration files inmediately we need
-  #    to create symlinks out of the nix store. In order to do that we need to
-  #    provide an absolute path to `config.lib.file.mkOutOfStoreSymlink`.
-  #    I tried all sorts of things to dynamically get the root of the flake
-  #    but all those ended up evaluating as root, therefore creating the
-  #    symlinks with `root` as owner.
-  # flakeRoot = self.sourceInfo.outPath;    # -- does not work
-  # flakeRoot = toString ./.;               # -- does not work
+  #    to create "out-of-store" symlinks passing an **absolute** path to
+  #    `config.lib.file.mkOutOfStoreSymlink`.
+  #    These dynamic options cause the link to be owned by `root`:
+  #      `flakeRoot = self.sourceInfo.outPath;`          # -- does not work
+  #      `flakeRoot = toString ./.;`                     # -- does not work
+  #    So I ended up hardcoding the path here. If you clone the repository into
+  #    another directory you need to update this value.
   flakeRoot = "/home/${user}/.local/share/mynix";
 
   # -- Instantiate nixpkgs unstable:
@@ -43,11 +42,10 @@ in
     inherit specialArgs;
 
     modules = [
-      # -- Prepare `pkgs` - do it here to avoid passing `overlays` around:
-      #    `nixpkgs` is the content of the upstream repository untouched.
-      #    `pkgs` is the result of applying our customizations those packages (system, overlays, config, etc).
-      #    `pkgs` is automatically passed to all submodules, not `nixpkgs`.
       {
+        # -- Prepare `pkgs`:
+        #    Do it here to avoid passing `overlays` around.
+        #    `pkgs` is the result of applying these configurations to `nixpkgs`.
         nixpkgs = {
           hostPlatform = system;
           overlays = overlays;
@@ -58,15 +56,14 @@ in
       machineNixosConfig
       userNixosConfig
 
-      # -- Home Manager as a module of NixOS:
       inputs.home-manager.nixosModules.home-manager
       {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.users.${user} = import homeManagerConfig;
         # -- Pass these args to all Home-manager modules:
         #    https://home-manager.dev/manual/24.11/#sec-flakes-nixos-module
         home-manager.extraSpecialArgs = specialArgs;
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.users.${user} = import homeManagerConfig;
       }
     ];
   }

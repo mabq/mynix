@@ -29,13 +29,15 @@
   outputs = inputs @ {self, ...}: let
     overlays = []; # -- see https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
     mkSystem = import ./lib/mksystem.nix {
-      inherit self inputs overlays;
+      inherit inputs overlays;
     };
   in {
-    nixosConfigurations."nuc" = mkSystem {
-      machine = "GB-BXi3-5010";
-      system = "x86_64-linux";
-      user = "mabq";
+    nixosConfigurations = {
+      "nuc" = mkSystem {
+        machine = "GB-BXi3-5010";
+        system = "x86_64-linux";
+        user = "mabq";
+      };
     };
   };
 }
