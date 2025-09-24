@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+if [[ -z $1 && $1 != "CNCLD" ]]; then
+  echo "Usage: mynix-theme-set <theme-name>"
+  exit 1
+fi
+
+THEMES_DIR="$HOME/.config/mynix/themes/"
+CURRENT_THEME_DIR="$HOME/.config/mynix/current/theme"
+
+THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+THEME_PATH="$THEMES_DIR/$THEME_NAME"
+
+# Check if the theme entered exists
+if [[ ! -d "$THEME_PATH" ]]; then
+  echo "Theme '$THEME_NAME' does not exist in $THEMES_DIR"
+  exit 1
+fi
+
+# Update theme symlinks
+ln -nsf "$THEME_PATH" "$CURRENT_THEME_DIR"
+
+# Change background with theme
+#mynix-theme-bg-next
+
+# Restart components to apply new theme
+#mynix-restart-waybar
+#mynix-restart-swayosd
+#hyprctl reload
+#pkill -SIGUSR2 btop
+#makoctl reload
+
+# Change gnome, browser, vscode themes
+#mynix-theme-set-terminal
+#mynix-theme-set-gnome
+#mynix-theme-set-eza
+#mynix-theme-set-browser
+#mynix-theme-set-vscode
+

@@ -1,1 +1,1 @@
-/home/mabq/.config/mabq/current/theme/neovim.lua
+/home/mabq/.config/mynix/current/theme/neovim.lua

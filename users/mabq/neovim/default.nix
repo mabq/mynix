@@ -4,13 +4,9 @@
   pkgs-unstable,
   flakeRoot,
   ...
-}: let
-  # flakeRoot = self.sourceInfo.outPath;
-in {
+}: {
   # -- Create an "out of store" symlink to the configuration files
   home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/users/mabq/neovim/config";
-  # home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink ./config;
-  # home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/projects/nixos-setup/users/mabq/neovim/config";
 
   home.packages = [
     pkgs-unstable.neovim

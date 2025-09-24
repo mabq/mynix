@@ -7,19 +7,21 @@
   ...
 }: let
   # -- User settings:
-  #    Change these to your preferences.
-  theme = "tokyo-night";
+  #    Change to any in `/themes`.
+  theme = "osaka-jade";
 in {
   imports = [
     ./neovim
   ];
 
-  # -- Theme:
-  #    Theme files inside `.config/<package>` are fixed symlinks that never change.
-  #    The files where those symlinks point is what changes when we change themes.
-  #    Create an "out of store" symlink to the desired theme. Editing a theme does
-  #    not require a re-build, changing themes does.
-  home.file.".config/${user}/current/theme".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/${theme}/";
+  # -- Create an "out-of-store" symlink to the selected theme:
+  home.file.".config/mynix//themes".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/";
+  home.file.".config/mynix/current/theme".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/${theme}/";
+
+  # -- Add our scrips directory to path
+  home.sessionPath = [
+    "$HOME/.local/share/mynix/bin/"
+  ];
 
   # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
