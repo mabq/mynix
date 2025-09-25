@@ -7,48 +7,69 @@
   ...
 }: let
   # -- User settings:
-  theme = "tokyo-night"; # -- any in `/themes`
+  theme = "tokyo-night";
+
+  # -- Helpers:
+  _config = "${flakeRoot}/users/${user}/config";
+  _symlink = config.lib.file.mkOutOfStoreSymlink; # -- "out-of-store" symlinks allow inmediate changes without rebuild
 in {
-  imports = [
-    ./neovim
-  ];
+  xdg.configFile = {
+    # -- Symlink config files:
+    "nvim".source = _symlink "${_config}/nvim";
+    "tmux".source = _symlink "${_config}/tmux";
 
-  # -- Create an "out-of-store" symlink to the selected theme:
-  home.file.".config/mynix/current/theme".source = config.lib.file.mkOutOfStoreSymlink "${flakeRoot}/themes/${theme}";
+    # -- Symlink current theme:
+    "mynix/current/theme".source = _symlink "${flakeRoot}/themes/${theme}";
+  };
 
-  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # -- Symlink shell scripts:
+  home.file.".local/bin".source = _symlink "${flakeRoot}/bin";
 
-  home.stateVersion = "25.05"; # DO NOT EDIT! NOT EVEN WHEN UPDATING!
-
-  # xdg.enable = true;
-
-  #---------------------------------------------------------------------
-  # Packages
-  #---------------------------------------------------------------------
-
-  # Packages I always want installed. Most packages I install using
-  # per-project flakes sourced with direnv and nix-shell, so this is
-  # not a huge list.
+  # -- Packages I always want installed. Most packages I install using
+  #    per-project flakes sourced with direnv and nix-shell, so this is
+  #    not a huge list.
   home.packages = [
-    # pkgs.bitwarden-desktop
-    # pkgs._1password-cli
-    # pkgs.asciinema
+    # -- Base:
+    pkgs.gnumake # -- required to build `fzf-native` for Telescope.nvim
+    pkgs.clang # -- required to build treesitter parsers
+
+    # -- Pure cli:
     pkgs.bat
-    # chezmoi
+    pkgs.btop
     pkgs.eza
     pkgs.fd
     pkgs.fzf
-    pkgs.gh
-    pkgs.btop
-    pkgs.jq
-    pkgs.ripgrep
+    pkgs.just # -- simplify cli commands
     pkgs.ncdu
-    # pkgs.sentry-cli
+    pkgs.ripgrep
+    pkgs.tmux
     pkgs.tree
+    pkgs.zoxide
+
+    pkgs-unstable.neovim
+    pkgs-unstable.lazygit
+
+    # -- LSPs:
+    pkgs.lua-language-server
+    pkgs.nixd
+
+    # -- Formatters:
+    pkgs.stylua
+    pkgs.alejandra
+
+    # -- GUI cli:
+    pkgs-unstable.yazi
+
+    # -- Hashimoto todo:
+    # pkgs.bitwarden-desktop
+    # pkgs._1password-cli
+    # pkgs.asciinema
+    # chezmoi
+    # pkgs.gh
+    # pkgs.sentry-cli
     # pkgs.watch
 
-    pkgs.just
+    # pkgs.jq
 
     # pkgs.gopls
     # pkgs.zigpkgs."0.14.0"
@@ -66,12 +87,18 @@ in {
     # pkgs.zathura
     # pkgs.xfce.xfce4-terminal
 
-    pkgs.pciutils # lspci
-    pkgs.usbutils # lsusb
-
-    # -- Unstable versions
-    pkgs-unstable.yazi
+    # pkgs.pciutils # lspci
+    # pkgs.usbutils # lsusb
   ];
+
+  # ---------------------------------------------------------------------------
+
+  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  home.stateVersion = "25.05"; # DO NOT EDIT! NOT EVEN WHEN UPDATING!
+
+  # xdg.enable = true;
 
   #---------------------------------------------------------------------
   # Env vars and dotfiles
