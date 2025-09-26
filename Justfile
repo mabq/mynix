@@ -2,10 +2,10 @@ clean-dev:
   # Clean links not created by nix.
   rm ~/.config/mynix/current/theme
 
-dnuc:
+deploy-nuc:
   sudo nixos-rebuild switch --flake .#nuc
 
-debug:
+debug-nuc:
   sudo nixos-rebuild switch --flake .#nuc --show-trace --verbose
 
 up:

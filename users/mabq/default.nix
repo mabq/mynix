@@ -2,60 +2,34 @@
   config,
   pkgs,
   pkgs-unstable,
-  user,
-  flakeRoot,
+  repo,
   ...
 }: let
-  # -- User settings:
   theme = "tokyo-night";
 
-  # -- Helpers:
-  _config = "${flakeRoot}/users/${user}/config";
-  _symlink = config.lib.file.mkOutOfStoreSymlink; # -- "out-of-store" symlinks allow inmediate changes without rebuild
+  myNixModule = import ../../modules/mynix theme;
 in {
-  xdg.configFile = {
-    # -- Symlink config files:
-    "nvim".source = _symlink "${_config}/nvim";
-    "tmux".source = _symlink "${_config}/tmux";
-
-    # -- Symlink current theme:
-    "mynix/current/theme".source = _symlink "${flakeRoot}/themes/${theme}";
-  };
-
-  # -- Symlink shell scripts:
-  home.file.".local/bin".source = _symlink "${flakeRoot}/bin";
+  imports = [
+    myNixModule
+    ../../modules/tmux
+    ../../modules/nvim
+  ];
 
   # -- Packages I always want installed. Most packages I install using
   #    per-project flakes sourced with direnv and nix-shell, so this is
   #    not a huge list.
   home.packages = [
-    # -- Base:
-    pkgs.gnumake # -- required to build `fzf-native` for Telescope.nvim
-    pkgs.clang # -- required to build treesitter parsers
-
     # -- Pure cli:
     pkgs.bat
     pkgs.btop
     pkgs.eza
     pkgs.fd
     pkgs.fzf
-    pkgs.just # -- simplify cli commands
     pkgs.ncdu
     pkgs.ripgrep
     pkgs.tmux
     pkgs.tree
     pkgs.zoxide
-
-    pkgs-unstable.neovim
-    pkgs-unstable.lazygit
-
-    # -- LSPs:
-    pkgs.lua-language-server
-    pkgs.nixd
-
-    # -- Formatters:
-    pkgs.stylua
-    pkgs.alejandra
 
     # -- GUI cli:
     pkgs-unstable.yazi
@@ -146,7 +120,33 @@ in {
   # Programs
   #---------------------------------------------------------------------
 
-  programs.gpg.enable = true;
+  programs.gpg = {
+    enable = true;
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "Alejandro Banderas";
+    userEmail = "alejandro.banderas@me.com";
+    # signing = {
+    #   key = "523D5DC389D273BC";
+    #   signByDefault = true;
+    # };
+    # aliases = {
+    #   cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
+    #   prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+    #   root = "rev-parse --show-toplevel";
+    # };
+    extraConfig = {
+      # branch.autosetuprebase = "always";
+      color.ui = true;
+      core.askPass = ""; # needs to be empty to use terminal for ask pass
+      # credential.helper = "store"; # want to make this more secure
+      github.user = "mabq";
+      # push.default = "tracking";
+      init.defaultBranch = "main";
+    };
+  };
 
   # programs.bash = {
   #   enable = true;
@@ -191,30 +191,6 @@ in {
   #     "theme-bobthefish"
   #   ];
   # };
-
-  programs.git = {
-    enable = true;
-    userName = "Alejandro Banderas";
-    userEmail = "alejandro.banderas@me.com";
-    # signing = {
-    #   key = "523D5DC389D273BC";
-    #   signByDefault = true;
-    # };
-    # aliases = {
-    #   cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
-    #   prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-    #   root = "rev-parse --show-toplevel";
-    # };
-    extraConfig = {
-      # branch.autosetuprebase = "always";
-      color.ui = true;
-      core.askPass = ""; # needs to be empty to use terminal for ask pass
-      # credential.helper = "store"; # want to make this more secure
-      github.user = "mabq";
-      # push.default = "tracking";
-      init.defaultBranch = "main";
-    };
-  };
 
   # programs.go = {
   #   enable = true;
@@ -266,11 +242,6 @@ in {
   #     "wireless _first_".enable = false;
   #     "battery all".enable = false;
   #   };
-  # };
-
-  # programs.neovim = {
-  #   enable = true;
-  #   package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
   # };
 
   # programs.atuin = {

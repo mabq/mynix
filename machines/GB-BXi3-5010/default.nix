@@ -1,7 +1,8 @@
 {...}: {
   imports = [
-    ../defaults.nix
     ./hardware-configuration.nix
+    ../all.nix
+    ../../modules/keyd
   ];
 
   # -- Specific properties of this machine:

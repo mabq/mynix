@@ -1,4 +1,3 @@
-# -- Default configurations to all machines --
 {
   pkgs,
   lib,
@@ -10,6 +9,16 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+  };
+
+  time.timeZone = lib.mkDefault "America/Guayaquil";
+
+  i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
+
+  environment = {
+    systemPackages = [
+      pkgs.just # -- simplify cli commands
+    ];
   };
 
   nix = {
@@ -34,36 +43,27 @@
     };
   };
 
-  services = {
-    openssh = {
-      enable = lib.mkDefault true;
-      settings = {
-        # X11Forwarding = lib.mkDefault true;
-        PermitRootLogin = lib.mkDefault "no"; # disable root login
-        # PasswordAuthentication = lib.mkDefault false; # disable password login
-      };
-      openFirewall = lib.mkDefault true;
+  services.openssh = {
+    enable = lib.mkDefault true;
+    settings = {
+      # X11Forwarding = lib.mkDefault true;
+      PermitRootLogin = lib.mkDefault "no"; # disable root login
+      # PasswordAuthentication = lib.mkDefault false; # disable password login
     };
-
-    pipewire = {
-      enable = lib.mkDefault true;
-      pulse.enable = lib.mkDefault true;
-    };
-
-    printing = {
-      # Enable CUPS to print documents
-      enable = lib.mkDefault true;
-    };
+    openFirewall = lib.mkDefault true;
   };
 
-  time.timeZone = lib.mkDefault "America/Guayaquil";
-
-  i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
-
-  environment = {
-    systemPackages = with pkgs; lib.mkDefault [];
-    variables.EDITOR = "nvim";
+  services.pipewire = {
+    enable = lib.mkDefault true;
+    pulse.enable = lib.mkDefault true;
   };
+
+  services.printing = {
+    # Enable CUPS to print documents
+    enable = lib.mkDefault true;
+  };
+
+  # ------------------------------------------------------------------------- #
 
   # Do NOT change this value after the initial install, even if you've upgraded your
   # system to a new NixOS release. For more information, see `man configuration.nix`
