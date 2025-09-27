@@ -1,5 +1,4 @@
-clean-dev:
-  # Clean links not created by nix.
+clean-nuc:
   rm ~/.config/mynix/current/theme
 
 deploy-nuc:

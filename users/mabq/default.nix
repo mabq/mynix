@@ -1,25 +1,24 @@
 {
-  config,
   pkgs,
   pkgs-unstable,
-  repo,
   ...
 }: let
+  # User settings.
   theme = "tokyo-night";
 
-  myNixModule = import ../../modules/mynix theme;
+  # These are just local variables.
+  myNixSetup = import ../../modules/mynix theme;
 in {
   imports = [
-    myNixModule
+    myNixSetup
     ../../modules/tmux
     ../../modules/nvim
+    ../../modules/yazi
   ];
 
-  # -- Packages I always want installed. Most packages I install using
-  #    per-project flakes sourced with direnv and nix-shell, so this is
-  #    not a huge list.
+  # Packages I always want installed. Most packages I install using per-project
+  # flakes sourced with direnv and nix-shell, so this is not a huge list.
   home.packages = [
-    # -- Pure cli:
     pkgs.bat
     pkgs.btop
     pkgs.eza
@@ -29,9 +28,8 @@ in {
     pkgs.ripgrep
     pkgs.tmux
     pkgs.tree
-    pkgs.zoxide
+    pkgs.zoxide # to its own module because of shell integration
 
-    # -- GUI cli:
     pkgs-unstable.yazi
 
     # -- Hashimoto todo:

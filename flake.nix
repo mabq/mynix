@@ -26,7 +26,7 @@
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ {self, ...}: let
+  outputs = inputs @ {...}: let
     overlays = []; # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
     mkSystem = import ./lib/mksystem.nix {
       inherit inputs overlays;
