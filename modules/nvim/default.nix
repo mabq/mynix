@@ -24,6 +24,9 @@ in {
 
     pkgs.nixd
     pkgs.alejandra
+
+    pkgs.bash-language-server
+    pkgs.shfmt
   ];
 
   # Link the whole directory out-of-store so that no rebuild is required to apply changes (must be an absolute path)

@@ -6,9 +6,10 @@ return {
       { 'mason-org/mason.nvim', opts = {} }, -- just to try things out
     },
     config = function()
-      -- Install LSPs with your package manager
-      vim.lsp.enable 'lua_ls'
-      vim.lsp.enable 'nixd'
+      -- Install LSPs with your package manager, see notes below
+      vim.lsp.enable 'lua_ls' -- lua-language-server
+      vim.lsp.enable 'nixd' -- nixd
+      vim.lsp.enable 'bashls' -- bash-language-server
 
       -- vim.lsp.config('*', {}) -- see `:h vim.lsp.config()`
 

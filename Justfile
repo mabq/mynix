@@ -2,6 +2,7 @@ clean-nuc:
   rm ~/.config/mynix/current/theme
 
 deploy-nuc:
+  git add .
   sudo nixos-rebuild switch --flake .#nuc
 
 debug-nuc:

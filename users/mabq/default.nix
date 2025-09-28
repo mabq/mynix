@@ -11,6 +11,7 @@
 in {
   imports = [
     myNixSetup
+    ../../modules/zsh
     ../../modules/tmux
     ../../modules/nvim
     ../../modules/yazi
@@ -30,9 +31,6 @@ in {
     pkgs.tree
     pkgs.zoxide # to its own module because of shell integration
 
-    pkgs-unstable.yazi
-
-    # -- Hashimoto todo:
     # pkgs.bitwarden-desktop
     # pkgs._1password-cli
     # pkgs.asciinema
@@ -76,17 +74,19 @@ in {
   # Env vars and dotfiles
   #---------------------------------------------------------------------
 
-  home.sessionVariables = {
-    LANG = "en_US.UTF-8";
-    LC_CTYPE = "en_US.UTF-8";
-    LC_ALL = "en_US.UTF-8";
-    EDITOR = "nvim";
-    PAGER = "less -FirSwX";
-    # MANPAGER = "/bin/manpager";
+  # home.sessionVariables = {
+  # -- These are set in the shell config files:
+  # LANG = "en_US.UTF-8";
+  # LC_CTYPE = "en_US.UTF-8";
+  # LC_ALL = "en_US.UTF-8";
+  # EDITOR = "nvim";
+  # PAGER = "less -FirSwX";
+  # MANPAGER = "/bin/manpager";
 
-    # AMP_API_KEY = "op://Private/Amp_API/credential";
-    # OPENAI_API_KEY = "op://Private/OpenAPI_Personal/credential";
-  };
+  # -- These are worth taking a look:
+  # AMP_API_KEY = "op://Private/Amp_API/credential";
+  # OPENAI_API_KEY = "op://Private/OpenAPI_Personal/credential";
+  # };
 
   # link the configuration file in current directory to the specified location in home directory
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
@@ -145,14 +145,6 @@ in {
       init.defaultBranch = "main";
     };
   };
-
-  # programs.bash = {
-  #   enable = true;
-  #   shellOptions = [];
-  #   historyControl = [ "ignoredups" "ignorespace" ];
-  #   initExtra = builtins.readFile ./bashrc;
-  #   shellAliases = shellAliases;
-  # };
 
   # programs.direnv= {
   #   enable = true;

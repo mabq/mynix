@@ -13,13 +13,11 @@ show_hidden = true
 image_alloc = 0 # show images of any size
 image_bound = [ 0, 0 ] # show images of any size
 
-
 # Enable drag and drop
 #   https://yazi-rs.github.io/docs/tips#drag-and-drop
 [[mgr.prepend_keymap]]
 on  = "<C-n>"
 run = 'shell -- dragon-drop -x -i -T "$1"'
-
 
 # Set as wallpaper option
 #   https://yazi-rs.github.io/docs/tips#set-a-wallpaper

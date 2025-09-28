@@ -1,3 +1,5 @@
+# Changes not seen here:
+#   - In zsh we bind a key to launch tmux-sessionizer.
 {
   config,
   pkgs,

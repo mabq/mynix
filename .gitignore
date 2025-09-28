@@ -1,0 +1,2 @@
+# Ignore zcompdump file in ~/.config/zsh
+.zcompdump*
