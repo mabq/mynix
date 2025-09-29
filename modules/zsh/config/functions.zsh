@@ -1,37 +1,6 @@
-# -- Zoxide
-#    Replace the `cd` command to record all changing directories in zoxide.
-function zd() {
-  if [ $# -eq 0 ]; then
-    builtin cd ~ && return
-  elif [ -d "$1" ]; then
-    builtin cd "$1"
-  else
-    z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
-  fi
-}
-
 # -- Alias for xdg-open
 function open() {
   xdg-open "$@" >/dev/null 2>&1 &
-}
-
-# -- Yazi
-#    Change cwd on exiting. See https://yazi-rs.github.io/docs/quick-start#shell-wrapper
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
-}
-
-# -- Neovim
-function n() {
-  if [ "$#" -eq 0 ]; then
-    nvim .;
-  else
-    nvim "$@";
-  fi;
 }
 
 # -- Compression

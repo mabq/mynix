@@ -1,5 +1,4 @@
-# Filesystem:
-alias cd="zd" # -- make cd add entries to zoxide, `zd` is defined in the `functions` file.
+# -- Filesystem
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias lsa='ls -a'
 alias lt='eza --tree --level=2 --long --icons --git'
@@ -14,12 +13,43 @@ alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 # alias mv='mv -iv'
 # alias rm='rm -iv --preserve-root'
 
-# Directories:
+# -- Directories
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# Git
+# -- Neovim
+function n() {
+  if [ "$#" -eq 0 ]; then
+    nvim .;
+  else
+    nvim "$@";
+  fi;
+}
+
+# -- Zoxide
+alias cd="zd"
+function zd() {
+  if [ $# -eq 0 ]; then
+    builtin cd ~ && return
+  elif [ -d "$1" ]; then
+    builtin cd "$1"
+  else
+    z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
+  fi
+}
+
+# -- Yazi
+#    Change cwd on exiting. See https://yazi-rs.github.io/docs/quick-start#shell-wrapper
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
+# -- Git
 alias ga="git add";
 alias gc="git commit";
 alias gco="git checkout";
@@ -30,7 +60,7 @@ alias gp="git push";
 alias gs="git status";
 alias gt="git tag";
 
-# Utils (see functions for more):
+# -- Utils (see functions for more)
 alias burniso="caligula burn" # pass the iso path as argument
 alias fsck='echo "Never use file system repair software such as fsck directly on an encrypted volume, or it will destroy any means to recover the key used to decrypt your files. Such tools must be used on the decrypted (opened) device instead"'
 alias my-ip-json='curl https://ipapi.co/json/'
@@ -45,7 +75,7 @@ alias trash='trash-put'
 alias wifi='nmtui'
 
 
-# Disabled:
+# -- Disabled
 # alias fontname="fc-query -f '%{family[0]}\n'" # pass the font path as argument
 # alias fonts='fc-list : family | sort | uniq | sk --layout=reverse'
 # alias fonts='ghostty +list-fonts | fzf'
@@ -63,7 +93,7 @@ alias wifi='nmtui'
 # alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
 # alias weather='curl wttr.in'
 
-# External disks (the UUID of a disk will change when formatted):
+# -- External disks (the UUID of a disk will change when formatted)
 # alias mount-series='sudo mount /dev/disk/by-uuid/EBC6-97B8 /mnt/series'
 # alias umount-series='sudo umount /mnt/series && sleep 3 && sudo hdparm -y /dev/disk/by-uuid/EBC6-97B8'
 # alias mount-alejandro='sudo mount /dev/disk/by-uuid/04D0-1DBF /mnt/alejandro'

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  pkgs-unstable,
-  ...
-}: let
+{pkgs, ...}: let
   # User settings.
   theme = "tokyo-night";
 
@@ -12,6 +8,7 @@ in {
   imports = [
     myNixSetup
     ../../modules/zsh
+    ../../modules/starship
     ../../modules/tmux
     ../../modules/nvim
     ../../modules/yazi
@@ -20,6 +17,7 @@ in {
   # Packages I always want installed. Most packages I install using per-project
   # flakes sourced with direnv and nix-shell, so this is not a huge list.
   home.packages = [
+    pkgs.just # -- simplify cli commands
     pkgs.bat
     pkgs.btop
     pkgs.eza

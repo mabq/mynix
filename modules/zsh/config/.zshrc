@@ -6,6 +6,6 @@ source "$ZDOTDIR/bindkey.zsh"
 source "$ZDOTDIR/functions.zsh"  # must go before aliases
 source "$ZDOTDIR/envs.zsh"
 source "$ZDOTDIR/aliases.zsh"
-source "$ZDOTDIR/addons.zsh"
+source "$ZDOTDIR/init.zsh"
 
 # source "$ZDOTDIR/source-disks/aliases.zsh"

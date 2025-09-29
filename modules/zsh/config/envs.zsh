@@ -2,7 +2,7 @@
 export PATH="$HOME/.local/bin:$PATH" # TODO: Omarchy sets this in uwsm
 
 # History options:
-#   Export them so that atuin can see them
+mkdir -p ~/.cache/zsh
 export HISTSIZE=10000
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE=~/.cache/zsh/history  # be careful not to include this file on any git repo
@@ -15,7 +15,7 @@ export HISTFILE=~/.cache/zsh/history  # be careful not to include this file on a
 # export XDG_CACHE_HOME="$HOME/.cache"
 # export XDG_DATA_HOME="$HOME/.local/share"
 # export XDG_STATE_HOME="$HOME/.local/state"
-# export XDG_DATA_DIRS="/usr/local/share:/usr/share:/var/lib/flatpak/exports/share:/home/mabq/.local/share/flatpak/exports/share" # show flatpak applications in open menu
+# export XDG_DATA_DIRS=""
 # export XDG_CONFIG_DIRS="/etc/xdg"
 
 

@@ -15,11 +15,7 @@
 
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
 
-  environment = {
-    systemPackages = [
-      pkgs.just # -- simplify cli commands
-    ];
-  };
+  # environment.systemPackages = [];
 
   nix = {
     package = pkgs.nixVersions.latest;

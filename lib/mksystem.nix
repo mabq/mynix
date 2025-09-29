@@ -6,40 +6,62 @@
   system,
   user,
 }: let
-  # Out-of-store symlinks require an absolute path
+  # -- Out-of-store symlinks.
+  #    I don't have the patience to wait for an entire re-build just to apply a
+  #    simple configuration change, so I need to create symlinks that point out
+  #    of the nix store, in order to do so I need to provide an absolute path,
+  #    starting from the root of the system.
+  #    When I used nix functions to programatically obtain the path of the
+  #    flake, the resulting links where owned by `root`. For now just
+  #    hard-code the path of the local repository here. Get used to always
+  #    cloning it here (same as Omarchy).
   repo = "/home/${user}/.local/share/mynix";
 
+  # -- Instantiate a new package set with the latest versions.
+  #    https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
   pkgs-unstable = import inputs.nixpkgs-unstable {
-    # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
     inherit system;
     config.allowUnfree = true;
   };
 
+  # -- Make these arguments available in every NixOS and home-manager module.
+  #    https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
   specialArgs = {
-    # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
     inherit machine system user repo pkgs-unstable;
   };
 in
   inputs.nixpkgs.lib.nixosSystem {
+    # -- Pass specialArgs to NixOS modules.
     inherit specialArgs;
 
     modules = [
+      # -- Instantiate nixpkgs with the given options.
       {
         nixpkgs = {
-          hostPlatform = system;
-          overlays = overlays;
+          inherit system overlays;
           config.allowUnfree = true;
         };
       }
-      # paths are automatically imported
-      ../machines/${machine} # nixos machine config
-      ../users/${user}/nixos.nix # nixos user config
+
+      # -- NixOS modules (paths are automatically imported).
+      ../machines/${machine}
+      ../users/${user}/nixos.nix
+
+      # -- Home-manager as a NixOS module.
       inputs.home-manager.nixosModules.home-manager
       {
-        home-manager.extraSpecialArgs = specialArgs; # https://home-manager.dev/manual/24.11/#sec-flakes-nixos-module
+        # -- Pass specialArgs to home-manager modules.
+        #    https://home-manager.dev/manual/24.11/#sec-flakes-nixos-module
+        home-manager.extraSpecialArgs = specialArgs;
+        # -- Use the same `pkgs` set that your NixOS system is using.
+        #    Only applicable when using Home-manager as a NixOS module.
         home-manager.useGlobalPkgs = true;
+        # -- Put home.packages in the user profile (`~/.nix-profile`), not
+        #    on the system profile.
+        #    Only applicable when using Home-manager as a NixOS module.
         home-manager.useUserPackages = true;
-        home-manager.users.${user} = import ../users/${user}; # home manager config
+        # -- Import home-manager configuration.
+        home-manager.users.${user} = import ../users/${user};
       }
     ];
   }

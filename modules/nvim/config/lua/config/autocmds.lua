@@ -1,7 +1,7 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
-local mabqGroup = augroup('mabq', {})
+local myGroup = augroup('myGroup', {})
 
 autocmd('TextYankPost', {
   desc = 'Highlight when yanking',
@@ -13,14 +13,14 @@ autocmd('TextYankPost', {
 
 -- automatically remove all trailling spaces before saving
 autocmd({ 'BufWritePre' }, {
-  group = mabqGroup,
+  group = myGroup,
   pattern = '*',
   command = [[%s/\s\+$//e]],
 })
 
 -- close with `q`
 autocmd('FileType', {
-  group = mabqGroup,
+  group = myGroup,
   pattern = {
     'checkhealth',
     'help',
