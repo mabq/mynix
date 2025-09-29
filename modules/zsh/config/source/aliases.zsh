@@ -19,6 +19,17 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+# Git
+alias ga="git add";
+alias gc="git commit";
+alias gco="git checkout";
+alias gcp="git cherry-pick";
+alias gd="git diff";
+alias gl="git prettylog";
+alias gp="git push";
+alias gs="git status";
+alias gt="git tag";
+
 # Utils (see functions for more):
 alias burniso="caligula burn" # pass the iso path as argument
 alias fsck='echo "Never use file system repair software such as fsck directly on an encrypted volume, or it will destroy any means to recover the key used to decrypt your files. Such tools must be used on the decrypted (opened) device instead"'
