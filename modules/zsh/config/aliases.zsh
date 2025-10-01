@@ -1,10 +1,49 @@
-# -- Filesystem
+# -- zoxide as default `cd`.
+alias cd="zd"
+function zd() {
+  if [ $# -eq 0 ]; then
+    builtin cd ~ && return
+  elif [ -d "$1" ]; then
+    builtin cd "$1"
+  else
+    z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
+  fi
+}
+
+# -- eza as default `ls`.
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias lsa='ls -a'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias lta='lt -a'
-alias mkdir='mkdir -p'
+
+# -- fzf and bat to
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+# -- caligula as ISO burner
+alias burniso="caligula burn" # pass the iso path as argument
+
+# -- Yazi
+#    Change cwd on exiting.
+#    https://yazi-rs.github.io/docs/quick-start#shell-wrapper
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
+# -- Neovim
+function n() {
+  if [ "$#" -eq 0 ]; then
+    nvim .;
+  else
+    nvim "$@";
+  fi;
+}
+
+# -- Filesystem
+alias mkdir='mkdir -p'
 # alias chgrp='chgrp --preserve-root'
 # alias chmod='chmod -c --preserve-root'
 # alias chown='chown -c --preserve-root'
@@ -18,37 +57,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# -- Neovim
-function n() {
-  if [ "$#" -eq 0 ]; then
-    nvim .;
-  else
-    nvim "$@";
-  fi;
-}
-
-# -- Zoxide
-alias cd="zd"
-function zd() {
-  if [ $# -eq 0 ]; then
-    builtin cd ~ && return
-  elif [ -d "$1" ]; then
-    builtin cd "$1"
-  else
-    z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
-  fi
-}
-
-# -- Yazi
-#    Change cwd on exiting. See https://yazi-rs.github.io/docs/quick-start#shell-wrapper
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
-}
-
 # -- Git
 alias ga="git add";
 alias gc="git commit";
@@ -61,7 +69,6 @@ alias gs="git status";
 alias gt="git tag";
 
 # -- Utils (see functions for more)
-alias burniso="caligula burn" # pass the iso path as argument
 alias fsck='echo "Never use file system repair software such as fsck directly on an encrypted volume, or it will destroy any means to recover the key used to decrypt your files. Such tools must be used on the decrypted (opened) device instead"'
 alias my-ip-json='curl https://ipapi.co/json/'
 alias my-ip='curl icanhazip.com'

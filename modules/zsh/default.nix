@@ -12,18 +12,21 @@ in {
     pkgs.zsh
 
     # -- Zsh plugins:
-    #    Nix forces me to enable these in a NixOS module, see '/users/<user>/nixos.nix'.
+    #    Nix forces me to enable these in a NixOS module.
+    #    See '/users/<user>/nixos.nix'.
     # pkgs.zsh-autosuggestions
     # pkgs.zsh-syntax-highlighting
+    # pkgs.zsh-history-substring-search  # -- Replaced with Atuin.
 
-    # -- Replaced with Atuin
-    # pkgs.zsh-history-substring-search
-
-    # -- This is used as the default `cd`. See aliases.
+    # -- Tools required by aliases.
     pkgs.zoxide
-
-    # -- This is used as the default `ls`. See aliases.
     pkgs.eza
+    pkgs.fzf
+    pkgs.bat
+    pkgs.caligula
+    # pkgs.yazi  # -- Installed in its own module to latest version.
+    # pkgs.neovim  # -- Installed in its own module to latest version.
+    # pkgs.tmux  # -- Installed in its own module.
 
     # -- This is used as the default history.
     #    Important: In order to sync history in the server you need to
@@ -35,9 +38,6 @@ in {
     # -- For disk formatting (ext4, exfat) functions.
     pkgs.parted
     pkgs.exfat
-
-    # -- For ISO burning.
-    pkgs.caligula
 
     # -- For video/image transcoding functions.
     pkgs.ffmpeg
