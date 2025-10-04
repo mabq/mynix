@@ -1,5 +1,5 @@
-# Changes not seen here:
-#   - In zsh we bind a key to launch tmux-sessionizer.
+# -- Note:
+#    In zsh we bind a key to launch tmux-sessionizer.
 {
   config,
   pkgs,
@@ -12,13 +12,17 @@
 in {
   home.packages = [
     pkgs.tmux
-    pkgs.fd # Required by tmux-sessionizer
-    pkgs.fzf # Required by tmux-sessionizer
+
+    # -- Dependencies
+    pkgs.fd # -- required by tmux-sessionizer
+    pkgs.fzf # -- required by tmux-sessionizer
   ];
 
-  # Link the whole directory out-of-store so that no rebuild is required to apply changes (must be an absolute path)
+  # -- Config files
+  #    Link the whole directory
   home.file.".config/tmux".source = _outOfStore "${_config}";
 
-  # Link each binary
+  # -- Binaries
+  #    Link each binary
   home.file.".local/bin/tmux-sessionizer".source = _outOfStore "${_bin}/tmux-sessionizer";
 }

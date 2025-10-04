@@ -22,7 +22,7 @@ vim.keymap.set('v', 'K', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv
 
 -- Ctrl --
 
-vim.keymap.set('n', '<C-s>', ':silent !tmux neww $HOME/.config/tmux/scripts/tmux-sessionizer.sh<CR>', { desc = 'Run tmux-sessionizer' })
+vim.keymap.set('n', '<C-s>', ':silent !tmux neww $HOME/.local/bin/tmux-sessionizer<CR>', { desc = 'Run tmux-sessionizer' })
 
 vim.keymap.set('n', '<C-Left>', ':vertical resize -4<CR>', { desc = 'Decrease window width' })
 vim.keymap.set('n', '<C-Right>', ':vertical resize +4<CR>', { desc = 'Increase window width' })

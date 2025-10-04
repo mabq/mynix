@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-# All credits to ThePrimeagen!
+# -- All credits to ThePrimeagen.
 
-# Add any directories you want (use `$HOME` instead of `~`)
-directories="$HOME/ $HOME/projects/"
+# -- Add any directories you want (use `$HOME` instead of `~`)
+directories="$HOME/ $HOME/projects/ $HOME/.local/share/"
 
-# Use the directory passed as argument or fuzzy find (if no argument is provided)
+# -- Use the directory passed as argument (used in tmux and neovim keybinds)
+#    or fuzzy find (if no argument is provided).
 if [[ $# -eq 1 ]]; then
   working_directory=$1
 else
@@ -16,15 +17,16 @@ if [[ -z $working_directory ]]; then
   exit 0
 fi
 
-# Use the directory name as the session name (session names cannot include dots, replace them with `_`)
+# -- Use the directory name as the session name (session names cannot include
+#    dots, replace them with `_`)
 session_name=$(basename "$working_directory" | tr . _)
 
-# Create the session (if necessary) in detached mode
+# -- Create the session (if necessary) in detached mode
 if ! tmux has-session -t "$session_name" 2>/dev/null; then
   tmux new-session -s "$session_name" -c "$working_directory" -d
 fi
 
-# Make tmux focus the given session
+# -- Make tmux focus the given session
 if [[ -n $TMUX ]]; then
   tmux switch-client -t "$session_name"
 else

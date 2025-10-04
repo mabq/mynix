@@ -5,7 +5,7 @@ bindkey -v
 bindkey '^?' backward-delete-char
 
 # Launch tmux-sessionizer
-bindkey -s '^s' "$HOME/.local/bin/tmux-sessionizer.sh\n"
+bindkey -s '^s' "$HOME/.local/bin/tmux-sessionizer\n"
 
 # History search up/down arrows (requires zsh-history-substring-search plugin)
 # (disabled because we are now using Atuin)
