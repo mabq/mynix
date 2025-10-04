@@ -1,28 +1,28 @@
-# - Important:
-#   Inline comments are not supported!
-#   Included files must not contain an `[ids]` section.
-#   Included files must not include other files (inclusion is non-recursive).
-#   Included files must not end in `.conf`.
+# -- Important:
+#    Inline comments are not supported!
+#    Included files must not contain an `[ids]` section.
+#    Included files must not include other files (inclusion is non-recursive).
+#    Included files must not end in `.conf`.
 
-# - Commands:
-#   Show keyboard ids and keystrokes, useful for debugging:
-#     `sudo keyd monitor`
-#   Enable/start the service:
-#     `sudo systemd enable/start keyd.service`
-#   Update changes on config files:
-#     `sudo keyd reload`
-#   Check for errors:
-#     `sudo journalctl -eu keyd`
+# -- Commands:
+#    Show keyboard ids and keystrokes, useful for debugging:
+#      `sudo keyd monitor`
+#    Enable/start the service:
+#      `sudo systemd enable/start keyd.service`
+#    Update changes on config files:
+#      `sudo keyd reload`
+#    Check for errors:
+#      `sudo journalctl -eu keyd`
 
 
 [global]
-# - Usefull when regret typing a modifier key, just hold it a little longer
-#   and nothing will by typed.
+# -- Usefull when regret typing a modifier key, just hold it a little longer
+#    and nothing will by typed.
 overload_tap_timeout = 300
 
 
 [main]
-# - Capslock is used by XCompose to input frequently used unicode characters.
+# -- Capslock is used by XCompose to input frequently used unicode characters.
 capslock = overload(control, capslock)
 enter = overload(control, enter)
 f = overload(nav, f)
@@ -31,7 +31,7 @@ f = overload(nav, f)
 [ = -
 
 
-# -- Custom layers --
+# -- Custom layers
 
 [nav]
 # top row
