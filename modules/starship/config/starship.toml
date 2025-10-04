@@ -1,20 +1,20 @@
 # -- Configuration options available at:
 #    https://starship.rs/config/#configuration
 
-format = "$hostname$directory$git_branch$git_status$character"
+format = "$hostname$directory$git_branch$git_status\n$character"
 add_newline = true
 command_timeout = 200
 
 [hostname]
 ssh_only = true
-format = '@[$hostname]($style) '
-style = 'bold yellow'
+format = '[$hostname]($style) '
+style = 'italic yellow'
 
 [directory]
-truncation_length = 2
-truncation_symbol = "…/"
-# truncation_length = 99
-# truncation_symbol = ""
+# truncation_length = 2
+# truncation_symbol = "…/"
+truncation_length = 99
+truncation_symbol = ""
 style = 'bold cyan'
 
 [git_branch]
@@ -22,15 +22,16 @@ format = '[$symbol$branch(:$remote_branch)]($style) '
 style = 'purple'
 
 [git_status]
-format     = '[$all_status$ahead_behind]($style)'
+format     = '[$all_status$ahead_behind]($style) '
 style      = 'purple'
 ahead      = "⇡${count} "
 behind     = "⇣${count} "
 diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
 
 [character]
-error_symbol = '[✖](bold red)'
-vimcmd_symbol = '[_](bold green)'
-vimcmd_replace_one_symbol = '[_](bold green)'
-vimcmd_replace_symbol = '[_](bold green)'
-vimcmd_visual_symbol = '[_](bold green)'
+success_symbol = '[❯](green)'
+error_symbol = '[❯](red)'
+vimcmd_symbol = '[v](bold italic green)'
+vimcmd_replace_one_symbol = '[v](bold italic green)'
+vimcmd_replace_symbol = '[v](bold italic green)'
+vimcmd_visual_symbol = '[v](bold italic green)'
