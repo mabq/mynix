@@ -14,27 +14,14 @@
     ];
   };
 
-  # -- Enable the default shell.
+  # -- Don't require password for sudo
+  security.sudo.wheelNeedsPassword = false;
+
+  # -- Zsh
   #    Nix throws an error if the default shell is not enabled in a NixOS module.
   programs.zsh.enable = true;
-
-  # -- Zsh plugins.
   #    These should be in the zsh module but for some reason they don't work
   #    when placed there.
   programs.zsh.autosuggestions.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
-
-  # -- No password for sudo.
-  #    Specifically for the given user, not all users of the wheel group.
-  security.sudo.extraRules = [
-    {
-      users = ["mabq"];
-      commands = [
-        {
-          command = "ALL";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
 }
