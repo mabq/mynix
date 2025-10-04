@@ -48,11 +48,9 @@ in
       ../users/${user}/nixos.nix
 
       # -- Home-manager as a NixOS module.
+      #    https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-nixos-module
       inputs.home-manager.nixosModules.home-manager
       {
-        # -- Pass specialArgs to home-manager modules.
-        #    https://home-manager.dev/manual/24.11/#sec-flakes-nixos-module
-        home-manager.extraSpecialArgs = specialArgs;
         # -- Use the same `pkgs` set that your NixOS system is using.
         #    Only applicable when using Home-manager as a NixOS module.
         home-manager.useGlobalPkgs = true;
@@ -61,7 +59,10 @@ in
         #    Only applicable when using Home-manager as a NixOS module.
         home-manager.useUserPackages = true;
         # -- Import home-manager configuration.
-        home-manager.users.${user} = import ../users/${user};
+        home-manager.users.${user} = import ../users/${user}/home.nix;
+        # -- Pass specialArgs to home-manager modules.
+        #    https://home-manager.dev/manual/24.11/#sec-flakes-nixos-module
+        home-manager.extraSpecialArgs = specialArgs;
       }
     ];
   }

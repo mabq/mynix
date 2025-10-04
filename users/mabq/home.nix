@@ -10,24 +10,16 @@ in {
     ../../modules/zsh
     ../../modules/starship
     ../../modules/tmux
-    ../../modules/nvim
     ../../modules/yazi
+    ../../modules/nvim
+    ../../modules/age
+    ../../modules/ssh
   ];
 
   # Packages I always want installed. Most packages I install using per-project
   # flakes sourced with direnv and nix-shell, so this is not a huge list.
   home.packages = [
-    pkgs.just # -- simplify cli commands
-    pkgs.bat
     pkgs.btop
-    pkgs.eza
-    pkgs.fd
-    pkgs.fzf
-    pkgs.ncdu
-    pkgs.ripgrep
-    pkgs.tmux
-    pkgs.tree
-    pkgs.zoxide # to its own module because of shell integration
 
     # pkgs.bitwarden-desktop
     # pkgs._1password-cli
@@ -116,10 +108,6 @@ in {
   # Programs
   #---------------------------------------------------------------------
 
-  programs.gpg = {
-    enable = true;
-  };
-
   programs.git = {
     enable = true;
     userName = "Alejandro Banderas";
@@ -159,27 +147,6 @@ in {
   #   };
   # };
 
-  # programs.fish = {
-  #   enable = true;
-  #   shellAliases = shellAliases;
-  #   interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" ([
-  #     "source ${inputs.theme-bobthefish}/functions/fish_prompt.fish"
-  #     "source ${inputs.theme-bobthefish}/functions/fish_right_prompt.fish"
-  #     "source ${inputs.theme-bobthefish}/functions/fish_title.fish"
-  #     (builtins.readFile ./config.fish)
-  #     "set -g SHELL ${pkgs.fish}/bin/fish"
-  #   ]));
-  #
-  #   plugins = map (n: {
-  #     name = n;
-  #     src  = inputs.${n};
-  #   }) [
-  #     "fish-fzf"
-  #     "fish-foreign-env"
-  #     "theme-bobthefish"
-  #   ];
-  # };
-
   # programs.go = {
   #   enable = true;
   #   goPath = "code/go";
@@ -208,32 +175,6 @@ in {
   #       { key = "Subtract"; mods = "Command"; action = "DecreaseFontSize"; }
   #     ];
   #   };
-  # };
-
-  # programs.kitty = {
-  #   enable = true;
-  #   extraConfig = builtins.readFile ./kitty;
-  # };
-
-  # programs.i3status = {
-  #   enable = isLinux && !isWSL;
-  #
-  #   general = {
-  #     colors = true;
-  #     color_good = "#8C9440";
-  #     color_bad = "#A54242";
-  #     color_degraded = "#DE935F";
-  #   };
-  #
-  #   modules = {
-  #     ipv6.enable = false;
-  #     "wireless _first_".enable = false;
-  #     "battery all".enable = false;
-  #   };
-  # };
-
-  # programs.atuin = {
-  #   enable = true;
   # };
 
   # programs.nushell = {
