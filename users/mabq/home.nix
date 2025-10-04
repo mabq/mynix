@@ -3,7 +3,7 @@
   theme = "tokyo-night";
 
   # These are just local variables.
-  myNixSetup = import ../../modules/mynix theme;
+  myNixSetup = import ../../modules/themes theme;
 in {
   imports = [
     myNixSetup
@@ -19,7 +19,8 @@ in {
   # Packages I always want installed. Most packages I install using per-project
   # flakes sourced with direnv and nix-shell, so this is not a huge list.
   home.packages = [
-    pkgs.btop
+    pkgs.just
+    # pkgs.btop
 
     # pkgs.bitwarden-desktop
     # pkgs._1password-cli
