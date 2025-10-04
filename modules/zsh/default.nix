@@ -11,44 +11,55 @@ in {
   home.packages = [
     pkgs.zsh
 
-    # -- Zsh plugins:
-    #    Nix forces me to enable these in a NixOS module.
-    #    See '/users/<user>/nixos.nix'.
+    # -- Nix forces me to enable these in a NixOS module. See '/users/<user>/nixos.nix'.
     # pkgs.zsh-autosuggestions
     # pkgs.zsh-syntax-highlighting
-    # pkgs.zsh-history-substring-search  # -- Replaced with Atuin.
+    # pkgs.zsh-history-substring-search
 
-    # -- Tools required by aliases.
-    pkgs.zoxide
-    pkgs.eza
-    pkgs.fzf
+    # -- Shell core utils.
     pkgs.bat
-    pkgs.caligula
-    # pkgs.yazi  # -- Installed in its own module to latest version.
-    # pkgs.neovim  # -- Installed in its own module to latest version.
-    # pkgs.tmux  # -- Installed in its own module.
+    pkgs.curl
+    pkgs.eza
+    pkgs.fd
+    pkgs.fzf
+    pkgs.ripgrep
+    pkgs.tldr
+    pkgs.wget
+    pkgs.zoxide
+    pkgs.man
 
-    # -- This is used as the default history.
+    # -- Shell history.
     #    Important: In order to sync history in the server you need to
     #    manually execute `atuin login -u <USERNAME>`.
     #    For more information see: https://docs.atuin.sh/guide/sync/#login.
     #    Credentials in password manager.
     pkgs.atuin
 
-    # -- For disk formatting (ext4, exfat) functions.
+    # -- Disk formatting (ext4, exfat) functions.
     pkgs.parted
     pkgs.exfat
 
-    # -- For video/image transcoding functions.
+    # -- Disk usage
+    pkgs.ncdu
+
+    # -- Video/image transcoding functions.
     pkgs.ffmpeg
     pkgs.imagemagick
+
+    # -- System info
+    pkgs.fastfetch
+
+    # -- Easier, more secure `dd`
+    pkgs.caligula
+
+    # -- Torrents
+    pkgs.aria2
   ];
 
-  # Link `.zshenv` directly under home.
+  # -- Config files
+  #    Unlike the rest of config files`.zshenv` must go directly under home.
   home.file.".zshenv".source = _outOfStore "${_home}/.zshenv";
-
-  # Link the whole `source` directory out-of-store so that no rebuild is
-  # required to apply changes (must be an absolute path).
-  # (.zcompdump is added to this directory at runtime but is ignored by git).
+  #    Link the whole config directory
+  #    Zsh will add the `.zcompdump` file to this directory, we ignore with git.
   home.file.".config/zsh".source = _outOfStore "${_config}";
 }

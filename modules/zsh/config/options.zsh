@@ -1,4 +1,4 @@
-# General options --------------------------------------------------------------
+# General options -------------------------------------------------------------
 
 # don't beep on error
 setopt no_beep
@@ -25,7 +25,7 @@ setopt extendedGlob
 unsetopt flowcontrol
 
 
-# History options --------------------------------------------------------------
+# History options -------------------------------------------------------------
 # (all this is now replaced by Atuin, leave it here just in case you ever need it again)
 
 # share history file accross all zsh instances
