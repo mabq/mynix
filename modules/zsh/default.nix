@@ -1,3 +1,4 @@
+# -- In the user's nixos module we define the user's default shell.
 {
   config,
   pkgs,
@@ -11,7 +12,8 @@ in {
   home.packages = [
     pkgs.zsh
 
-    # -- Nix forces me to enable these in a NixOS module. See '/users/<user>/nixos.nix'.
+    # -- Nix forces me to enable these in a NixOS module.
+    #    See '/users/<user>/nixos.nix'.
     # pkgs.zsh-autosuggestions
     # pkgs.zsh-syntax-highlighting
     # pkgs.zsh-history-substring-search
