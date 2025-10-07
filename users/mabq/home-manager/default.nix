@@ -7,13 +7,13 @@
 in {
   imports = [
     myNixSetup
-    ../../modules/zsh
-    ../../modules/starship
-    ../../modules/tmux
-    ../../modules/yazi
-    ../../modules/nvim
-    ../../modules/age
-    ../../modules/ssh
+    ./zsh
+    ./starship
+    ./tmux
+    ./yazi
+    ./nvim
+    ./age
+    ./ssh
   ];
 
   # Packages I always want installed. Most packages I install using per-project

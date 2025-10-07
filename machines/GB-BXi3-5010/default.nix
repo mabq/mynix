@@ -1,10 +1,19 @@
-{...}: {
-  imports = [
+{
+  import = [
+    ../shared.nix
     ./hardware-configuration.nix
-    ../all.nix
-    ../../modules/keyd
   ];
+  # ----------------------------------------------------------------------------
 
-  # -- Specific properties of this machine:
   networking.hostName = "nuc";
+  networking.interfaces.enp1s0.useDHCP = true;
+
+  # ----------------------------------------------------------------------------
+
+  services.pipewire.enable = true;
+  services.pipewire.pulse.enable = true;
+
+  # services.printing.enable = true;
+
+  # ----------------------------------------------------------------------------
 }
