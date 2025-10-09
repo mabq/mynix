@@ -7,70 +7,89 @@
   imports = [];
 
   # ----------------------------------------------------------------------------
+  # boot
+  # ----------------------------------------------------------------------------
 
-  # -- Use the most recent stable kernel available in Nixpkgs
+  # Override the Linux kernel used by NixOS. Use the latest version available
+  # in nixpkgs.
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
-  # -- Use the systemd-boot EFI boot loader
-  boot.loader.systemd-boot.enable = lib.mkDefault true;
+  # Use the systemd-boot EFI boot manager.
+  boot.loader.systemd-boot = {
+    enable = lib.mkDefault true;
+    # Limit the number of generations to keep
+    configurationLimit = lib.mkDefault 10;
+  };
+
+  # Allow the installation process to modify EFI boot variables.
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
-  # -- VMware, Parallels
-  #    Both only support this being 0 otherwise you see "error switching console
-  #    mode" on boot.
-  # boot.loader.systemd-boot.consoleMode = lib.mkDefault "0";
-
+  # ----------------------------------------------------------------------------
+  # nix 
   # ----------------------------------------------------------------------------
 
-  # -- Use the latest version of the CLI regardless of nixpkgs version
+  # Use the latest version of nix throughout the system.
   nix.package = lib.mkDefault pkgs.nixVersions.latest;
 
-  # -- Enable flakes and the new cli
-  #    See https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled#enable-nix-flakes
+  # Nix settings: https://nix.dev/manual/nix/2.28/command-ref/conf-file.html#available-settings
+  nix.settings.auto-optimise-store = lib.mkDefault true;
   nix.settings.experimental-features = ["flakes" "nix-command"];
 
-  # -- Public binary cache
-  # nix.settings = {
-  #   substituters = ["https://mitchellh-nixos-config.cachix.org"];
-  #   trusted-public-keys = ["mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ="];
-  # };
+  # Setup automatic gc to reduce disk usage.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 1w";
+  };
 
   # ----------------------------------------------------------------------------
-
-  # -- Allow some packages considered insecure
-  # nixpkgs.config.permittedInsecurePackages = [];
-
+  # nixpkgs
   # ----------------------------------------------------------------------------
 
-  # -- Default hostname
+  # Nixpkgs configuration: https://nixos.org/manual/nixpkgs/unstable/#sec-config-options-reference.
+  # These only apply to the default package set used by NixOS.
+  nixpkgs.config.enableParallelBuildingByDefault = lib.mkDefault false;
+  nixpkgs.config.allowUnfree = lib.mkDefault true;
+
+
+  # ----------------------------------------------------------------------------
+  # networking
+  # ----------------------------------------------------------------------------
+
   networking.hostName = lib.mkDefault machine;
 
-  # -- The global useDHCP flag is deprecated, therefore explicitly set to false
-  #    here. Per-interface useDHCP will be mandatory in the future, so this
-  #    generated config replicates the default behaviour.
-  # networking.useDHCP = lib.mkDefault false;
+  # Whether to use DHCP to obtain an IP address and other configuration for all
+  # network interfaces that do not have any manually configured IPv4 addresses.
+  # Check available interfaces with `ip a`.
+  networking.useDHCP = lib.mkDefault true;
 
-  # -- Enable the firewall
   networking.firewall.enable = lib.mkDefault true;
 
   # ----------------------------------------------------------------------------
+  # user management
+  # ----------------------------------------------------------------------------
 
-  # -- Disable command that affect users or groups
-  #    Don't forget to set a password with `passwd`
+  # Reset any changes made to users or groups to reflect nix configurations.
   users.mutableUsers = lib.mkDefault false;
 
   # ----------------------------------------------------------------------------
+  # security
+  # ----------------------------------------------------------------------------
 
-  # -- Don't require password for sudo (wheel members)
+  # Allow members of the wheel group to execute sudo actions without password.
   security.sudo.wheelNeedsPassword = lib.mkDefault false;
 
   # ----------------------------------------------------------------------------
+  # i18n
+  # ----------------------------------------------------------------------------
 
   i18n = {
-    # -- Determines the language for program messages, the format for dates and
-    #    times, sort order, and so on.
+    # Determines the language for program messages, the format for dates and
+    # times, sort order, and so on.
     defaultLocale = lib.mkDefault "en_US.UTF-8";
-    # -- Software to input symbols that are not available on standard input devices.
+    extraLocales = lib.mkDefault [ "es_US.UTF-8" ];
+    # Software to input symbols that are not available on standard input
+    # devices.
     # inputMethod = {
     #   enable = true;
     #   type = "fcitx5";
@@ -84,43 +103,28 @@
   };
 
   # ----------------------------------------------------------------------------
+  # time
+  # ----------------------------------------------------------------------------
 
   time.timeZone = lib.mkDefault "America/Guayaquil";
 
   # ----------------------------------------------------------------------------
-
-  fonts = {
-    fontDir.enable = true;
-    packages = [
-      pkgs.fira-code
-      pkgs.jetbrains-mono
-    ];
-  };
-
+  # fonts
   # ----------------------------------------------------------------------------
 
-  # -- To search run `nix search <term>`
-  environment.systemPackages = [
-    pkgs.gnumake
+  fonts.fontDir.enable = lib.mkDefault true;
+  fonts.packages = [
+    pkgs.nerd-fonts.caskaydia-mono
   ];
 
   # ----------------------------------------------------------------------------
+  # environment
+  # ----------------------------------------------------------------------------
 
-  # -- OpenSSH
-  services.openssh.enable = lib.mkDefault true;
-  services.openssh.settings.PasswordAuthentication = lib.mkDefault true;
-  services.openssh.settings.PermitRootLogin = lib.mkDefault "no";
+  environment.systemPackages = [];
 
-  # -- Tailscale
-  #    Manually authenticate with `sudo tailscale up`
-  # services.tailscale.enable = lib.mkDefault true;
-
-  # -- Flatpak
-  # services.flatpak.enable = lib.mkDefault true;
-
-  # -- Snap
-  # services.snap.enable = lib.mkDefault true;
-
+  # ----------------------------------------------------------------------------
+  # virtualization
   # ----------------------------------------------------------------------------
 
   # virtualisation.docker.enable = lib.mkDefault true;
@@ -129,12 +133,43 @@
   # };
 
   # ----------------------------------------------------------------------------
+  # openssh
+  # ----------------------------------------------------------------------------
 
-  # -- This value determines the NixOS release from which the default
-  #    settings for stateful data, like file locations and database versions
-  #    on your system were taken. It‘s perfectly fine and recommended to leave
-  #    this value at the release version of the first install of this system.
-  #    Before changing this value read the documentation for this option
-  #    (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  services.openssh.enable = lib.mkDefault true;
+  services.openssh.settings = {
+    PasswordAuthentication = lib.mkDefault true;
+    PermitRootLogin = lib.mkDefault "no";
+  };
+
+  # ----------------------------------------------------------------------------
+  # tailscale
+  # ----------------------------------------------------------------------------
+
+  # Manually authenticate with `sudo tailscale up`
+  # services.tailscale.enable = lib.mkDefault true;
+
+  # ----------------------------------------------------------------------------
+  # flatpak
+  # ----------------------------------------------------------------------------
+
+  # services.flatpak.enable = lib.mkDefault true;
+
+  # ----------------------------------------------------------------------------
+  # snap
+  # ----------------------------------------------------------------------------
+
+  # services.snap.enable = lib.mkDefault true;
+
+  # ----------------------------------------------------------------------------
+  # do not edit!
+  # ----------------------------------------------------------------------------
+
+  # This value determines the NixOS release from which the default settings for
+  # stateful data, like file locations and database versions on your system
+  # were taken. It‘s perfectly fine and recommended to leave this value at the
+  # release version of the first install of this system. Before changing this
+  # value read the documentation for this option (e.g. man configuration.nix or
+  # on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # -- Did you read the comment?
 }

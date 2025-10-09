@@ -1,44 +1,33 @@
 inputs: {
   machine,
   user,
+  # system,
 }: let
-  pkgsConfig = {
-    system = builtins.currentSystem;
-    config.allowUnfree = true;
-  };
-
-  specialArgs = {
+  moduleArgs = import ./moduleArgs.nix {
+    # inherit inputs machine user system;
     inherit inputs machine user;
-
-    # -- Out of store symlinks require an absolute path
-    flakeRoot = "/home/${user}/.local/share/mynix";
-    # TODO: Check if this works (only works on local flakes)
-    # flakeRoot = inputs.self.sourceInfo.path;
-
-    pkgs = import inputs.nixpkgs pkgsConfig;
-    pkgsUnstable = import inputs.nixpkgs-unstable pkgsConfig;
   };
-
   machineConfig = ../machines/${machine};
-  userNixos = ../users/${user}/nixos;
-  userHome =
-    inputs.home-manager.nixosModules.home-manager
-    {
-      # -- Use the same `pkgs` set that NixOS
-      home-manager.useGlobalPkgs = true;
-      # -- Put user packages in user user (`~/.nix-user`)
-      home-manager.useUserPackages = true;
-      home-manager.users.${user} = import ../users/${user}/home-manager;
-      # -- Pass specialArgs to home manager modules
-      home-manager.extraSpecialArgs = specialArgs;
-    };
+  userNixos = ../users/${user}/nixos.nix;
+  # userHomeManager =
+  #   inputs.home-manager.nixosModules.home-manager
+  #   {
+  #     # Use the same pkgs set as NixOS.
+  #     home-manager.useGlobalPkgs = true;
+  #     # Put user packages in `/etc/profiles`.
+  #     home-manager.useUserPackages = true;
+  #     home-manager.users.${user} = import ../users/${user}/home-manager.nix;
+  #     # Make specialArgs available to all home-manager modules.
+  #     # home-manager.extraSpecialArgs = specialArgs;
+  #   };
 in
   inputs.nixpkgs.lib.nixosSystem {
-    # -- Pass specialArgs to NixOS modules
-    inherit specialArgs;
+    # # Make specialArgs available in all NixOS modules.
+    # inherit specialArgs;
     modules = [
+      moduleArgs
       machineConfig
       userNixos
-      userHome
+      # userHomeManager
     ];
   }

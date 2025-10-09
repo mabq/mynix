@@ -2,7 +2,7 @@
   description = "NixOS setup";
 
   inputs = {
-    # -- Must be a `nixos-` branch to include NixOS modules
+    # Must be a nixos branch to include NixOS modules.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -29,6 +29,7 @@
       "nuc" = mkSystem {
         machine = "GB-BXi3-5010";
         user = "mabq";
+	# system = "x86_64-linux";
       };
     };
   };
