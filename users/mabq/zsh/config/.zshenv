@@ -17,4 +17,5 @@
 
 # No need to export since this variable is only needed to start zsh.
 
-ZDOTDIR="$HOME/.config/zsh"
+# ZDOTDIR="$HOME/.config/zsh"
+ZDOTDIR="$HOME/.local/share/mynix/users/mabq/zsh/config"

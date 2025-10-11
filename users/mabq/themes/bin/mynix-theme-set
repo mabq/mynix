@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
 
-# Use this script during development only, just to quickly switch themes
-# without needing to re-build the system.
-# This script creates links that cannot be overriden by home-manager.
-# I have included a `clean-dev` command in `/Justfile`.
+# - Important!
+#   Nix will only override symlinks that point to the nix store.
+#   This scripts allows you to quickly set a new theme without having to do
+#   a complete nixos rebuild. But when to try a re-build nix will throw an
+#   error letting you know that it cannot override a file.
+#   You can run `just clean-<host>` to remove manually created symlinks that
+#   do not point to the nix store, and then re-try a rebuild.
+#   See the `Justfile` at the root of the repository.
 
-if [[ -z $1 && $1 != "CNCLD" ]]; then
+if [[ -z $1 ]]; then
   echo "Usage: mynix-theme-set <theme-name>"
   exit 1
 fi
 
-THEMES_DIR="$HOME/.local/share/mynix/modules/mynix/themes/"
+THEMES_DIR="$HOME/.local/share/mynix/themes/"
 CURRENT_THEME_DIR="$HOME/.config/mynix/current/theme"
 
 THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
@@ -41,4 +45,3 @@ ln -nsf "$THEME_PATH" "$CURRENT_THEME_DIR"
 #mynix-theme-set-eza
 #mynix-theme-set-browser
 #mynix-theme-set-vscode
-

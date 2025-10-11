@@ -1,15 +1,16 @@
 theme: {
-  config,
-  outlink,
   flakePath,
   userPath,
+  outlink,
+  ...
 }: let
-  binPath = "${userPath}/themes/bin",
+  m = "${userPath}/themes";
 in {
-  # Link theme. All package config files point to a fixed directory for theming
-  # purposes, here we change where that directory points to.
+  # - Set theme.
+  #   All config files point to a fixed directory, when we set a theme all we
+  #   need to do is change the content of that directory.
   home.file.".config/mynix/current/theme".source = outlink "${flakePath}/themes/${theme}";
 
-  # Link binary.
-  home.file.".local/bin/mynix-theme-set".source = outlink "${binPath}/mynix-theme-set";
+  # - Link binaries.
+  home.file.".local/bin/mynix-theme-set".source = outlink "${m}/bin/mynix-theme-set";
 }

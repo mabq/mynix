@@ -1,4 +1,4 @@
-# -- The sourced path must be absolute. Use the `ZDOTDIR` variable.
+# - The sourced path must be absolute. Use the `ZDOTDIR` variable.
 source "$ZDOTDIR/options.zsh"
 source "$ZDOTDIR/bindkey.zsh"
 source "$ZDOTDIR/envs.zsh"

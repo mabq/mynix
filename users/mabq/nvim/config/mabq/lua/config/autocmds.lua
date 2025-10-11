@@ -11,21 +11,21 @@ autocmd('TextYankPost', {
   end,
 })
 
--- automatically remove all trailling spaces before saving
+-- Automatically remove all trailling spaces before saving.
 autocmd({ 'BufWritePre' }, {
   group = myGroup,
   pattern = '*',
   command = [[%s/\s\+$//e]],
 })
 
--- close with `q`
+-- Close with `q`.
 autocmd('FileType', {
   group = myGroup,
   pattern = {
     'checkhealth',
     'help',
     'lspinfo',
-    'qf', -- quickfix list
+    'qf', -- Quickfix list
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
@@ -42,7 +42,7 @@ autocmd('FileType', {
   end,
 })
 
----- automatically wrap and check for spell in text filetypes
+---- Automatically wrap and check for spell in text filetypes
 -- autocmd('FileType', {
 --   group = mabqGroup,
 --   pattern = { 'text', 'plaintex', 'typst', 'gitcommit', 'markdown' },
@@ -63,7 +63,7 @@ autocmd('FileType', {
 --   end,
 -- })
 
----- go to last location on open
+---- Go to last location on open
 -- autocmd('BufReadPost', {
 --   group = mabqGroup,
 --   callback = function(event)
@@ -81,7 +81,7 @@ autocmd('FileType', {
 --   end,
 -- })
 
----- automatically create directory on save
+---- Automatically create directory on save
 -- autocmd({ 'BufWritePre' }, {
 --   group = mabqGroup,
 --   callback = function(event)

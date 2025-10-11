@@ -1,5 +1,5 @@
-# -- Configuration options available at:
-#    https://starship.rs/config/#configuration
+# - Configuration options available at:
+#   https://starship.rs/config/#configuration
 
 format = "$hostname$directory$git_branch$git_status\n$character"
 add_newline = true

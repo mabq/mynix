@@ -1,10 +1,15 @@
 # mynix
 
-Clone this repo to `~/.local/share/mynix/`, otherwise update `/lib/mksystem.nix` with the correct path.
+## Install
+
+1. Clone this repository to `~/.local/share/mynix`.
+
+   Many files in this repository assume this. If you clone to another path
+   things won't work.
 
 
-## Keep in mind
+## Things to keep in mind
 
-- Only lists merge automatically.
-  Assigning other type of values to the same attribute more than once will throw an error, because nix would be overriding one.
-  Prefer detailed assingments, e.g. `a.b.c.d.e` to avoid setting a value to parent attribute.
+- Only lists merge automatically, attribute sets do not.
+  Once you assign an attribute set to an attribute you will not be able to add another attribute set to that same attribute, even in another module.
+

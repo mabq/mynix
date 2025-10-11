@@ -1,34 +1,42 @@
-{
-  config,
+configName: {
   pkgs,
-  pkgs-unstable,
-  repo,
+  pkgsUnstable,
+  userPath,
+  outlink,
   ...
 }: let
-  _outOfStore = config.lib.file.mkOutOfStoreSymlink;
-  _config = "${repo}/modules/nvim/config";
+  # - I might want to have different configuration sets in the future.
+  configPath = "${userPath}/nvim/config/${configName}";
 in {
   home.packages = [
-    pkgs-unstable.neovim
+    pkgsUnstable.neovim
 
-    pkgs-unstable.lazygit
+    # - Yazi used in Neovim but it has its own module.
 
-    pkgs.gnumake # Required by Telescope to build `fzf-native`
-    pkgs.clang # Required by Treesitter to build parsers
+    # - Required by snacks (lazygit)
+    pkgsUnstable.lazygit
 
-    pkgs.ripgrep # Required by Telescope
-    pkgs.fd # Required by Telescope
+    # - Required by telescope
+    pkgs.gnumake # - to build `fzf-native`
+    pkgs.ripgrep # - live_grep, grep_string
+    pkgs.fd # - find_files
 
+    # - Required by Treesitter
+    pkgs.clang # - to buils parsers
+
+    # - Lua language tools
     pkgs.lua-language-server
     pkgs.stylua
 
+    # - Nix language tools
     pkgs.nixd
     pkgs.alejandra
 
+    # - Bash language tools
     pkgs.bash-language-server
     pkgs.shfmt
   ];
 
-  # Link the whole directory out-of-store so that no rebuild is required to apply changes (must be an absolute path)
-  home.file.".config/nvim".source = _outOfStore "${_config}";
+  # - Link the entire config directory (out of store)
+  home.file.".config/nvim".source = outlink "${configPath}";
 }

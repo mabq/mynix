@@ -1,12 +1,10 @@
 {
-  config,
   pkgs,
-  repo,
+  userPath,
+  outlink,
   ...
 }: let
-  _outOfStore = config.lib.file.mkOutOfStoreSymlink;
-  _config = "${repo}/modules/age/config";
-  _bin = "${repo}/modules/age/bin";
+  m = "${userPath}/age";
 in {
   home.packages = [
     pkgs.age
@@ -15,11 +13,11 @@ in {
   # -- Link config
   #    Do NOT link the whole directory!. This is where you will place the
   #    decrypted version of the key!
-  #    Do NOT change the name of this file, otherwise also update the script
-  #    in this module, it expects to find this file.
-  home.file.".config/age/key.txt.age".source = _outOfStore "${_config}/key.txt.age";
+  #    Do NOT change the name of the key file, otherwise also update the script
+  #    in this module.
+  home.file.".config/age/key.txt.age".source = outlink "${m}/config/key.txt.age";
 
   # -- Link binaries
   #    Do NOT change the name of this script, otherwise also update `Justfile`.
-  home.file.".local/bin/age-decrypt-secrets".source = _outOfStore "${_bin}/age-decrypt-secrets";
+  home.file.".local/bin/age-decrypt-secrets".source = outlink "${m}/bin/age-decrypt-secrets";
 }

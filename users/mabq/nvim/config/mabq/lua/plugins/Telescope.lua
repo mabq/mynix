@@ -49,7 +49,6 @@ return {
     require('telescope').load_extension 'fzf' -- enable fzf extension
 
     local builtin = require 'telescope.builtin'
-    -- vim.keymap.set('n', '<C-f>', builtin.find_files, { desc = 'Telescope: Files' })
     vim.keymap.set('n', '<C-f>', builtin.find_files, { desc = 'Telescope: Files' })
     vim.keymap.set('n', '<C-g>', builtin.git_files, { desc = 'Telescope: Git files' })
     vim.keymap.set('n', '<leader>tr', builtin.resume, { desc = 'Telescope: Resume' })

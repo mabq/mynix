@@ -1,28 +1,23 @@
-# -- Note:
-#    In zsh we bind a key to launch tmux-sessionizer.
+# - In the zsh module we bind a key to launch tmux-sessionizer.
 {
-  config,
   pkgs,
-  repo,
+  userPath,
+  outlink,
   ...
 }: let
-  _outOfStore = config.lib.file.mkOutOfStoreSymlink;
-  _config = "${repo}/modules/tmux/config";
-  _bin = "${repo}/modules/tmux/bin";
+  m = "${userPath}/tmux";
 in {
   home.packages = [
     pkgs.tmux
 
-    # -- Dependencies
-    pkgs.fd # -- required by tmux-sessionizer
-    pkgs.fzf # -- required by tmux-sessionizer
+    # - Required by tmux-sessionizer
+    pkgs.fd
+    pkgs.fzf
   ];
 
-  # -- Config files
-  #    Link the whole directory
-  home.file.".config/tmux".source = _outOfStore "${_config}";
+  # - Link the whole config directory (out of store)
+  home.file.".config/tmux".source = outlink "${m}/config";
 
-  # -- Binaries
-  #    Link each binary
-  home.file.".local/bin/tmux-sessionizer".source = _outOfStore "${_bin}/tmux-sessionizer";
+  # - Link each binary (out of store)
+  home.file.".local/bin/tmux-sessionizer".source = outlink "${m}/bin/tmux-sessionizer";
 }

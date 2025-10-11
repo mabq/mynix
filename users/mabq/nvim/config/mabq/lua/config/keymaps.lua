@@ -34,6 +34,7 @@ vim.keymap.set('n', '<C-p>', '<cmd>cprev<CR>', { desc = 'Quickfix previous' })
 
 -- Leader --
 
+vim.keymap.set('n', '<C-e>', '<cmd>Ex<CR>', { desc = 'Ex' })
 vim.keymap.set('x', '<leader>p', [["_dP]], { desc = 'Paste without yanking' })
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], { desc = 'Yank to clipboard' })
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]], { desc = 'Delete withou yanking' })

@@ -1,4 +1,4 @@
-# -- Better `cd`
+# - Better `cd`
 alias cd="zd"
 zd() {
   if [ $# -eq 0 ]; then
@@ -10,24 +10,20 @@ zd() {
   fi
 }
 
-
-# -- Better `ls`
+# - Better `ls`
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias lsa='ls -a'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias lta='lt -a'
 
-
-# -- Better `dd`
+# - Better `dd`
 alias burniso="caligula burn" # pass the iso path as argument
 
-
-# -- Search files with preview
+# - Search files with preview
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
-
-# -- Change directory when exiting Yazi
-#    https://yazi-rs.github.io/docs/quick-start#shell-wrapper
+# - Change directory when exiting Yazi
+#   https://yazi-rs.github.io/docs/quick-start#shell-wrapper
 y() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
   yazi "$@" --cwd-file="$tmp"
@@ -36,8 +32,7 @@ y() {
   rm -f -- "$tmp"
 }
 
-
-# -- Shortcut for neovim
+# - Shortcut for neovim
 n() {
   if [ "$#" -eq 0 ]; then
     nvim .;
@@ -46,14 +41,12 @@ n() {
   fi;
 }
 
-
-# -- Shortcut for xdg-open
+# - Shortcut for xdg-open
 open() {
   xdg-open "$@" >/dev/null 2>&1 &
 }
 
-
-# -- Filesystem
+# - Filesystem
 alias mkdir='mkdir -p'
 # alias chgrp='chgrp --preserve-root'
 # alias chmod='chmod -c --preserve-root'
@@ -63,14 +56,12 @@ alias mkdir='mkdir -p'
 # alias mv='mv -iv'
 # alias rm='rm -iv --preserve-root'
 
-
-# -- Directories
+# - Directories
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-
-# -- Git
+# - Git
 alias ga="git add";
 alias gc="git commit";
 alias gco="git checkout";
@@ -81,20 +72,17 @@ alias gp="git push";
 alias gs="git status";
 alias gt="git tag";
 
-
-# -- Systemctl shortcuts
+# - Systemctl shortcuts
 alias reboot='systemctl reboot'
 alias shutdown='systemctl poweroff'
 alias suspend='systemctl suspend' # hypridle will automatically run hyprlock on suspend
 
-
-# -- Curl helpers
+# - Curl helpers
 alias my-ip-json='curl https://ipapi.co/json/'
 alias my-ip='curl icanhazip.com'
 alias weather='curl wttr.in'
 
-
-# -- Convinience
+# - Convinience
 alias path='echo $PATH | tr ":" "\n"'
 alias sha256='shasum -a 256'
 # alias fontname="fc-query -f '%{family[0]}\n'" # pass the font path as argument
@@ -110,8 +98,7 @@ alias sha256='shasum -a 256'
 # alias psbyuser='ps --no-headers -Leo user | sort | uniq --count'
 # alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
 
-
-# -- Mount disks
+# - Mount disks
 # alias mount-series='sudo mount /dev/disk/by-uuid/EBC6-97B8 /mnt/series'
 # alias umount-series='sudo umount /mnt/series && sleep 3 && sudo hdparm -y /dev/disk/by-uuid/EBC6-97B8'
 # alias mount-alejandro='sudo mount /dev/disk/by-uuid/04D0-1DBF /mnt/alejandro'
@@ -119,11 +106,10 @@ alias sha256='shasum -a 256'
 # alias mount-courses='sudo mount /dev/disk/by-uuid/7443-E3E7 /mnt/courses'
 # alias umount-courses='sudo umount /mnt/courses && sleep 3 && sudo hdparm -y /dev/disk/by-uuid/7443-E3E7'
 
-
-# -- Format disks
-#    TODO: Check these functions when Nautilus is installed.
-#    These functions assumes external disks are auto-mounted to `/run/media/`
-#    which is where tools like udisks2 auto-mount disks.
+# - Format disks
+#   TODO: Check these functions when Nautilus is installed.
+#   These functions assumes external disks are auto-mounted to `/run/media/`
+#   which is where tools like udisks2 auto-mount disks.
 format-ext4() {
   if [ $# -ne 2 ]; then
     echo "Usage: format-ext4 <device> <label>"
@@ -166,8 +152,7 @@ format-exfat() {
   fi
 }
 
-
-# -- Transcode a video
+# - Transcode a video
 transcode-video-1080p() {
   ffmpeg -i $1 -vf scale=1920:1080 -c:v libx264 -preset fast -crf 23 -c:a copy ${1%.*}-1080p.mp4
 }
@@ -176,8 +161,7 @@ transcode-video-4K() {
   ffmpeg -i $1 -c:v libx265 -preset slow -crf 24 -c:a aac -b:a 192k ${1%.*}-optimized.mp4
 }
 
-
-# -- Transcode any image to JPG
+# - Transcode any image to JPG
 img2jpg() {
   magick $1 -quality 95 -strip ${1%.*}.jpg
 }
@@ -194,11 +178,11 @@ img2png() {
     "${1%.*}.png"
 }
 
-
-# -- Compress/decompress
-#    This can be done with Yazi now
+# - Compress/decompress
+#   This can be done with Yazi now
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 alias decompress="tar -xzf"
+
 # extract () {
 #   if [ -f $1 ] ; then
 #     case $1 in
@@ -222,6 +206,5 @@ alias decompress="tar -xzf"
 #   fi
 # }
 
-
-# -- Avoid execution
+# - Avoid execution
 alias fsck='echo "Never use file system repair software such as fsck directly on an encrypted volume, or it will destroy any means to recover the key used to decrypt your files. Such tools must be used on the decrypted (opened) device instead"'

@@ -1,19 +1,16 @@
+# - Starship is initialized by the zsh `init` config file.
 {
-  config,
   pkgs,
-  repo,
+  userPath,
+  outlink,
   ...
 }: let
-  _outOfStore = config.lib.file.mkOutOfStoreSymlink;
-  _config = "${repo}/modules/starship/config";
+  m = "${userPath}/starship";
 in {
   home.packages = [
     pkgs.starship
   ];
 
   # -- Link config file out of nix store.
-  home.file.".config/starship.toml".source = _outOfStore "${_config}/starship.toml";
-
-  # -- Note:
-  #    Starship is initialized by the zsh `init` config file.
+  home.file.".config/starship.toml".source = outlink "${m}/config/starship.toml";
 }
