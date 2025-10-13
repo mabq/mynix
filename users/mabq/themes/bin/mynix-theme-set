@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 # - Important!
-#   Nix will only override symlinks that point to the nix store.
-#   This scripts allows you to quickly set a new theme without having to do
-#   a complete nixos rebuild. But when to try a re-build nix will throw an
-#   error letting you know that it cannot override a file.
-#   You can run `just clean-<host>` to remove manually created symlinks that
-#   do not point to the nix store, and then re-try a rebuild.
-#   See the `Justfile` at the root of the repository.
+#   Nix only overrides symlinks that point to the nix store.
+#   This scripts allows you to quickly set a new theme without having to do a
+#   complete nixos rebuild, but keep in mind that Nix will throw an error when
+#   attempting a rebuild after using this command cause it won't be able to
+#   override the theme symlink created by this script. When that happens run
+#   `just clean-<host>` to remove the trouble symlink and then re-try a
+#   rebuild. See the `Justfile` at the root of the repository.
 
 if [[ -z $1 ]]; then
   echo "Usage: mynix-theme-set <theme-name>"

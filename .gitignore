@@ -1,2 +1,3 @@
-# Ignore zcompdump file in ~/.config/zsh
+# - Ignore the `.zcompdump` file that zsh automatically adds to the zsh config
+#   directory.
 .zcompdump*

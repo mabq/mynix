@@ -5,16 +5,14 @@ configName: {
   outlink,
   ...
 }: let
-  # - I might want to have different configuration sets in the future.
+  # - Cause I might want to try different configurations in the future.
   configPath = "${userPath}/nvim/config/${configName}";
 in {
   home.packages = [
     pkgsUnstable.neovim
 
-    # - Yazi used in Neovim but it has its own module.
-
-    # - Required by snacks (lazygit)
-    pkgsUnstable.lazygit
+    # - Yazi has its own module.
+    # - Lazygit has its own module.
 
     # - Required by telescope
     pkgs.gnumake # - to build `fzf-native`
@@ -35,6 +33,9 @@ in {
     # - Bash language tools
     pkgs.bash-language-server
     pkgs.shfmt
+
+    # - JavaScript
+    pkgs.biome
   ];
 
   # - Link the entire config directory (out of store)

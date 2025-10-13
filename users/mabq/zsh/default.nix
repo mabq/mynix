@@ -1,4 +1,14 @@
-# -- In the user's nixos module we define the user's default shell.
+# - Important!
+#   Changing the default shell (the one set in `/etc/passwd`) requires root
+#   privileges, because it’s a system-level user property. In NixOS, only a
+#   NixOS module (not Home-manager) can do that.
+#   So, all nix configurations for the default shell are in the user's nixos
+#   config file. Here, we symlink the shell config files and install packages
+#   required by aliases and functions.
+#
+# - gitignore
+#   Add an entry to `.gitignore` with `.zcompdump*` to ignore the file that
+#   zsh automatically adds to the config file directory.
 {
   pkgs,
   userPath,
@@ -8,13 +18,8 @@
   m = "${userPath}/zsh";
 in {
   home.packages = [
-    pkgs.zsh
-
-    # - Nix forces me to enable these in a NixOS module.
-    #   See '/users/<user>/nixos.nix'.
-    # pkgs.zsh-autosuggestions
-    # pkgs.zsh-syntax-highlighting
-    # pkgs.zsh-history-substring-search
+    # - The default shell package is owned by the user's NixOS module.
+    # pkgs.zsh
 
     # - Shell core utils.
     pkgs.bat
@@ -28,11 +33,13 @@ in {
     pkgs.zoxide
     pkgs.man
 
-    # - Atuin
-    #   In order to sync history in the server you need to manually execute
-    #   `atuin login -u <USERNAME>`.
-    #   For more information see: https://docs.atuin.sh/guide/sync/#login.
-    #   Credentials in password manager.
+    # - Atuin is an awesome history plugin.
+    #   You can sync history across multiple machines by syncing your history
+    #   to a server. If you wish to do that simply manually run:
+    #     `atuin login -u <USERNAME>`.
+    #   For more information see:
+    #     https://docs.atuin.sh/guide/sync/#login.
+    #   Atuin credentials are stored in the password manager.
     pkgs.atuin
 
     # - Disk formatting (ext4, exfat) functions.
@@ -55,6 +62,12 @@ in {
     # - Torrents
     pkgs.aria2
   ];
+
+  # - Plugins
+  #   Since the NixOS module owns the zsh configuration, these must also be
+  #   placed there.
+  # programs.zsh.syntaxHighlighting.enable = true;
+  # programs.zsh.autosuggestion.enable = true;
 
   # - Config files
   #   Just link the .zshenv file, it point to the config files in the local

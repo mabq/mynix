@@ -1,0 +1,46 @@
+# -- Git configuration --
+
+[user]
+  email = alejandro.banderas@me.com
+  name = mabq
+
+[core]
+  editor = nvim
+
+[init]
+  defaultBranch = master
+
+[rerere]
+  enabled = true
+
+# [pull]
+#   rebase = true # - Autmatically do a rebase when pulling
+
+# [alias]
+#   co = checkout
+
+
+# -- Delta configuration --
+#    A syntax-highlighting pager for git, diff, grep, and blame output
+#    https://github.com/dandavison/delta?tab=readme-ov-file#get-started
+
+[core]
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true  # - Use n and N to move between diff sections
+  light = false  # - Set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+  dark = true
+  side-by-side = true  # - https://github.com/dandavison/delta#side-by-side-view
+  line-numbers = true  # - https://github.com/dandavison/delta#line-numbers
+
+[merge]
+  # `diff3` includes the "base" version, `merge` (which is the default) only shows "theirs" and "ours"
+  conflictstyle = diff3
+
+[diff]
+  colorMoved = default
+
