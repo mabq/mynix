@@ -11,7 +11,8 @@
 in {
   # - Make the following arguments available to all home-manager modules.
   _module.args = {
-    userPath = "${flakePath}/users/${user}";
+    inherit theme;
+    configPath = "${flakePath}/users/${user}/config";
     outlink = config.lib.file.mkOutOfStoreSymlink;
     pkgsUnstable = import inputs.nixpkgs-unstable {
       # - Reuse the main package set configuration options
@@ -21,22 +22,11 @@ in {
   };
 
   imports = [
-    (import ./themes theme)
-    (import ./nvim "mabq")
-    ./tmux
-    ./yazi
-    ./zsh
-    ./starship
-    ./age
-    ./ssh
-    ./git
-    ./lazygit
+    ./cli.nix
   ];
 
   # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-  # Packages I always want installed. Most packages I install using per-project
-  # flakes sourced with direnv and nix-shell, so this is not a huge list.
   # home.packages = [
   #   pkgs.btop
   #
@@ -65,9 +55,6 @@ in {
   #   pkgs.valgrind
   #   pkgs.zathura
   #   pkgs.xfce.xfce4-terminal
-  #
-  #   pkgs.pciutils # lspci
-  #   pkgs.usbutils # lsusb
   # ];
 
   # xdg.enable = true;

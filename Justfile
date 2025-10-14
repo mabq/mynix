@@ -4,7 +4,7 @@ clean-nuc:
 deploy-nuc:
   git add .
   sudo nixos-rebuild switch --flake .#nuc
-  age-decrypt-secrets
+  mynix-decrypt-secrets
 
 debug-nuc:
   sudo nixos-rebuild switch --flake .#nuc --show-trace --verbose

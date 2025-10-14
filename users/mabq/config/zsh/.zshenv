@@ -1,6 +1,9 @@
-# Zsh looks for the following configuration files (in order) in the user's
-# home directory (defined in `/etc/passwd` for each user) or in `/etc/zsh/`
-# for all users.
+# README!
+#
+# Zsh looks for the following configuration files in the user's home directory,
+# if none is found it falls back to `/etc/zsh/`.
+#
+# > Note: Home directories for each user are specified in `/etc/passwd`.
 #
 #   - .zshenv   - Should only contain user’s environment variables.
 #   - .zprofile - Can be used to execute commands just after logging in.
@@ -9,8 +12,8 @@
 #   - .zlogout  - Can be used to execute commands when a shell exit.
 #
 # Every time we open a terminal, zsh will find this file in the home directory,
-# the `$ZDOTDIR` (https://wiki.archlinux.org/title/XDG_Base_Directory) variable
-# shows zsh where to look for config files.
+# the `$ZDOTDIR` variable shows zsh where to look for config files. See:
+#   https://wiki.archlinux.org/title/XDG_Base_Directory
 #
 # For a graphical representation, see:
 #   https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html#implementation
@@ -18,4 +21,4 @@
 # No need to export since this variable is only needed to start zsh.
 
 # ZDOTDIR="$HOME/.config/zsh"
-ZDOTDIR="$HOME/.local/share/mynix/users/mabq/zsh/config"
+ZDOTDIR="$HOME/.local/share/mynix/users/mabq/config/zsh/source"

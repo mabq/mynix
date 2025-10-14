@@ -100,9 +100,7 @@
 
   # --- environment ---
 
-  environment.systemPackages = [
-    pkgs.just
-  ];
+  environment.systemPackages = [];
 
   # --- virtualization ---
 

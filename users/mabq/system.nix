@@ -8,8 +8,6 @@
     (import ../../modules/keyd "v1")
   ];
 
-  # --- users ---
-
   users.users.${user} = {
     isNormalUser = true;
     home = "/home/${user}";
@@ -27,8 +25,7 @@
     ];
   };
 
-  # --- programs ---
-
+  # - The user's default shell can only be set using a NixOS module.
   programs.zsh = {
     # - Nix complains if we do not enable the default shell.
     enable = true;
