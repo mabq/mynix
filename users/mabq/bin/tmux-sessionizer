@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # - Theprimeagen!
+# - Requires `fzf` and `fd`.
 
 # - Add any directories you want (use `$HOME` instead of `~`)
 directories="$HOME/ $HOME/projects/ $HOME/.local/share/"

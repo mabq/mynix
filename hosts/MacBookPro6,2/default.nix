@@ -6,10 +6,11 @@
 
   # --- networking ---
 
-  networking.hostName = "nuc";
+  networking.hostName = "macbook";
 
   # - Use `ip a` to check network interfaces on each host.
-  networking.interfaces.enp1s0.useDHCP = true;
+  networking.interfaces.enp2s0.useDHCP = true;
+  networking.interfaces.wls1b1.useDHCP = true;
 
   # --- bluetooth ---
 
@@ -33,13 +34,4 @@
       };
     };
   };
-
-  # --- services ---
-
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  # services.printing.enable = true;
 }

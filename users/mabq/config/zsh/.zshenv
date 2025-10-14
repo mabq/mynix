@@ -20,5 +20,6 @@
 
 # No need to export since this variable is only needed to start zsh.
 
+# In NixOS make zsh point to config files in mynix local repository.
 # ZDOTDIR="$HOME/.config/zsh"
 ZDOTDIR="$HOME/.local/share/mynix/users/mabq/config/zsh/source"

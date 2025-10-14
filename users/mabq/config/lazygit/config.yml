@@ -1,4 +1,6 @@
-# https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md#custom-pagers
+# - Use delta to show diffs.
+#   Delta config is inside the git config file.
+#   See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md#delta
 git:
   paging:
     colorArg: always

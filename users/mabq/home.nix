@@ -25,6 +25,13 @@ in {
     ./cli.nix
   ];
 
+  # - Symlink binaries
+  #   All files in the bin directory, not the directory itself.
+  home.file.".local/bin" = {
+    source = ./bin;
+    recursive = true;
+  };
+
   # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   # home.packages = [
