@@ -1,4 +1,4 @@
-clean-nuc:
+clean-links:
   rm ~/.config/mynix/current/theme
 
 deploy-nuc:
@@ -8,6 +8,14 @@ deploy-nuc:
 
 debug-nuc:
   sudo nixos-rebuild switch --flake .#nuc --show-trace --verbose
+
+deploy-macbook:
+  git add .
+  sudo nixos-rebuild switch --flake .#macbook
+  mynix-decrypt-secrets
+
+debug-macbook:
+  sudo nixos-rebuild switch --flake .#macbook --show-trace --verbose
 
 up:
   nix flake update
