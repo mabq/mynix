@@ -1,3 +1,6 @@
 # - Ignore the `.zcompdump` file that zsh automatically adds to the zsh config
 #   directory.
 .zcompdump*
+
+# - Ignore nvim lazy-lock file
+lazy-lock.json
