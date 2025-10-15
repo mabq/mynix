@@ -81,7 +81,11 @@
   services.pipewire.pulse.enable = lib.mkDefault true;
   services.pipewire.alsa.enable = lib.mkDefault true;
   services.pipewire.jack.enable = lib.mkDefault true;
-
+  services.pipewire.wireplumber.extraConfig."10-bluez" = {
+    "monitor.bluez.properties" = {
+      "bluez5.roles" = ["a2dp_sink" "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag"];
+    };
+  };
   environment.systemPackages = [
     pkgs.bluetui # - TUI for managing bluetooth on Linux
     # pkgs.bluez # - Official Linux Bluetooth protocol stack
