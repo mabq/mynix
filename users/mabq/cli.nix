@@ -56,11 +56,6 @@
     pkgs.wget # - Tool for retrieving files using HTTP, HTTPS, and FTP
     pkgs.speedtest-go # - CLI and Go API to Test Internet Speed using speedtest.net
 
-    # - Bluetooth
-    # pkgs.bluetui # - TUI for managing bluetooth on Linux
-    # pkgs.bluez # - Official Linux Bluetooth protocol stack
-    pkgs.bluetuith # - TUI-based bluetooth connection manager
-
     # - Disks
     pkgs.caligula # - User-friendly, lightweight TUI for disk imaging
     pkgs.exfat # - Free exFAT file system implementation

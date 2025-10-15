@@ -121,7 +121,11 @@
 
   # --- environment ---
 
-  environment.systemPackages = [];
+  environment.systemPackages = [
+    pkgs.bluetui # - TUI for managing bluetooth on Linux
+    # pkgs.bluez # - Official Linux Bluetooth protocol stack
+    # pkgs.bluetuith # - TUI-based bluetooth connection manager
+  ];
 
   # --- virtualization ---
 
