@@ -59,16 +59,19 @@
   # --- bluetooth ---
 
   hardware.bluetooth.enable = lib.mkDefault true;
-  environment.systemPackages = [pkgs.bluez-tools];
+  services.blueman.enable = true;
 
   # --- pipewire ---
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = lib.mkDefault true;
     alsa.enable = lib.mkDefault true;
-    jack.enable = lib.mkDefault true;
     pulse.enable = lib.mkDefault true;
-    wireplumber.enable = lib.mkDefault true;
+    jack.enable = lib.mkDefault true;
+    # wireplumber.enable = lib.mkDefault true;
   };
+  # Give pipewire permission to run in realtime priority
+  security.rtkit.enable = true;
 
   # --- users ---
 
@@ -78,7 +81,7 @@
 
   # --- environment ---
 
-  # environment.systemPackages = [];
+  environment.systemPackages = [];
 
   # --- security ---
 
