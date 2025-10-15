@@ -60,7 +60,7 @@
 
   hardware.bluetooth.enable = lib.mkDefault true;
 
-  # security.rtkit.enable = true;
+  security.rtkit.enable = true;
 
   # --- pipewire ---
   services.pipewire = {
