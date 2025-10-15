@@ -77,12 +77,16 @@
     };
   };
 
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-    alsa.enable = true;
-    jack.enable = true;
-  };
+  services.pipewire.enable = lib.mkDefault true;
+  services.pipewire.pulse.enable = lib.mkDefault true;
+  services.pipewire.alsa.enable = lib.mkDefault true;
+  services.pipewire.jack.enable = lib.mkDefault true;
+
+  environment.systemPackages = [
+    pkgs.bluetui # - TUI for managing bluetooth on Linux
+    # pkgs.bluez # - Official Linux Bluetooth protocol stack
+    # pkgs.bluetuith # - TUI-based bluetooth connection manager
+  ];
 
   # --- users ---
 
@@ -124,14 +128,6 @@
   fonts.fontDir.enable = lib.mkDefault true;
   fonts.packages = [
     pkgs.nerd-fonts.caskaydia-mono
-  ];
-
-  # --- environment ---
-
-  environment.systemPackages = [
-    # pkgs.bluetui # - TUI for managing bluetooth on Linux
-    # pkgs.bluez # - Official Linux Bluetooth protocol stack
-    pkgs.bluetuith # - TUI-based bluetooth connection manager
   ];
 
   # --- virtualization ---
