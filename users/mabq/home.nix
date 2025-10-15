@@ -25,6 +25,8 @@ in {
     ./cli.nix
   ];
 
+  xdg.enable = true;
+
   # - Symlink binaries
   #   All files in the bin directory, not the directory itself.
   home.file.".local/bin" = {
