@@ -77,6 +77,14 @@
     };
   };
 
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+    jack.enable = true;
+    bluetooth.enable = true;
+  };
+
   # --- users ---
 
   # - Discard any changes made to users or groups with imperative commands, so
