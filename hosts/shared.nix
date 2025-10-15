@@ -59,32 +59,28 @@
   # --- bluetooth ---
 
   hardware.bluetooth.enable = lib.mkDefault true;
-  hardware.bluetooth.powerOnBoot = lib.mkDefault true;
-  hardware.bluetooth.hsphfpd.enable = lib.mkDefault true;
-  hardware.bluetooth.settings = {
-    General = {
-      ControllerMode = lib.mkDefault "bredr";
-      Experimental = lib.mkDefault true;
-      FastConnectable = lib.mkDefault true;
+
+  # --- pipewire ---
+  services.pipewire = {
+    enable = lib.mkDefault true;
+    alsa = {
+      enable = lib.mkDefault true;
+      support32Bit = lib.mkDefault true;
     };
-    Policy = {
-      AutoEnable = lib.mkDefault true;
-    };
+    jack.enable = lib.mkDefault true;
+    pulse.enable = lib.mkDefault true;
+    wireplumber.enable = lib.mkDefault true;
   };
-
-  services.pipewire.enable = lib.mkDefault true;
-
-  environment.systemPackages = [
-    pkgs.bluetui # - TUI for managing bluetooth on Linux
-    # pkgs.bluez # - Official Linux Bluetooth protocol stack
-    # pkgs.bluetuith # - TUI-based bluetooth connection manager
-  ];
 
   # --- users ---
 
   # - Discard any changes made to users or groups with imperative commands, so
   #   that users and groups always reflect declarative instructions.
   users.mutableUsers = lib.mkDefault false;
+
+  # --- environment ---
+
+  environment.systemPackages = [];
 
   # --- security ---
 
