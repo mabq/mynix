@@ -60,32 +60,20 @@
 
   hardware.bluetooth.enable = lib.mkDefault true;
   hardware.bluetooth.powerOnBoot = lib.mkDefault true;
+  hardware.bluetooth.hsphfpd.enable = lib.mkDefault true;
   hardware.bluetooth.settings = {
     General = {
-      # - Shows battery charge of connected devices on supported Bluetooth
-      #   adapters. Defaults to 'false'.
-      Experimental = true;
-      # - When enabled other devices can connect faster to us, however
-      #   the tradeoff is increased power consumption. Defaults to 'false'.
-      FastConnectable = true;
+      ControllerMode = lib.mkDefault "bredr";
+      Experimental = lib.mkDefault true;
+      FastConnectable = lib.mkDefault true;
     };
     Policy = {
-      # - Enable all controllers when they are found. This includes adapters
-      #   present on start as well as adapters that are plugged in later on.
-      #   Defaults to 'true'.
-      AutoEnable = true;
+      AutoEnable = lib.mkDefault true;
     };
   };
 
   services.pipewire.enable = lib.mkDefault true;
-  services.pipewire.pulse.enable = lib.mkDefault true;
-  services.pipewire.alsa.enable = lib.mkDefault true;
-  services.pipewire.jack.enable = lib.mkDefault true;
-  services.pipewire.wireplumber.extraConfig."10-bluez" = {
-    "monitor.bluez.properties" = {
-      "bluez5.roles" = ["a2dp_sink" "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag"];
-    };
-  };
+
   environment.systemPackages = [
     pkgs.bluetui # - TUI for managing bluetooth on Linux
     # pkgs.bluez # - Official Linux Bluetooth protocol stack
