@@ -58,24 +58,16 @@
 
   # --- bluetooth ---
 
-  hardware.bluetooth.enable = lib.mkDefault true;
-  hardware.bluetooth.settings = {
-    General = {
-      # - Enabling A2DP Sink
-      Enable = "Source,Sink,Media,Socket";
-    };
-  };
-
-  security.rtkit.enable = true;
+  # hardware.bluetooth.enable = lib.mkDefault true;
 
   # --- pipewire ---
-  services.pipewire = {
-    enable = lib.mkDefault true;
-    alsa.enable = lib.mkDefault true;
-    jack.enable = lib.mkDefault true;
-    pulse.enable = lib.mkDefault true;
-    wireplumber.enable = lib.mkDefault true;
-  };
+  # services.pipewire = {
+  #   enable = lib.mkDefault true;
+  #   alsa.enable = lib.mkDefault true;
+  #   jack.enable = lib.mkDefault true;
+  #   pulse.enable = lib.mkDefault true;
+  #   wireplumber.enable = lib.mkDefault true;
+  # };
 
   # --- users ---
 
