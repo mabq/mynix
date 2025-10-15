@@ -58,7 +58,7 @@
 
   # --- bluetooth ---
 
-  # hardware.bluetooth.enable = lib.mkDefault true;
+  hardware.bluetooth.enable = lib.mkDefault true;
 
   # --- pipewire ---
   # services.pipewire = {
