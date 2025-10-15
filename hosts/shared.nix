@@ -59,15 +59,16 @@
   # --- bluetooth ---
 
   hardware.bluetooth.enable = lib.mkDefault true;
+  environment.systemPackages = [pkgs.bluez-tools];
 
   # --- pipewire ---
-  # services.pipewire = {
-  #   enable = lib.mkDefault true;
-  #   alsa.enable = lib.mkDefault true;
-  #   jack.enable = lib.mkDefault true;
-  #   pulse.enable = lib.mkDefault true;
-  #   wireplumber.enable = lib.mkDefault true;
-  # };
+  services.pipewire = {
+    enable = lib.mkDefault true;
+    alsa.enable = lib.mkDefault true;
+    jack.enable = lib.mkDefault true;
+    pulse.enable = lib.mkDefault true;
+    wireplumber.enable = lib.mkDefault true;
+  };
 
   # --- users ---
 
@@ -77,7 +78,7 @@
 
   # --- environment ---
 
-  environment.systemPackages = [];
+  # environment.systemPackages = [];
 
   # --- security ---
 
