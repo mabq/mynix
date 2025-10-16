@@ -46,13 +46,9 @@
 
   # --- networking ---
 
-  # - iwd is the modern alternative to wpa_supplicant, impala is used as frontend
-  networking.wireless.iwd = {
-    enable = true;
-    # Settings = {
-    #   AutoConnect = true;
-    # };
-  };
+  # - Enable wifi
+  #   iwd is the modern alternative to wpa_supplicant
+  networking.wireless.iwd.enable = true;
 
   networking.hostName = lib.mkDefault host;
 
