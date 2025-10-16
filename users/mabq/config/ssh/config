@@ -1,0 +1,10 @@
+# - Instruct the SSH-agent to automatically add the keys for all connections.
+AddKeysToAgent yes
+
+# - Add details for frequently used remote servers:
+# Host {SERVER_ALIAS}
+#   Hostname {SERVER_IP}
+#   Port {PORT} # Optional, defaults to 22
+#   User {SERVER_USER} # Optional, in case the client and server use different users
+#   IdentityFile "~/.ssh/{PRIVATE_KEY}" # (only required if you have more than one key or if the key has a custom name)
+
