@@ -23,7 +23,7 @@
     pkgs.just # - Handy way to save and run project-specific commands
     pkgs.starship # - Minimal, blazing fast, and extremely customizable prompt for any shell
     pkgs.tmux # - Terminal multiplexer
-    # pkgs.openssh # - Implementation of the SSH protocol
+    pkgs.openssh # - Implementation of the SSH protocol
 
     # -- Git
     pkgs.git # - Distributed version control system

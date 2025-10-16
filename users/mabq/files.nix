@@ -25,9 +25,9 @@
     ".config/starship.toml".source = outlink "${configPath}/starship/starship.toml";
     ".config/tmux/tmux.conf".source = outlink "${configPath}/tmux/tmux.conf";
     ".config/yazi".source = outlink "${configPath}/yazi/";
-    # ".ssh/config".source = outlink "${configPath}/ssh/config"; # - DO NOT LINK THE WHOLE DIRECTORY!
-    # ".ssh/id_ed25519.age".source = outlink "${configPath}/ssh/id_ed25519.age"; # - DO NOT LINK THE WHOLE DIRECTORY!
-    # ".ssh/id_ed25519.pub".source = outlink "${configPath}/ssh/id_ed25519.pub"; # - DO NOT LINK THE WHOLE DIRECTORY!
+    ".ssh/config".source = outlink "${configPath}/ssh/config"; # - DO NOT LINK THE WHOLE DIRECTORY!
+    ".ssh/id_ed25519.age".source = outlink "${configPath}/ssh/id_ed25519.age"; # - DO NOT LINK THE WHOLE DIRECTORY!
+    ".ssh/id_ed25519.pub".source = outlink "${configPath}/ssh/id_ed25519.pub"; # - DO NOT LINK THE WHOLE DIRECTORY!
     ".zshenv".source = ./config/zsh/.zshenv; # - No need for outlink
     ".local/bin" = {
       source = ./bin;
