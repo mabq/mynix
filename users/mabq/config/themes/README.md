@@ -1,10 +1,10 @@
 # Themes
 
-Theme files are placed at the root of the repository because they are shared by all users.
+The source of all theme files is the `themes` directory at the root of this repository.
 
-Config files do not change. Changing a single symlink to point to another theme directory changes all programs' themes.
+The current theme is defined by the symlink `~/.config/mynix/current/theme`, which points to the desired theme in `themes`.
 
-The following tools' themes are set with environment variables:
-  - bat
-  - fzf
+Each program theme file is nothing more than a symlink poiting to `~/.config/mynix/current/theme/<program-theme-file>`.
+
+There are applications that require environment variables, like `fzf` or `bat`.
 

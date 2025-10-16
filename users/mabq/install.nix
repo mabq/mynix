@@ -1,20 +1,14 @@
+# - Install packages
+#
+#   Most packages should be installed using per-project flakes sourced with
+#   direnv and nix-shell.
+#
+#   The nix packages page shows the commands provided by each package.
 {
   pkgs,
   pkgsUnstable,
-  flakePath,
-  configPath,
-  outlink,
-  theme,
   ...
 }: {
-  # ---------------------------------------------------------------------------
-  # Install packages.
-  #
-  #  Most packages should be installed using per-project flakes sourced with
-  #  direnv and nix-shell.
-  #
-  #  The nix packages page shows the commands provided by each package.
-  # ---------------------------------------------------------------------------
   home.packages = [
     # - Better core utils
     pkgs.bat # - Cat clone with syntax highlighting and Git integration
@@ -29,6 +23,7 @@
     pkgs.just # - Handy way to save and run project-specific commands
     pkgs.starship # - Minimal, blazing fast, and extremely customizable prompt for any shell
     pkgs.tmux # - Terminal multiplexer
+    pkgs.openssh # - Implementation of the SSH protocol
 
     # -- Git
     pkgs.git # - Distributed version control system
@@ -96,51 +91,4 @@
     pkgs.dragon-drop # - Simple drag-and-drop source/sink for X or Wayland
     pkgs.hyprpaper # - (set wallpaper) Blazing fast wayland wallpaper utility
   ];
-
-  # ---------------------------------------------------------------------------
-  # Symlink config files.
-  #
-  #  `outlink` symlinks files/directories out of store, meaning that changes
-  #  apply inmediatly without a rebuild.
-  # ---------------------------------------------------------------------------
-
-  # - Theme
-  home.file.".config/mynix/current/theme".source = outlink "${flakePath}/themes/${theme}";
-
-  # - Zsh
-  #   .zshenv points to config files in this repository. No need for outlink.
-  home.file.".zshenv".source = ./config/zsh/.zshenv;
-
-  # - Starship
-  home.file.".config/starship.toml".source = outlink "${configPath}/starship/starship.toml";
-
-  # - Git / Delta
-  home.file.".config/git/config".source = outlink "${configPath}/git/config";
-
-  # - Lazygit
-  home.file.".config/lazygit/config.yml".source = outlink "${configPath}/lazygit/config.yml";
-
-  # - SSH
-  #   This is for the client side of ssh, for server side see host.
-  programs.ssh = {
-    enable = true;
-    addKeysToAgent = "yes";
-  };
-  services.ssh-agent.enable = true;
-  #   DO NOT link the entire directory!, any new ssh keys would be exposed.
-  home.file.".ssh/id_ed25519.age".source = outlink "${configPath}/ssh/id_ed25519.age";
-  home.file.".ssh/id_ed25519.pub".source = outlink "${configPath}/ssh/id_ed25519.pub";
-
-  # - Age
-  #   DO NOT link the whole directory!, the decrypted private key would be exposed.
-  home.file.".config/age/key.txt.age".source = outlink "${configPath}/age/key.txt.age";
-
-  # - Tmux
-  home.file.".config/tmux".source = outlink "${configPath}/tmux/";
-
-  # - Yazi
-  home.file.".config/yazi".source = outlink "${configPath}/yazi/";
-
-  # - Neovim
-  home.file.".config/nvim".source = outlink "${configPath}/nvim/";
 }

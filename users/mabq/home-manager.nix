@@ -2,17 +2,12 @@
   inputs,
   config,
   pkgs,
-  flakePath,
-  user,
   ...
-}: let
-  # --- Put the user settings here ---
-  theme = "tokyo-night";
-in {
+}: {
   # - Make the following arguments available to all home-manager modules.
+  #   These cannot be placed in `mksystem` cause it is not a module, it has
+  #   no access to `config` or `pkgs`.
   _module.args = {
-    inherit theme;
-    configPath = "${flakePath}/users/${user}/config";
     outlink = config.lib.file.mkOutOfStoreSymlink;
     pkgsUnstable = import inputs.nixpkgs-unstable {
       # - Reuse the main package set configuration options
@@ -22,30 +17,20 @@ in {
   };
 
   imports = [
-    ./cli.nix
+    ./install.nix
+    ./files.nix
+    ./services.nix
   ];
-
-  # - Symlink binaries
-  #   All files in the bin directory, not the directory itself.
-  home.file.".local/bin" = {
-    source = ./bin;
-    recursive = true;
-  };
 
   # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   # home.packages = [
-  #   pkgs.btop
-  #
   #   pkgs.bitwarden-desktop
   #   pkgs._1password-cli
   #   pkgs.asciinema
   #   chezmoi
-  #   pkgs.gh
   #   pkgs.sentry-cli
   #   pkgs.watch
-  #
-  #   pkgs.jq
   #
   #   pkgs.gopls
   #   pkgs.zigpkgs."0.14.0"
@@ -53,7 +38,6 @@ in {
   #   pkgs.claude-code
   #   pkgs.codex
   #
-  #   Node is required for Copilot.vim
   #   pkgs.nodejs
   #
   #   pkgs.chromium
