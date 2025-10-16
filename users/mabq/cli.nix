@@ -55,6 +55,7 @@
     pkgs.inetutils # - Collection of common network programs
     pkgs.wget # - Tool for retrieving files using HTTP, HTTPS, and FTP
     pkgs.speedtest-go # - CLI and Go API to Test Internet Speed using speedtest.net
+    pkgs.impala # - TUI for managing wifi (for iwd)
 
     # - Bluetooth
     pkgs.bluetui # - TUI for managing bluetooth on Linux

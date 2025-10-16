@@ -46,6 +46,9 @@
 
   # --- networking ---
 
+  # - iwd is the modern alternative to wpa_supplicant, impala is used as frontend
+  networking.wireless.iwd.enable = true;
+
   networking.hostName = lib.mkDefault host;
 
   # - Whether to use DHCP to obtain an IP address and other configuration for
@@ -59,10 +62,8 @@
   # --- bluetooth ---
 
   hardware.bluetooth.enable = lib.mkDefault true;
-  services.blueman.enable = true;
 
   # --- pipewire ---
-  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = lib.mkDefault true;
     alsa.enable = lib.mkDefault true;
@@ -70,7 +71,7 @@
     jack.enable = lib.mkDefault true;
     # wireplumber.enable = lib.mkDefault true;
   };
-  # Give pipewire permission to run in realtime priority
+  # Give pipewire permission to run in realtime priority (avoid audio lags)
   security.rtkit.enable = true;
 
   # --- users ---
