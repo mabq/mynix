@@ -3,6 +3,11 @@
   user,
   ...
 }: {
+  imports = [
+    (import ../../../modules/nixos/zsh)
+    (import ../../../modules/nixos/keyd "fnav-1")
+  ];
+
   users.users.${user} = {
     isNormalUser = true;
     home = "/home/${user}";
@@ -12,7 +17,7 @@
     hashedPassword = "$6$P.O5dcCJEOVAdAZP$ep65kPcAQEj3W6nrEN7tg9NRbf4R2BdLZ3Oy5VZUIG/ANE3PQnGzmCBFnos6HjpXwWWlf1i54FUl.XAFL4qLm1";
     # - In NixoS, the default shell must be set in a NixOS module, see the
     #   zsh home-manager module for more information.
-    shell = pkgs.zsh;
+    # shell = pkgs.zsh;
     # - The openssh service is configured in the host module. Here we only add
     #   the user's public ssh key as an authorized key.
     openssh.authorizedKeys.keys = [
@@ -20,13 +25,13 @@
     ];
   };
 
-  # - The user's default shell can only be set using a NixOS module.
-  programs.zsh = {
-    # - Nix complains if we do not enable the default shell.
-    enable = true;
-    # - Since this NixOS module owns the zsh configuration these must also be
-    #   placed here (not in the Home-manager module).
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-  };
+  # # - The user's default shell can only be set using a NixOS module.
+  # programs.zsh = {
+  #   # - Nix complains if we do not enable the default shell.
+  #   enable = true;
+  #   # - Since this NixOS module owns the zsh configuration these must also be
+  #   #   placed here (not in the Home-manager module).
+  #   autosuggestions.enable = true;
+  #   syntaxHighlighting.enable = true;
+  # };
 }

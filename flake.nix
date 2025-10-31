@@ -17,23 +17,20 @@
 
     # disko.url = "github:nix-community/disko";
     # disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    # sops-nix.url = "github:Mic92/sops-nix";
-    # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ {...}: let
-    mkSystem = import ./lib/mksystem.nix inputs;
+  outputs = inputs @ {self, ...}: let
+    mkSystem = import ./lib/mksystem.nix {inherit inputs self;};
   in {
-    nixosConfigurations = {
-      "nuc" = mkSystem {
-        host = "GB-BXi3-5010";
-        user = "mabq";
-      };
-      "macbook" = mkSystem {
-        host = "MacBookPro6,2";
-        user = "mabq";
-      };
+    nixosConfigurations."nuc" = mkSystem {
+      host = "GB-BXi3-5010";
+      user = "mabq";
+      profile = "workstation";
+    };
+    nixosConfigurations."macbook" = mkSystem {
+      host = "MacBookPro6,2";
+      user = "mabq";
+      profile = "workstation";
     };
   };
 }

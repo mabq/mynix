@@ -1,10 +1,8 @@
 {
   imports = [
-    ../shared.nix
+    ../system-defaults.nix
     ./hardware-configuration.nix
   ];
-
-  # --- networking ---
 
   networking.hostName = "nuc";
 }

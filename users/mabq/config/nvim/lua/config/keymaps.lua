@@ -1,5 +1,8 @@
 -- Without modifier key --
 
+vim.keymap.set('n', 'j', 'gj', { desc = 'Multi-line down' })
+vim.keymap.set('n', 'k', 'gk', { desc = 'Multi-line up' })
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search hightlight' })
 
 vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join line (cursor in place)' })

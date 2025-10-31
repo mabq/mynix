@@ -7,7 +7,9 @@ deploy-nuc:
   mynix-decrypt-secrets
 
 debug-nuc:
+  git add .
   sudo nixos-rebuild switch --flake .#nuc --show-trace --verbose
+  mynix-decrypt-secrets
 
 deploy-macbook:
   git add .
