@@ -133,17 +133,6 @@ with lib;
   # -- Services ----------------------------------------------------------------
 
   services = {
-    tzupdate.enable = mkDefault true; # update timezone automatically
-
-    tailscale = {
-      enable = mkDefault true; # use `sudo tailscale up` to authenticate
-      extraSetFlags = [
-        # Flags like `--ssh` should be set on per-host basis
-        # https://tailscale.com/docs/reference/tailscale-cli#set
-        "--hostname=${config.networking.hostName}" # host module
-      ];
-    };
-
     openssh = {
       enable = mkDefault true;
       settings = {
@@ -154,6 +143,17 @@ with lib;
         PasswordAuthentication = mkDefault false;
       };
     };
+
+    tailscale = {
+      enable = mkDefault true; # use `sudo tailscale up` to authenticate
+      extraSetFlags = [
+        # Flags like `--ssh` should be set on per-host basis
+        # https://tailscale.com/docs/reference/tailscale-cli#set
+        "--hostname=${config.networking.hostName}" # host module
+      ];
+    };
+
+    tzupdate.enable = mkDefault true; # update timezone automatically
   };
 
   # ----------------------------------------------------------------------------
@@ -185,6 +185,7 @@ with lib;
           homeDirectory = "/home/${user}";
           stateVersion = osConfig.system.stateVersion;
           packages = with pkgs; [
+            # -- Packages always required --
             just # Handy way to save and run project-specific commands
             age # Modern encryption tool with small explicit keys
             sops # Simple and flexible tool for managing secrets

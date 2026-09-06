@@ -1,8 +1,7 @@
 { user, ... }:
 {
   imports = [
-    # All these modules are wrapped with a function that expects a `configName`
-    # to select proper config files. If you don't pass any `default` is used.
+    ./hardware/zram.nix
     (import ./hardware/keyd.nix { })
 
     ./networking/systemd-networkd.nix

@@ -3,7 +3,6 @@
 {
   imports = [
     ./disko/ext4-encrypted.nix
-    ./memory/zram.nix
   ];
 
   # -- Override imports --------------------------------------------------------
