@@ -9,6 +9,9 @@
     #  This directory contains an encrypted version of the keys file, all
     #  you need to do is decrypt it in the expected path.
     #  BE CAREFUL NOT TO INCLUDE THE DECRYPTED FILE IN ANY REPOSITORY!
+    # INFO: We can change this to be in a system dir (only readable by the
+    # user) but the `sops` cli command expects to find the key here, how do I
+    # change that?
     age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
 
     # Secrets file

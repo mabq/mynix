@@ -1,17 +1,24 @@
-# This file is used by `sops` to map the matching file to a public key for encryption.
+# Sops uses this file to automate how secrets are encrypted by defining which
+# encryption keys to use for different files, removing the need to specify them
+# manually each time.
+#
+# SOPS searches for this file starting from your current working directory and
+# moving upwards.
+#
+# Notice that these rules apply for new files. When editing encrypted files
+# the public key in the header of the file is used.
+#
+# For more information see the learning notes repo.
 
 keys:
+  # Public key aliases for easier reference
   - &mabq age120tq73mkdzyjaq544rs9cqkedetzg6y8tu763ax03zvprg8emq5qnd2az2
-  # - &jmsb age1...
 
 creation_rules:
-  - path_regex: users/mabq/secrets/secrets.yaml$
+    # SOPS processes these rules sequentially, from top to bottom, and applies
+    # the first rule whose `path_regex` matches the file being encrypted.
+  - path_regex: secrets/mabq.yaml$
     key_groups:
       - age:
           - *mabq
-          # - *admin # Can be encrypted for multiple users
-
-  # - path_regex: secrets/jmsb.yaml$
-  #   key_groups:
-  #     - age:
-  #         - *jmsb
+        # - *jmsb # (can pass multiple keys)

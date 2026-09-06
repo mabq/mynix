@@ -85,7 +85,6 @@ with lib;
   # -- Time and locale ---------------------------------------------------------
 
   time.timeZone = mkDefault "America/Guayaquil";
-  services.tzupdate.enable = mkDefault true; # update timezone automatically
   i18n.defaultLocale = mkDefault "en_US.UTF-8";
 
   # -- User accounts -----------------------------------------------------------
@@ -134,6 +133,8 @@ with lib;
   # -- Services ----------------------------------------------------------------
 
   services = {
+    tzupdate.enable = mkDefault true; # update timezone automatically
+
     tailscale = {
       enable = mkDefault true; # use `sudo tailscale up` to authenticate
       extraSetFlags = [
@@ -184,17 +185,14 @@ with lib;
           homeDirectory = "/home/${user}";
           stateVersion = osConfig.system.stateVersion;
           packages = with pkgs; [
-            # -- Common packages for all configurations --
-            age # Modern encryption tool with small explicit keys
-            caligula # User-friendly, lightweight TUI for disk imaging
-            exfatprogs # exFAT filesystem userspace utilities
-            fastfetch # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
-            fzf # Command-line fuzzy finder
             just # Handy way to save and run project-specific commands
-            pciutils # Collection of programs for inspecting and manipulating configuration of PCI devices
-            psmisc # Set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
-            ripgrep # Utility that combines the usability of The Silver Searcher with the raw speed of grep
+            age # Modern encryption tool with small explicit keys
             sops # Simple and flexible tool for managing secrets
+            yazi # Blazing fast terminal file manager written in Rust, based on async I/O
+            neovim # Vim text editor fork
+            gh # CLI GitHub tool (authenticate from the terminal)
+            git # Distributed version control system
+            lazygit # Simple terminal UI for git commands
           ];
 
           # Symlink the selected theme

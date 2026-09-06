@@ -11,23 +11,17 @@
 }:
 let
   # These variables are used across nix and configuration files to avoid
-  # hard-coding those paths. Makes changing things much easier later.
+  # hard-coding paths. Abs (absolute) paths are mostly used to create
+  # outOfStoreSymlinks. Non-abs paths are used in conjuction with `self` to
+  # create paths relative to the flake root, instead of being relative to the
+  # current module. Do a live-grep to see where each one is used.
   repoName = "mynix";
   repoUrl = "https://github.com/mabq/${repoName}.git";
   repoDir = "/home/${user}/.local/share/${repoName}";
-
-  # Placing all configs/themes in a single directory help a lot for
-  # outOfStoreSymliks because those require absolute paths.
-
   repoConfigDir = "/config";
   repoConfigDirAbs = repoDir + repoConfigDir;
-
   repoThemeDir = "${repoConfigDir}/${repoName}/themes/${theme}";
   repoThemeDirAbs = repoDir + repoThemeDir;
-
-  # Unfortunately some config files do not allow global varaibles or relative
-  # paths, so do a live grep for "__MYNIX_HARDCODED_PATH__" to see where manual
-  # changes are required when changing this.
   localThemeDir = "/.config/${repoName}/theme";
   localThemeDirAbs = "/home/${user}" + localThemeDir;
 
@@ -65,7 +59,7 @@ inputs.nixpkgs.lib.nixosSystem {
     # inputs.sops-nix.nixosModules.sops
 
     # Config files
-    ./defaults.nix
+    ../defaults
     ../hosts/${host}.nix
     ../users/${user}.nix
     ../profiles/${profile}.nix

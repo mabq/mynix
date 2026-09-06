@@ -25,7 +25,7 @@
   outputs =
     { self, ... }@inputs:
     let
-      mkSystem = import ./defaults/mkSystem.nix { inherit self inputs; };
+      mkSystem = import ./lib/mkSystem.nix { inherit self inputs; };
     in
     {
       # This flake produces NixOS configurations
