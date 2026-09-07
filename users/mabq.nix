@@ -27,8 +27,11 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINjOlPls0gNkjBTOvXIbmm7HbSUOHM+erfwE4tdNVMLn"
     ];
+  };
 
+  home-manager.users.${user} = {
     home.packages = with pkgs; [
+      # -- CLI utils
       caligula # User-friendly, lightweight TUI for disk imaging
       exfatprogs # exFAT filesystem userspace utilities
       fastfetch # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
