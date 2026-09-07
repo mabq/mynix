@@ -7,7 +7,10 @@
 
   # -- Override imports --------------------------------------------------------
 
-  # Use `lsblk -o NAME,ID-LINK` to check device's wwn id
+  # Use `lsblk -o NAME,ID-LINK` to check device's wwn id.
+  #  "wwn" stands for World Wide Name, even if you buy two machines of the
+  #  exact same model and specs, the hard drives or SSDs inside them will have
+  #  different, unique WWNs.
   disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
 
   # -- Host specific options ---------------------------------------------------

@@ -1,5 +1,6 @@
 # Use `mkDefault`, these should be overidable.
 {
+  self,
   config,
   lib,
   pkgs,
@@ -12,6 +13,7 @@
   repoThemeDirAbs,
   localThemeDir,
   localThemeDirAbs,
+  ageKeyFile,
   ...
 }:
 with lib;
@@ -120,6 +122,11 @@ with lib;
       MYNIX_REPO = "${repoDir}";
       MYNIX_THEME = "${localThemeDirAbs}";
 
+      # Instruct sops to look for the private age key in a different directory
+      # than the default one. We use a system-level directory because the key
+      # is set by `disko-install` or `nixos-anywhere` at installation time.
+      SOPS_AGE_KEY_FILE = "${ageKeyFile}";
+
       # Include binaries of this repo in PATH
       # PATH = "${repoDir}/bin"; # don't use `<path>:$PATH` syntax here
 
@@ -127,6 +134,17 @@ with lib;
       MANPAGER = "less -R --use-color -Dd+r -Du+b";
       MANROFFOPT = "-P -c"; # https://wiki.archlinux.org/title/Color_output_in_console#Using_less
       # TERM = # do not set this variable, it is set by each terminal emulator.
+    };
+  };
+
+  # -- Secrets -----------------------------------------------------------------
+
+  sops = {
+    age.keyFile = "${ageKeyFile}";
+    defaultSopsFile = self + "/secrets/${user}-${profile}.yaml";
+    secrets = {
+      # "tailscaleAuthKey" = lib.mkIf (config.services.tailscale.enable) { };
+      "tailscaleAuthKey" = { };
     };
   };
 
@@ -144,14 +162,19 @@ with lib;
       };
     };
 
-    tailscale = {
-      enable = mkDefault true; # use `sudo tailscale up` to authenticate
-      extraSetFlags = [
-        # Flags like `--ssh` should be set on per-host basis
-        # https://tailscale.com/docs/reference/tailscale-cli#set
-        "--hostname=${config.networking.hostName}" # host module
-      ];
-    };
+    tailscale =
+      let
+        hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
+      in
+      {
+        enable = mkDefault true; # use `sudo tailscale up` to authenticate
+        authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
+        extraSetFlags = [
+          # Flags like `--ssh` should be set on per-host basis
+          # https://tailscale.com/docs/reference/tailscale-cli#set
+          "--hostname=${config.networking.hostName}" # host module
+        ];
+      };
 
     tzupdate.enable = mkDefault true; # update timezone automatically
   };

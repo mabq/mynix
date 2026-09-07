@@ -3,11 +3,15 @@
 keys:
   # Public key aliases for easier reference.
   - &mabq age120tq73mkdzyjaq544rs9cqkedetzg6y8tu763ax03zvprg8emq5qnd2az2
+  # - &jmsb age120...
 
 creation_rules:
     # The first matched rule will apply.
-  - path_regex: secrets/mabq.yaml$
+  - path_regex: ^secrets/mabq-.*\.yaml$
     key_groups:
       - age:
           - *mabq
-          # - *jmsb
+  # - path_regex: ^secrets/jmsb-.*\.yaml$
+  #   key_groups:
+  #     - age:
+  #         - *jmsb
