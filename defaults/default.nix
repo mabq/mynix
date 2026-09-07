@@ -171,7 +171,7 @@ with lib;
         enable = mkDefault true; # use `sudo tailscale up` to authenticate
         # authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
         authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
-        extraSetFlags = [
+        extraUpFlags = [
           # Flags like `--ssh` should be set on per-host basis
           # https://tailscale.com/docs/reference/tailscale-cli#set
           "--hostname=${config.networking.hostName}" # host module
