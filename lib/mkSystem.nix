@@ -58,7 +58,7 @@ inputs.nixpkgs.lib.nixosSystem {
     # what is actually required.
     inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
-    # inputs.sops-nix.nixosModules.sops
+    inputs.sops-nix.nixosModules.sops
 
     # Config files
     ../defaults
