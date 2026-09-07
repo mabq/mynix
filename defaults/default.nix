@@ -140,14 +140,14 @@ with lib;
 
   # -- Secrets -----------------------------------------------------------------
 
-  sops = {
-    age.keyFile = "${ageKeyFile}";
-    defaultSopsFile = self + "/secrets/${user}-${profile}.yaml";
-    secrets = {
-      # "tailscaleAuthKey" = lib.mkIf (config.services.tailscale.enable) { };
-      "tailscaleAuthKey" = { };
-    };
-  };
+  # sops = {
+  #   age.keyFile = "${ageKeyFile}";
+  #   defaultSopsFile = self + "/secrets/${user}-${profile}.yaml";
+  #   secrets = {
+  #     # "tailscaleAuthKey" = lib.mkIf (config.services.tailscale.enable) { };
+  #     "tailscaleAuthKey" = { };
+  #   };
+  # };
 
   # -- Services ----------------------------------------------------------------
 
@@ -163,19 +163,19 @@ with lib;
       };
     };
 
-    tailscale =
-      let
-        hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
-      in
-      {
-        enable = mkDefault true; # use `sudo tailscale up` to authenticate
-        authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
-        extraSetFlags = [
-          # Flags like `--ssh` should be set on per-host basis
-          # https://tailscale.com/docs/reference/tailscale-cli#set
-          "--hostname=${config.networking.hostName}" # host module
-        ];
-      };
+    # tailscale =
+    #   let
+    #     hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
+    #   in
+    #   {
+    #     enable = mkDefault true; # use `sudo tailscale up` to authenticate
+    #     authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
+    #     extraSetFlags = [
+    #       # Flags like `--ssh` should be set on per-host basis
+    #       # https://tailscale.com/docs/reference/tailscale-cli#set
+    #       "--hostname=${config.networking.hostName}" # host module
+    #     ];
+    #   };
 
     tzupdate.enable = mkDefault true; # update timezone automatically
   };
