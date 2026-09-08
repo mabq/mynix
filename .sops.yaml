@@ -7,7 +7,7 @@ keys:
 
 creation_rules:
     # The first matched rule will apply.
-  - path_regex: ^sops/mabq-.*
+  - path_regex: ^secrets/mabq-.*
     key_groups:
       - age:
           - *mabq
