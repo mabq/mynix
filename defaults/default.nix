@@ -14,7 +14,6 @@
   repoThemeDirAbs,
   localThemeDir,
   localThemeDirAbs,
-  ageKeyFile,
   ...
 }:
 with lib;
@@ -123,11 +122,6 @@ with lib;
       MYNIX_REPO = "${repoDir}";
       MYNIX_THEME = "${localThemeDirAbs}";
 
-      # Instruct sops to look for the private age key in a different directory
-      # than the default one. We use a system-level directory because the key
-      # is set by `disko-install` or `nixos-anywhere` at installation time.
-      SOPS_AGE_KEY_FILE = "${ageKeyFile}";
-
       # Include binaries of this repo in PATH
       # PATH = "${repoDir}/bin"; # don't use `<path>:$PATH` syntax here
 
@@ -140,14 +134,25 @@ with lib;
 
   # -- Secrets -----------------------------------------------------------------
 
-  sops = {
-    age.keyFile = "${ageKeyFile}";
-    defaultSopsFile = self + "/secrets/${user}-${profile}.yaml";
-    secrets = {
-      # "tailscaleAuthKey" = lib.mkIf (config.services.tailscale.enable) { };
-      tailscaleAuthKey = { };
+  sops =
+    let
+      # TODO: Add explaination about this later
+      sopsFile = self + "/sops/${user}-${profile}.json";
+      # Sops files only encrypt values, not keys. We can read the file to get a
+      # list of all the secret names (remove the `sops` key added by sops).
+      sopsData = builtins.fromJSON (builtins.readFile sopsFile);
+      secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
+      perSecretSettings = {
+        tailscaleAuthKey = { };
+      };
+    in
+    {
+      age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
+      defaultSopsFile = sopsFile;
+      # This creates an attribute set where keys are the secret names and their
+      # values are attribute sets matching the perSecretsSettings above.
+      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
     };
-  };
 
   # -- Services ----------------------------------------------------------------
 
