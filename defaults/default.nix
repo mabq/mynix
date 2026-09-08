@@ -12,7 +12,6 @@
   repoThemeDirAbs,
   localThemeDir,
   localThemeDirAbs,
-  secretsFile,
   ...
 }:
 with lib;
@@ -136,13 +135,14 @@ with lib;
 
   sops =
     let
+      secretsFile = ../secrets/${user}-${profile}.json;
       fileExist = builtins.pathExists secretsFile;
       # Sops only encrypts values (not keys), this allows us to read the
       # encrypted file to get a list of the secret names defines inside it.
       sopsData = if fileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
-      # Remove the `sops` attribute from the list because it contains metadata
-      # added by sops.
+      # The `sops` attribute contains metadata that we don't need.
       secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
+      hasSecrets = fileExist && secretNames != [ ];
       # See the README in the secrets directory.
       perSecretSettings = {
         "tailscaleAuthKey" = {
@@ -160,7 +160,7 @@ with lib;
         };
       };
     in
-    lib.mkIf fileExist {
+    lib.mkIf hasSecrets {
       # The file containing the key to decrypt secrets (must be in place before
       # executing the flake).
       age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
@@ -170,6 +170,17 @@ with lib;
       # matching the perSecretsSettings above.
       secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
     };
+
+  # Remove secrets from old generations
+  #  sops-nix's own activation script (and its generation cleanup) is gated on
+  #  `sops.secrets != {}`, so it never runs — and never prunes the previous
+  #  generation — once a profile has zero secrets. Do the cleanup ourselves in
+  #  that case.
+  system.activationScripts.clear-stale-secrets = lib.mkIf (!hasSecrets) (
+    lib.stringAfter [ "users" "groups" ] ''
+      rm -rf /run/secrets.d /run/secrets /run/secrets-for-users.d /run/secrets-for-users
+    ''
+  );
 
   # -- Services ----------------------------------------------------------------
 
