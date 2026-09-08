@@ -88,6 +88,7 @@ with lib;
 
   time.timeZone = mkDefault "America/Guayaquil";
   i18n.defaultLocale = mkDefault "en_US.UTF-8";
+  services.tzupdate.enable = mkDefault true; # update timezone automatically
 
   # -- User accounts -----------------------------------------------------------
 
@@ -132,18 +133,30 @@ with lib;
     };
   };
 
-  # -- Secrets -----------------------------------------------------------------
+  # -- Sops --------------------------------------------------------------------
 
   sops =
     let
-      # TODO: Add explaination about this later
       sopsFile = self + "/sops/${user}-${profile}.json";
       # Sops files only encrypt values, not keys. We can read the file to get a
       # list of all the secret names (remove the `sops` key added by sops).
       sopsData = builtins.fromJSON (builtins.readFile sopsFile);
       secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
       perSecretSettings = {
-        tailscaleAuthKey = { };
+        "tailscaleAuthKey" = {
+        };
+        "sshKey" = {
+          path = "/home/${user}/.ssh/id_ed25519";
+          mode = "0400"; # must be readable only by the user
+          owner = "${user}";
+          # group = "users";
+        };
+        "atuinKey" = {
+          path = "/home/${user}/.local/share/atuin/key";
+          mode = "0600";
+          owner = "${user}";
+          # group = "users";
+        };
       };
     in
     {
@@ -156,34 +169,32 @@ with lib;
 
   # -- Services ----------------------------------------------------------------
 
-  services = {
-    openssh = {
-      enable = mkDefault true;
-      settings = {
-        # Never allow root access!
-        # Password authentication is disabled for improved security. Use ssh
-        # keys or Tailscale SSH.
-        PermitRootLogin = mkDefault "no";
-        PasswordAuthentication = mkDefault false;
-      };
+  services.openssh = {
+    enable = mkDefault true;
+    settings = {
+      # Never allow root access!
+      # Password authentication is disabled for improved security. Use ssh
+      # keys or Tailscale SSH.
+      PermitRootLogin = mkDefault "no";
+      PasswordAuthentication = mkDefault false;
     };
-
-    tailscale =
-      let
-        hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
-      in
-      {
-        enable = mkDefault true; # use `sudo tailscale up` to authenticate
-        authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
-        extraUpFlags = [
-          # Flags like `--ssh` should be set on per-host basis
-          # https://tailscale.com/docs/reference/tailscale-cli#set
-          "--hostname=${config.networking.hostName}" # host module
-        ];
-      };
-
-    tzupdate.enable = mkDefault true; # update timezone automatically
   };
+
+  services.tailscale =
+    let
+      hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
+    in
+    {
+      enable = mkDefault true;
+      # If the sops file provides a `tailscaleAuthKey`, then login happens
+      # automatically. Otherwise, login manually with `sudo tailscale login`.
+      authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
+      extraUpFlags = [
+        # See possible flags in https://tailscale.com/docs/reference/tailscale-cli#set
+        "--hostname=${config.networking.hostName}"
+        "--ssh" # make sure you have a proper access policy in place
+      ];
+    };
 
   # ----------------------------------------------------------------------------
   # Home-manager
