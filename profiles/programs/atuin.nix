@@ -43,11 +43,11 @@
 
     `atuin login`
 
-  The command will prompt you for a encryption key.
+  The command will prompt you for a encryption key. If you passed one in the
+  secrets file it will be set automatically and you can just hit enter.
 
-  If you don't want to sync history with other machine/s just press enter.
-  Atuin will use a random encryption key stored in
-  `~/.local/share/atuin/key`.
+  If you don't want to sync history with other machine/s just press enter to
+  use the random key created by atuin during installation.
 
   Otherwise, enter the same encryption key used in the other machine/s. You can
   obtain the key from the password manager or by executing the following
