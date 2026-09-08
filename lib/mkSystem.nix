@@ -24,6 +24,7 @@ let
   repoThemeDirAbs = repoDir + repoThemeDir;
   localThemeDir = "/.config/${repoName}/theme";
   localThemeDirAbs = "/home/${user}" + localThemeDir;
+  secretsFile = self + "/secrets/${user}-${profile}.json";
 
   # `specialArgs` (unlike `_module.args`) does not cause infinite recursion
   # when using one of these in the `imports` section of another module.
@@ -46,6 +47,7 @@ let
       repoThemeDirAbs
       localThemeDir
       localThemeDirAbs
+      secretsFile
       ;
   };
 in

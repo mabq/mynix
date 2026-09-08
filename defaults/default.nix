@@ -1,12 +1,10 @@
 # Use `mkDefault`, these should be overidable.
 {
-  self,
   config,
   lib,
   pkgs,
   host,
   user,
-  profile,
   repoBranch,
   repoName,
   repoUrl,
@@ -14,6 +12,7 @@
   repoThemeDirAbs,
   localThemeDir,
   localThemeDirAbs,
+  secretsFile,
   ...
 }:
 with lib;
@@ -133,68 +132,77 @@ with lib;
     };
   };
 
-  # -- Sops --------------------------------------------------------------------
+  # -- Unlock secrets ----------------------------------------------------------
 
   sops =
-    let
-      sopsFile = self + "/sops/${user}-${profile}.json";
-      # Sops files only encrypt values, not keys. We can read the file to get a
-      # list of all the secret names (remove the `sops` key added by sops).
-      sopsData = builtins.fromJSON (builtins.readFile sopsFile);
-      secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
-      perSecretSettings = {
-        "tailscaleAuthKey" = {
+    if (builtins.pathExists secretsFile) then
+      let
+        # Sops only encrypts values (not keys), this allows us to read the
+        # encrypted file to get a list of the secret names defines inside it.
+        sopsData = builtins.fromJSON (builtins.readFile secretsFile);
+        # Remove the `sops` attribute from the list because it contains metadata
+        # added by sops.
+        secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
+        # See the README in the secrets directory.
+        perSecretSettings = {
+          "tailscaleAuthKey" = {
+            # Owned by root, passed to a tailscale config via `.path` (see below).
+          };
+          "sshKey" = {
+            path = "/home/${user}/.ssh/id_ed25519";
+            mode = "0400";
+            owner = "${user}";
+          };
+          "atuinKey" = {
+            path = "/home/${user}/.local/share/atuin/key";
+            mode = "0600";
+            owner = "${user}";
+          };
         };
-        "sshKey" = {
-          path = "/home/${user}/.ssh/id_ed25519";
-          mode = "0400"; # must be readable only by the user
-          owner = "${user}";
-          # group = "users";
-        };
-        "atuinKey" = {
-          path = "/home/${user}/.local/share/atuin/key";
-          mode = "0600";
-          owner = "${user}";
-          # group = "users";
-        };
-      };
-    in
-    {
-      age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
-      defaultSopsFile = sopsFile;
-      # This creates an attribute set where keys are the secret names and their
-      # values are attribute sets matching the perSecretsSettings above.
-      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-    };
+      in
+      {
+        # The file containing the key to decrypt secrets (must be in place before
+        # executing the flake).
+        age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
+        defaultSopsFile = secretsFile;
+        # Only define the secrets you need. This creates an attribute set where
+        # the keys are the secret names and their values are the attribute sets
+        # matching the perSecretsSettings above.
+        secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+      }
+    else
+      { };
 
   # -- Services ----------------------------------------------------------------
 
-  services.openssh = {
-    enable = mkDefault true;
-    settings = {
-      # Never allow root access!
-      # Password authentication is disabled for improved security. Use ssh
-      # keys or Tailscale SSH.
-      PermitRootLogin = mkDefault "no";
-      PasswordAuthentication = mkDefault false;
-    };
-  };
+  services = {
 
-  services.tailscale =
-    let
-      hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
-    in
-    {
+    openssh = {
       enable = mkDefault true;
-      # If the sops file provides a `tailscaleAuthKey`, then login happens
-      # automatically. Otherwise, login manually with `sudo tailscale login`.
-      authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
-      extraUpFlags = [
-        # See possible flags in https://tailscale.com/docs/reference/tailscale-cli#set
-        "--hostname=${config.networking.hostName}"
-        "--ssh" # make sure you have a proper access policy in place
-      ];
+      settings = {
+        PermitRootLogin = mkDefault "no"; # Never!
+        PasswordAuthentication = mkDefault false; # No! Use tailscale or ssh keys.
+        # The private ssh key is automatically set if included in the secrets file.
+      };
     };
+
+    tailscale =
+      let
+        hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
+      in
+      {
+        enable = mkDefault true;
+        # Login happens automatically if you provide an auth key. Otherwise,
+        # login manually with `sudo tailscale login`.
+        authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
+        extraUpFlags = [
+          # See possible flags in https://tailscale.com/docs/reference/tailscale-cli#set
+          "--hostname=${config.networking.hostName}"
+          "--ssh" # Make sure you have a proper access policy in place.
+        ];
+      };
+
+  };
 
   # ----------------------------------------------------------------------------
   # Home-manager
