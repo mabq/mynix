@@ -135,15 +135,11 @@ with lib;
   # -- Unlock secrets ----------------------------------------------------------
 
   sops =
-    # if (builtins.pathExists secretsFile) then
     let
+      fileExist = builtins.pathExists secretsFile;
       # Sops only encrypts values (not keys), this allows us to read the
       # encrypted file to get a list of the secret names defines inside it.
-      sopsData =
-        if (builtins.pathExists secretsFile) then
-          builtins.fromJSON (builtins.readFile secretsFile)
-        else
-          { };
+      sopsData = if fileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
       # Remove the `sops` attribute from the list because it contains metadata
       # added by sops.
       secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
@@ -164,7 +160,7 @@ with lib;
         };
       };
     in
-    {
+    lib.mkIf fileExist {
       # The file containing the key to decrypt secrets (must be in place before
       # executing the flake).
       age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
