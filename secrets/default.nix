@@ -79,13 +79,18 @@ in
   };
 
   # Important! Remove secrets from old generations.
-  #  sops-nix's own activation script (and its generation cleanup) is gated on
-  #  `sops.secrets != {}`, so it never runs — and never prunes the previous
-  #  generation — once a secret has been deleted from a file. We do the cleanup
-  #  ourselves in that case.
-  system.activationScripts.sops-clear-old-secrets = lib.mkIf (!hasSecrets) (
+  #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never
+  #  prunes a previous generation once a profile has zero secrets. Clear the
+  #  *contents* of the ramfs mount ourselves instead of removing the mount
+  #  point (which the kernel won't allow while it's mounted).
+  system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
     lib.stringAfter [ "users" "groups" ] ''
-      rm -rf /run/secrets.d /run/secrets /run/secrets-for-users.d /run/secrets-for-users
+      for d in /run/secrets.d /run/secrets-for-users.d; do
+        if [ -d "$d" ]; then
+          find "$d" -mindepth 1 -delete 2>/dev/null || true
+        fi
+      done
+      rm -f /run/secrets /run/secrets-for-users
     ''
   );
 }
