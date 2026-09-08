@@ -135,43 +135,45 @@ with lib;
   # -- Unlock secrets ----------------------------------------------------------
 
   sops =
-    if (builtins.pathExists secretsFile) then
-      let
-        # Sops only encrypts values (not keys), this allows us to read the
-        # encrypted file to get a list of the secret names defines inside it.
-        sopsData = builtins.fromJSON (builtins.readFile secretsFile);
-        # Remove the `sops` attribute from the list because it contains metadata
-        # added by sops.
-        secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
-        # See the README in the secrets directory.
-        perSecretSettings = {
-          "tailscaleAuthKey" = {
-            # Owned by root, passed to a tailscale config via `.path` (see below).
-          };
-          "sshKey" = {
-            path = "/home/${user}/.ssh/id_ed25519";
-            mode = "0400";
-            owner = "${user}";
-          };
-          "atuinKey" = {
-            path = "/home/${user}/.local/share/atuin/key";
-            mode = "0600";
-            owner = "${user}";
-          };
+    # if (builtins.pathExists secretsFile) then
+    let
+      # Sops only encrypts values (not keys), this allows us to read the
+      # encrypted file to get a list of the secret names defines inside it.
+      sopsData =
+        if (builtins.pathExists secretsFile) then
+          builtins.fromJSON (builtins.readFile secretsFile)
+        else
+          { };
+      # Remove the `sops` attribute from the list because it contains metadata
+      # added by sops.
+      secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
+      # See the README in the secrets directory.
+      perSecretSettings = {
+        "tailscaleAuthKey" = {
+          # Owned by root, passed to a tailscale config via `.path` (see below).
         };
-      in
-      {
-        # The file containing the key to decrypt secrets (must be in place before
-        # executing the flake).
-        age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
-        defaultSopsFile = secretsFile;
-        # Only define the secrets you need. This creates an attribute set where
-        # the keys are the secret names and their values are the attribute sets
-        # matching the perSecretsSettings above.
-        secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-      }
-    else
-      { };
+        "sshKey" = {
+          path = "/home/${user}/.ssh/id_ed25519";
+          mode = "0400";
+          owner = "${user}";
+        };
+        "atuinKey" = {
+          path = "/home/${user}/.local/share/atuin/key";
+          mode = "0600";
+          owner = "${user}";
+        };
+      };
+    in
+    {
+      # The file containing the key to decrypt secrets (must be in place before
+      # executing the flake).
+      age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
+      defaultSopsFile = secretsFile;
+      # Only define the secrets you need. This creates an attribute set where
+      # the keys are the secret names and their values are the attribute sets
+      # matching the perSecretsSettings above.
+      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+    };
 
   # -- Services ----------------------------------------------------------------
 
