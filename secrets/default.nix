@@ -5,6 +5,7 @@
   lib,
   user,
   profile,
+  ...
 }:
 let
   # If no secrets file is found, no secrets are configured.
@@ -82,9 +83,9 @@ in
   #  `sops.secrets != {}`, so it never runs — and never prunes the previous
   #  generation — once a secret has been deleted from a file. We do the cleanup
   #  ourselves in that case.
-  # system.activationScripts.sops-clear-old-secrets = lib.mkIf (!hasSecrets) (
-  #   lib.stringAfter [ "users" "groups" ] ''
-  #     rm -rf /run/secrets.d /run/secrets /run/secrets-for-users.d /run/secrets-for-users
-  #   ''
-  # );
+  system.activationScripts.sops-clear-old-secrets = lib.mkIf (!hasSecrets) (
+    lib.stringAfter [ "users" "groups" ] ''
+      rm -rf /run/secrets.d /run/secrets /run/secrets-for-users.d /run/secrets-for-users
+    ''
+  );
 }
