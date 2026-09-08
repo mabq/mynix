@@ -46,7 +46,6 @@ let
       repoThemeDirAbs
       localThemeDir
       localThemeDirAbs
-      ageKeyFile
       ;
   };
 in
