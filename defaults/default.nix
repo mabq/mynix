@@ -5,6 +5,7 @@
   pkgs,
   host,
   user,
+  profile,
   repoBranch,
   repoName,
   repoUrl,
