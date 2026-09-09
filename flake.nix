@@ -28,9 +28,8 @@
       mkSystem = import ./lib/mkSystem.nix { inherit self inputs; };
     in
     {
-      # This flake produces NixOS configurations
+      # [4]
       nixosConfigurations = {
-        # [4]
         "xps" = mkSystem {
           host = "xps";
           user = "mabq";

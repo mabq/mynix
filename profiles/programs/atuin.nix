@@ -30,10 +30,12 @@
 }
 
 /*
-  Important!
-   Atuin must be initialized by a shell config file:
-   https://docs.atuin.sh/latest/guide/shell-integration/
-   https://docs.atuin.sh/latest/configuration/key-binding/
+  Related configs
+  ---------------
+
+  Atuin must be initialized by a shell config file:
+    https://docs.atuin.sh/latest/guide/shell-integration/
+    https://docs.atuin.sh/latest/configuration/key-binding/
 
   Sync history
   ------------
@@ -43,8 +45,8 @@
 
     `atuin login`
 
-  The command will prompt you for a encryption key. If you passed one in the
-  secrets file it will be set automatically and you can just hit enter.
+  The command will prompt you for a encryption key. If you include it as a
+  secret it will be set automatically and you can just hit enter.
 
   If you don't want to sync history with other machine/s just press enter to
   use the random key created by atuin during installation.

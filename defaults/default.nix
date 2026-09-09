@@ -136,22 +136,23 @@ with lib;
 
   services = {
     openssh = {
+      # You can provide the private ssh key as a secret. The secrets module
+      # automatically creates the symlink to the decrypted secret file.
       enable = mkDefault true;
       settings = {
         PermitRootLogin = mkDefault "no"; # Never!
         PasswordAuthentication = mkDefault false; # No! Use tailscale or ssh keys.
-        # The private ssh key is automatically set if included in the secrets file.
       };
     };
 
     tailscale =
       let
+        # You can provide the tailscale auth key as a secret to login
+        # automatically. Otherwise, login manually with `sudo tailscale login`.
         hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
       in
       {
         enable = mkDefault true;
-        # Login happens automatically if you provide an auth key. Otherwise,
-        # login manually with `sudo tailscale login`.
         authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
         extraUpFlags = [
           # See possible flags in https://tailscale.com/docs/reference/tailscale-cli#set
