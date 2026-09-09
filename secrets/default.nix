@@ -8,7 +8,7 @@
 }:
 let
   # If no secrets file is found, no secrets are configured.
-  secretsFile = ./${user}/${profile}-hello.json;
+  secretsFile = ./${user}/${profile}.json;
   fileExist = builtins.pathExists secretsFile;
 
   # Sops only encrypts the value, not its attribute name. This is what makes it
