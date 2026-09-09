@@ -1,7 +1,6 @@
 # Secrets depend on the combination of the user and profile. See notes on each
 # secret below.
 {
-  self,
   lib,
   user,
   profile,
@@ -9,9 +8,7 @@
 }:
 let
   # If no secrets file is found, no secrets are configured.
-  # Must use `self + path` instead of `../secrets/xyz` because the file might
-  # not exist.
-  secretsFile = ./${user}/${profile}.json;
+  secretsFile = ./${user}/${profile}-hello.json;
   fileExist = builtins.pathExists secretsFile;
 
   # Sops only encrypts the value, not its attribute name. This is what makes it
