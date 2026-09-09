@@ -1,5 +1,8 @@
 # Options inherent to this machine only!
 { host, ... }:
+let
+  disk = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
+in
 {
   imports = [
     ./disko/ext4-encrypted.nix
@@ -11,7 +14,7 @@
   #  "wwn" stands for World Wide Name, even if you buy two machines of the
   #  exact same model and specs, the hard drives or SSDs inside them will have
   #  different, unique WWNs.
-  disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
+  disko.devices.disk.main.device = disk;
 
   # -- Host specific options ---------------------------------------------------
 
@@ -21,7 +24,7 @@
   system.stateVersion = "26.05";
 
   boot.loader.grub.enable = true;
-  # boot.loader.grub.device = (set by disko)
+  boot.loader.grub.devices = disk; # (required by disko during installation)
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
