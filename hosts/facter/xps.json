@@ -994,7 +994,7 @@
         "power_management": [
           ""
         ],
-        "bogo": 4800,
+        "bogo": 4799,
         "cache": 3072,
         "units": 2,
         "page_size": 4096,
@@ -1005,7 +1005,7 @@
         "fpu_exception": false,
         "cpuid_level": 10,
         "write_protect": false,
-        "tlb_size": 32173,
+        "tlb_size": 28766,
         "clflush_size": 64,
         "cache_alignment": 64,
         "address_sizes": {
@@ -2336,7 +2336,7 @@
         },
         "sysfs_id": "/devices/platform/i8042/serio1/input/input28",
         "unix_device_names": [
-          "/dev/input/event12",
+          "/dev/input/event11",
           "/dev/input/ + handler"
         ]
       }
@@ -2398,7 +2398,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 48
+            "address": 102
           },
           {
             "type": "phwaddr",
@@ -2420,6 +2420,7 @@
               "11",
               "12",
               "13",
+              "14",
               "36",
               "40",
               "44",
@@ -2437,8 +2438,7 @@
               "124",
               "128",
               "132",
-              "136",
-              "140"
+              "136"
             ],
             "frequencies": [
               "2.412",
@@ -2454,6 +2454,7 @@
               "2.462",
               "2.467",
               "2.472",
+              "2.484",
               "5.18",
               "5.2",
               "5.22",
@@ -2471,8 +2472,7 @@
               "5.62",
               "5.64",
               "5.66",
-              "5.68",
-              "5.7"
+              "5.68"
             ],
             "auth_modes": [
               "open",
@@ -2620,7 +2620,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 48
+            "address": 102
           },
           {
             "type": "phwaddr",
@@ -2639,28 +2639,6 @@
       },
       {
         "index": 51,
-        "attached_to": 0,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0000",
-          "name": "Loopback",
-          "value": 0
-        },
-        "model": "Loopback network interface",
-        "sysfs_id": "/class/net/lo",
-        "unix_device_names": [
-          "lo"
-        ]
-      },
-      {
-        "index": 52,
         "attached_to": 32,
         "class_list": [
           "network_interface"
@@ -2698,6 +2676,28 @@
         ],
         "driver_modules": [
           "forcedeth"
+        ]
+      },
+      {
+        "index": 52,
+        "attached_to": 0,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Loopback",
+          "value": 0
+        },
+        "model": "Loopback network interface",
+        "sysfs_id": "/class/net/lo",
+        "unix_device_names": [
+          "lo"
         ]
       }
     ],
