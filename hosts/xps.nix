@@ -24,7 +24,7 @@ in
   system.stateVersion = "26.05";
 
   boot.loader.grub.enable = true;
-  boot.loader.grub.devices = disk; # (required by disko during installation)
+  boot.loader.grub.device = disk; # (required by disko during installation)
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
