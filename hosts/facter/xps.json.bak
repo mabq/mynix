@@ -994,7 +994,7 @@
         "power_management": [
           ""
         ],
-        "bogo": 4800,
+        "bogo": 4799,
         "cache": 3072,
         "units": 2,
         "page_size": 4096,
@@ -1005,7 +1005,6 @@
         "fpu_exception": false,
         "cpuid_level": 10,
         "write_protect": false,
-        "tlb_size": 32173,
         "clflush_size": 64,
         "cache_alignment": 64,
         "address_sizes": {
@@ -2398,7 +2397,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 48
+            "address": 97
           },
           {
             "type": "phwaddr",
@@ -2420,6 +2419,7 @@
               "11",
               "12",
               "13",
+              "14",
               "36",
               "40",
               "44",
@@ -2437,8 +2437,7 @@
               "124",
               "128",
               "132",
-              "136",
-              "140"
+              "136"
             ],
             "frequencies": [
               "2.412",
@@ -2454,6 +2453,7 @@
               "2.462",
               "2.467",
               "2.472",
+              "2.484",
               "5.18",
               "5.2",
               "5.22",
@@ -2471,8 +2471,7 @@
               "5.62",
               "5.64",
               "5.66",
-              "5.68",
-              "5.7"
+              "5.68"
             ],
             "auth_modes": [
               "open",
@@ -2597,70 +2596,6 @@
     "network_interface": [
       {
         "index": 50,
-        "attached_to": 19,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0001",
-          "name": "Ethernet",
-          "value": 1
-        },
-        "model": "Ethernet network interface",
-        "sysfs_id": "/class/net/wlp6s0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:16.0/0000:06:00.0",
-        "unix_device_names": [
-          "wlp6s0"
-        ],
-        "resources": [
-          {
-            "type": "hwaddr",
-            "address": 48
-          },
-          {
-            "type": "phwaddr",
-            "address": 48
-          }
-        ],
-        "driver": "ath9k",
-        "driver_module": "ath9k",
-        "drivers": [
-          "ath9k"
-        ],
-        "driver_modules": [
-          "ath9k",
-          "ath9k"
-        ]
-      },
-      {
-        "index": 51,
-        "attached_to": 0,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0000",
-          "name": "Loopback",
-          "value": 0
-        },
-        "model": "Loopback network interface",
-        "sysfs_id": "/class/net/lo",
-        "unix_device_names": [
-          "lo"
-        ]
-      },
-      {
-        "index": 52,
         "attached_to": 32,
         "class_list": [
           "network_interface"
@@ -2698,6 +2633,70 @@
         ],
         "driver_modules": [
           "forcedeth"
+        ]
+      },
+      {
+        "index": 51,
+        "attached_to": 19,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0001",
+          "name": "Ethernet",
+          "value": 1
+        },
+        "model": "Ethernet network interface",
+        "sysfs_id": "/class/net/wlp6s0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:16.0/0000:06:00.0",
+        "unix_device_names": [
+          "wlp6s0"
+        ],
+        "resources": [
+          {
+            "type": "hwaddr",
+            "address": 97
+          },
+          {
+            "type": "phwaddr",
+            "address": 48
+          }
+        ],
+        "driver": "ath9k",
+        "driver_module": "ath9k",
+        "drivers": [
+          "ath9k"
+        ],
+        "driver_modules": [
+          "ath9k",
+          "ath9k"
+        ]
+      },
+      {
+        "index": 52,
+        "attached_to": 0,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Loopback",
+          "value": 0
+        },
+        "model": "Loopback network interface",
+        "sysfs_id": "/class/net/lo",
+        "unix_device_names": [
+          "lo"
         ]
       }
     ],
