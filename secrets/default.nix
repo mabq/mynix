@@ -7,18 +7,23 @@
   ...
 }:
 let
+  # The file containing the key to decrypt secrets (must be in place before
+  # executing the flake).
+  ageKeyFile = "/home/${user}/.config/sops/age/keys.txt";
+  ageKeyFileExist = builtins.pathExists ageKeyFile;
+
   # If no secrets file is found, no secrets are configured.
   secretsFile = ./${user}/${profile}.json;
-  fileExist = builtins.pathExists secretsFile;
+  secretsFileExist = builtins.pathExists secretsFile;
 
   # Sops only encrypts the value, not its attribute name. This is what makes it
   # possible for a secrets file to only define the secrets that it actually
   # needs, not all of them.
-  sopsData = if fileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
+  sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
   # Remove the "sops" metadata attribute from the list.
   secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
 
-  hasSecrets = fileExist && secretNames != [ ];
+  hasSecrets = secretsFileExist && secretNames != [ ];
 
   # Sops stores all secrets in memory only. No secrets are leaked to the nix
   # store (which is public).
@@ -62,18 +67,23 @@ let
   };
 in
 {
-  sops = lib.mkIf hasSecrets {
-    # The file containing the key to decrypt secrets (must be in place before
-    # executing the flake).
-    age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
-
+  sops = lib.mkIf (ageKeyFileExist && hasSecrets) {
+    age.keyFile = ageKeyFile;
     defaultSopsFile = secretsFile;
-
     # This creates an attribute set where the keys are the secret's names and
     # their values are the attribute sets matching the perSecretsSettings
     # above.
     secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
+
+  # Fix ownership of the age directory and key on every boot.
+  #  Because you we copied `keys.txt` directly into the user's directory via
+  #  `nixos-anywhere --extra-files` the file is owned by `root:root` on initial
+  #  deployment. To ensure the user can read its own key when using `sops`, add
+  #  a single tmpfiles rule to fix ownership automatically on boot.
+  systemd.tmpfiles.rules = lib.mkIf ageKeyFileExist [
+    "z /home/${user}/.config/sops/age/keys.txt 0600 ${user} users - -"
+  ];
 
   # Important! Remove secrets from old generations.
   #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never
