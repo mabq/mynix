@@ -2,6 +2,7 @@
 # secret below.
 {
   lib,
+  host,
   user,
   profile,
   ...
