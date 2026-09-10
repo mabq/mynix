@@ -1,5 +1,5 @@
-# Secrets depend on the combination of the user and profile. See notes on each
-# secret below.
+# Secrets are encrypted with the user's age key and are specific to each
+# nixos-configuration (user + host + profile).
 {
   lib,
   host,
@@ -8,13 +8,19 @@
   ...
 }:
 let
-  # The file containing the key to decrypt secrets.
-  # TODO: Add notes here...
-  #  Must be in place before executing the flake).
-  ageKeyFile = "/var/lib/sops-nix/keys.txt";
-  # ageKeyFileExist = builtins.pathExists ageKeyFile;
+  # The file containing age's private key (used to decrypt sops secrets).
+  #  The default location is `~/.config/sops/age/keys.txt`, but we need this
+  #  file to be present before attempting installation. Files and directories
+  #  passed via `nixos-anywhere --extra-files` are owned by root. If we copy
+  #  the file to its default location `~/.config` would be owned by root,
+  #  making it impossible for home-manager to write files inside it.
+  # Do not check for this file's existence, when installing via
+  # `nixos-anywhere` that evaluation happens on the source machine, not on the
+  # target machine. Since this file is create manually before installation it
+  # is assumed to exist on every installation.
+  ageKeyFile = /var/lib/sops-nix/keys.txt;
 
-  # If no secrets file is found, no secrets are configured.
+  # If no secrets' file is found, no secrets are configured.
   secretsFile = ./${user}/${host}-${profile}.json;
   secretsFileExist = builtins.pathExists secretsFile;
 
@@ -27,13 +33,12 @@ let
 
   hasSecrets = secretsFileExist && secretNames != [ ];
 
-  # Sops stores all secrets in memory only. No secrets are leaked to the nix
-  # store (which is public).
+  # Sops stores all secrets in memory (`/run/secrets/`). No secrets are leaked
+  # to the nix store (which is public).
   #
-  # All secrets exist in `/run/secrets/` (symlink to
-  # `/run/secrets.d/<generation>/`) and are owned by root by default. Here you
-  # can change the owner/group/mode of the secret file and also specify the
-  # path where you would like a symlink to be created.
+  # All secrets are owned by root by default. Here you can change the
+  # owner/group/mode of each secret and also specify a path if you would like
+  # to create a symlink pointing to the secret.
   #
   # For programs that you configure via nixos/home-manager options, use
   # `config.sops.secrets.<secret-name>.path` to reference the secret file.
@@ -69,8 +74,8 @@ let
   };
 in
 {
-  # Show the sops client where to look for the private age key (required for
-  # editing encrypted files).
+  # Since we don't put the private age file in its default location we need to
+  # instruct the sops client where to find it.
   environment.sessionVariables = {
     SOPS_AGE_KEY_FILE = ageKeyFile;
   };
@@ -84,17 +89,7 @@ in
     secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
 
-  # Fix ownership of the age directory and key on every boot.
-  #  Because you we copied `keys.txt` directly into the user's directory via
-  #  `nixos-anywhere --extra-files` the file is owned by `root:root` on initial
-  #  deployment. To ensure the user can read its own key when using `sops`, add
-  #  a single tmpfiles rule to fix ownership automatically on boot.
-  # NOTE: This should not be needed anymore, check after build
-  # systemd.tmpfiles.rules = lib.mkIf ageKeyFileExist [
-  #   "z /home/${user}/.config/sops/age/keys.txt 0600 ${user} users - -"
-  # ];
-
-  # Important! Remove secrets from old generations.
+  # Remove stale secrets.
   #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never
   #  prunes a previous generation once a profile has zero secrets. Clear the
   #  *contents* of the ramfs mount ourselves instead of removing the mount
