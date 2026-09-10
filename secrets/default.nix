@@ -18,7 +18,7 @@ let
   # `nixos-anywhere` that evaluation happens on the source machine, not on the
   # target machine. Since this file is create manually before installation it
   # is assumed to exist on every installation.
-  ageKeyFile = /var/lib/sops-nix/keys.txt;
+  ageKeyFile = "/var/lib/sops-nix/keys.txt";
 
   # If no secrets' file is found, no secrets are configured.
   secretsFile = ./${user}/${host}-${profile}.json;
