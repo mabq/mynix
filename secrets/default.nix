@@ -14,10 +14,14 @@ let
   #  passed via `nixos-anywhere --extra-files` are owned by root. If we copy
   #  the file to its default location `~/.config` would be owned by root,
   #  making it impossible for home-manager to write files inside it.
+  #
   # Do not check for this file's existence, when installing via
   # `nixos-anywhere` that evaluation happens on the source machine, not on the
   # target machine. Since this file is create manually before installation it
   # is assumed to exist on every installation.
+  #
+  # Must be quoted, otherwise nix throws an error for trying to access files
+  # outside of the flake.
   ageKeyFile = "/var/lib/sops-nix/keys.txt";
 
   # If no secrets' file is found, no secrets are configured.
