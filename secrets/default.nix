@@ -8,11 +8,11 @@
   ...
 }:
 let
-  # The file containing the key to decrypt secrets (must be in place before
-  # executing the flake).
-  # ageKeyFile = "/home/${user}/.config/sops/age/keys.txt";
+  # The file containing the key to decrypt secrets.
+  # TODO: Add notes here...
+  #  Must be in place before executing the flake).
   ageKeyFile = "/var/lib/sops-nix/keys.txt";
-  ageKeyFileExist = builtins.pathExists ageKeyFile;
+  # ageKeyFileExist = builtins.pathExists ageKeyFile;
 
   # If no secrets file is found, no secrets are configured.
   secretsFile = ./${user}/${host}-${profile}.json;
@@ -75,7 +75,7 @@ in
     SOPS_AGE_KEY_FILE = ageKeyFile;
   };
 
-  sops = lib.mkIf (ageKeyFileExist && hasSecrets) {
+  sops = lib.mkIf hasSecrets {
     age.keyFile = ageKeyFile;
     defaultSopsFile = secretsFile;
     # This creates an attribute set where the keys are the secret's names and
