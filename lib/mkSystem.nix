@@ -58,7 +58,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.sops-nix.nixosModules.sops
 
     # -- Configs --
-    ../secrets
+    # ../secrets # (setting up secrets is harder than manual logins)
     ../defaults
     ../hosts/${host}.nix
     ../users/${user}.nix
