@@ -5,7 +5,6 @@
   pkgs,
   host,
   user,
-  profile,
   repoBranch,
   repoName,
   repoUrl,
@@ -34,7 +33,7 @@ with lib;
       User = "${user}";
       ExecStart = [
         # systemd requires absolute paths to executables
-        "${pkgs.git}/bin/git clone ${repoUrl}.git ${repoDir}"
+        "${pkgs.git}/bin/git clone ${repoUrl} ${repoDir}"
         "${pkgs.git}/bin/git -C ${repoDir} checkout ${repoBranch}"
       ];
     };
