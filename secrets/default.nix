@@ -9,7 +9,8 @@
 let
   # The file containing the key to decrypt secrets (must be in place before
   # executing the flake).
-  ageKeyFile = "/home/${user}/.config/sops/age/keys.txt";
+  # ageKeyFile = "/home/${user}/.config/sops/age/keys.txt";
+  ageKeyFile = "/var/lib/sops-nix/keys.txt";
   ageKeyFileExist = builtins.pathExists ageKeyFile;
 
   # If no secrets file is found, no secrets are configured.
@@ -67,6 +68,12 @@ let
   };
 in
 {
+  # Show the sops client where to look for the private age key (required for
+  # editing encrypted files).
+  environment.sessionVariables = {
+    SOPS_AGE_KEY_FILE = ageKeyFile;
+  };
+
   sops = lib.mkIf (ageKeyFileExist && hasSecrets) {
     age.keyFile = ageKeyFile;
     defaultSopsFile = secretsFile;
@@ -81,9 +88,10 @@ in
   #  `nixos-anywhere --extra-files` the file is owned by `root:root` on initial
   #  deployment. To ensure the user can read its own key when using `sops`, add
   #  a single tmpfiles rule to fix ownership automatically on boot.
-  systemd.tmpfiles.rules = lib.mkIf ageKeyFileExist [
-    "z /home/${user}/.config/sops/age/keys.txt 0600 ${user} users - -"
-  ];
+  # NOTE: This should not be needed anymore, check after build
+  # systemd.tmpfiles.rules = lib.mkIf ageKeyFileExist [
+  #   "z /home/${user}/.config/sops/age/keys.txt 0600 ${user} users - -"
+  # ];
 
   # Important! Remove secrets from old generations.
   #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never

@@ -52,13 +52,12 @@ in
 inputs.nixpkgs.lib.nixosSystem {
   inherit specialArgs;
   modules = [
-    # Modules provided by the flake. Nix uses lazy-loading so it only loads
-    # what is actually required.
+    # -- Flake inputs --
     inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
 
-    # Config files
+    # -- Configs --
     ../secrets
     ../defaults
     ../hosts/${host}.nix
