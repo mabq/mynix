@@ -14,7 +14,7 @@ let
   ageKeyFileExist = builtins.pathExists ageKeyFile;
 
   # If no secrets file is found, no secrets are configured.
-  secretsFile = ./${user}/${profile}.json;
+  secretsFile = ./${user}/${host}-${profile}.json;
   secretsFileExist = builtins.pathExists secretsFile;
 
   # Sops only encrypts the value, not its attribute name. This is what makes it
