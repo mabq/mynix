@@ -23,21 +23,21 @@ with lib;
   # Clone the repo automatically on first boot.
   #  Most config files are symlinks pointing to this repository, so we need the
   #  repository in place since the very first boot.
-  # systemd.services."clone-${repoName}" = {
-  #   description = "Clone ${repoName} repository if missing";
-  #   wantedBy = [ "multi-user.target" ];
-  #   before = [ "home-manager-${user}.service" ];
-  #   unitConfig.ConditionPathExists = "!${repoDir}/.git";
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     User = config.users.users.${user}.name;
-  #     ExecStart = [
-  #       # systemd requires absolute paths to executables
-  #       "${pkgs.git}/bin/git clone ${repoUrl} ${repoDir}"
-  #       "${pkgs.git}/bin/git -C ${repoDir} checkout ${repoBranch}"
-  #     ];
-  #   };
-  # };
+  systemd.services."clone-${repoName}" = {
+    description = "Clone ${repoName} repository if missing";
+    wantedBy = [ "multi-user.target" ];
+    before = [ "home-manager-${user}.service" ];
+    unitConfig.ConditionPathExists = "!${repoDir}/.git";
+    serviceConfig = {
+      Type = "oneshot";
+      User = config.users.users.${user}.name;
+      ExecStart = [
+        # systemd requires absolute paths to executables
+        "${pkgs.git}/bin/git clone ${repoUrl} ${repoDir}"
+        "${pkgs.git}/bin/git -C ${repoDir} checkout ${repoBranch}"
+      ];
+    };
+  };
 
   # -- Nix ---------------------------------------------------------------------
 
