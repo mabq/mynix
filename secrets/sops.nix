@@ -1,6 +1,7 @@
 # Secrets are encrypted with the user's age key and are specific to each
 # nixos-configuration (user + host + profile).
 {
+  config,
   lib,
   host,
   user,
@@ -9,23 +10,27 @@
 }:
 let
   # The file containing age's private key (used to decrypt sops secrets).
-  #  The default location is `~/.config/sops/age/keys.txt`, but we need this
-  #  file to be present before attempting installation. Files and directories
-  #  passed via `nixos-anywhere --extra-files` are owned by root. If we copy
-  #  the file to its default location `~/.config` would be owned by root,
-  #  making it impossible for home-manager to write files inside it.
   #
-  # Do not check for this file's existence, when installing via
-  # `nixos-anywhere` that evaluation happens on the source machine, not on the
-  # target machine. Since this file is create manually before installation it
-  # is assumed to exist on every installation.
+  #  This file must be created manually (or via `nixos-anywhere --extra-files`)
+  #  at installation time. Without it the flake will fail to build.
   #
-  # Must be quoted, otherwise nix throws an error for trying to access files
-  # outside of the flake.
-  ageKeyFile = "/var/lib/sops-nix/keys.txt";
+  #  Files passed via `nixos-anywhere --extra-files` are always owned by root.
+  #  If we copy this file to its default location
+  #  (`~/.config/sops/age/keys.txt`) then the `~/.config` directory ends up
+  #  being owned by root, causing permission issues.
+  #
+  #  Do not check for this file's existence, when installing via
+  #  `nixos-anywhere`, flake evaluation happens on the source machine, meaning
+  #  it will try to find the file in the source machine. Since this file is
+  #  create manually before installation it is assumed to exist on every
+  #  installation where secrets are required.
+  #
+  #  Must be quoted, otherwise nix throws an error for trying to access files
+  #  outside of the flake.
+  ageKeyFile = "/var/lib/sops-nix/key.txt";
 
   # If no secrets' file is found, no secrets are configured.
-  secretsFile = ./${user}/${host}-${profile}.json;
+  secretsFile = ./${user}-${host}-${profile}.json;
   secretsFileExist = builtins.pathExists secretsFile;
 
   # Sops only encrypts the value, not its attribute name. This is what makes it
@@ -37,42 +42,32 @@ let
 
   hasSecrets = secretsFileExist && secretNames != [ ];
 
-  # Sops stores all secrets in memory (`/run/secrets/`). No secrets are leaked
-  # to the nix store (which is public).
-  #
-  # All secrets are owned by root by default. Here you can change the
-  # owner/group/mode of each secret and also specify a path if you would like
-  # to create a symlink pointing to the secret.
-  #
-  # For programs that you configure via nixos/home-manager options, use
-  # `config.sops.secrets.<secret-name>.path` to reference the secret file.
+  # Set secrets owners/permissions and create symlinks
+  #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
   perSecretSettings = {
-
-    # The tailscale authkey depends on the user and profile. For example, the
-    # same user would use one key for a server and another for his workstation.
     "tailscaleAuthKey" = {
-      # Owned by root. No symlink required, passed to tailscale options.
+      # Tailscale is a system service, so this secret can be owned by root
+      # (default). We pass this secret to a tailscale option via
+      # `config.sops.secrets.<name>.path`.
+      # The same user can use different Tailscale authkeys depending on the
+      # host and profile.
     };
-
-    # The private ssh key should only be included in profiles the user use to
-    # accesses other machines, not on profiles that are normally accessed by
-    # other machines.
     "sshKey" = {
-      # SSH looks for the private key in this path. The file must be owned and
-      # only readable by its user.
+      # SSH expects to find the private key in this path (this creates a
+      # symlink). The private key must be owned (and be only readable) by the
+      # user. Only include the private key in machines that you can control!
       path = "/home/${user}/.ssh/id_ed25519";
-      mode = "0400";
-      owner = "${user}";
+      mode = "0600";
+      # Either a user id or group name representation of the secret owner.
+      owner = config.users.users.${user}.name;
     };
-
-    # Only include an atuin key in profiles where you would like to sync
-    # history.
     "atuinKey" = {
-      # This will replace the random key created at installation so that you
-      # don't have to enter it manually.
+      # This replaces the random key created by atuin at installation, see
+      # `~/.local/share/atuin/key`. Read notes about Atuin in its module.
       path = "/home/${user}/.local/share/atuin/key";
       mode = "0600";
-      owner = "${user}";
+      # Either a user id or group name representation of the secret owner.
+      owner = config.users.users.${user}.name;
     };
 
   };
@@ -81,7 +76,7 @@ in
   # Since we don't put the private age file in its default location we need to
   # instruct the sops client where to find it.
   environment.sessionVariables = {
-    SOPS_AGE_KEY_FILE = ageKeyFile;
+    SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
 
   sops = lib.mkIf hasSecrets {
@@ -108,4 +103,5 @@ in
       rm -f /run/secrets /run/secrets-for-users
     ''
   );
+
 }

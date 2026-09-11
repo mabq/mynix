@@ -1,17 +1,17 @@
-# See "sops" notes in the learning repository.
+# To learn about sops read its file in the learning repo.
 
+# Key aliases for easier reference
 keys:
-  # Public key aliases for easier reference.
   - &mabq age120tq73mkdzyjaq544rs9cqkedetzg6y8tu763ax03zvprg8emq5qnd2az2
   # - &jmsb age120...
 
-creation_rules:
-    # The first matched rule will apply.
-  - path_regex: ^secrets/mabq.*
+# The first matching rule wins.
+#
+# You can define multiple keys for each rule. For more information see
+# https://github.com/mic92/sops-nix#usage-example
+creation_rule:
+  - path_regex: secrets/mabq-.*\.yaml$
     key_groups:
-      - age:
-          - *mabq
-  # - path_regex: ^secrets/jmsb-.*\.yaml$
-  #   key_groups:
-  #     - age:
-  #         - *jmsb
+    - age:
+      - *mabq
+

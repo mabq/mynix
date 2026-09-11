@@ -30,7 +30,7 @@ with lib;
     unitConfig.ConditionPathExists = "!${repoDir}/.git";
     serviceConfig = {
       Type = "oneshot";
-      User = "${user}";
+      User = config.users.users.${user}.name;
       ExecStart = [
         # systemd requires absolute paths to executables
         "${pkgs.git}/bin/git clone ${repoUrl} ${repoDir}"
@@ -95,7 +95,6 @@ with lib;
     users.${user} = {
       isNormalUser = mkDefault true;
       home = mkDefault "/home/${user}";
-      homeMode = "700";
     };
   };
 
@@ -136,8 +135,8 @@ with lib;
 
   services = {
     openssh = {
-      # You can provide the private ssh key as a secret. The secrets module
-      # automatically creates the symlink to the decrypted secret file.
+      # The private key file is created by `/secrets/sops.nix` if you pass it
+      # as a secret for the selected system configuration.
       enable = mkDefault true;
       settings = {
         PermitRootLogin = mkDefault "no"; # Never!
@@ -146,7 +145,6 @@ with lib;
     };
 
     tailscale =
-      # TODO: Change this later
       let
         # You can provide the tailscale auth key as a secret to login
         # automatically. Otherwise, login manually with `sudo tailscale login`.
@@ -198,7 +196,6 @@ with lib;
             # -- Packages always required --
             just # Handy way to save and run project-specific commands
             age # Modern encryption tool with small explicit keys
-            sops # Simple and flexible tool for managing secrets
             yazi # Blazing fast terminal file manager written in Rust, based on async I/O
             neovim # Vim text editor fork
             gh # CLI GitHub tool (authenticate from the terminal)
