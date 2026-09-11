@@ -9,15 +9,21 @@
   ...
 }:
 {
-  # Keyd is a system-level service
+  # The keyd systemd service runs as root. It captures your input events,
+  # remaps them, and emits them to the system at a low level. It does not
+  # require your user account to be in any group for the remaps themselves to
+  # function.
   services.keyd.enable = true;
 
-  # User must be a member of this group
+  # If you want to use non-root CLI tools (like `keyd monitor` to debug
+  # keycodes), you need to explicitly declare the group in your NixOS config
+  # and add your user to it.
+  users.groups."keyd" = { };
   users.users.${user}.extraGroups = [ "keyd" ];
 
   environment = {
     systemPackages = [
-      # The package provides the `keyd` command (not included by enabling the service)
+      # This package is required to debug keycodes with `keyd monitor`
       pkgs.keyd # Key remapping daemon for Linux
     ];
 

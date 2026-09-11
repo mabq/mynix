@@ -95,6 +95,7 @@ with lib;
     users.${user} = {
       isNormalUser = mkDefault true;
       home = mkDefault "/home/${user}";
+      homeMode = "700";
     };
   };
 
@@ -145,6 +146,7 @@ with lib;
     };
 
     tailscale =
+      # TODO: Change this later
       let
         # You can provide the tailscale auth key as a secret to login
         # automatically. Otherwise, login manually with `sudo tailscale login`.
@@ -187,6 +189,9 @@ with lib;
       {
         home = {
           username = user;
+          # NixOS' option `users.users.<name>.home` (set above) is the source
+          # of truth for the OS. This option is just a path home-manager writes
+          # files into.
           homeDirectory = "/home/${user}";
           stateVersion = osConfig.system.stateVersion;
           packages = with pkgs; [
