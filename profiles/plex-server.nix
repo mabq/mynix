@@ -31,7 +31,6 @@
     # Configure Plex via `http://<SERVER-IP>:32400/web`
     enable = true;
     openFirewall = true;
-    # user = config.users.users.${user}.name; # ⚠️ should not run as my user, it could read secret files only readble by me
     user = user; # ⚠️ should not run as my user, it could read secret files only readble by me
   };
 }

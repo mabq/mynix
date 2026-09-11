@@ -6,7 +6,8 @@
   host,
   user,
   profile,
-  theme ? "tokyo-night",
+  # theme ? "tokyo-night",
+  theme ? "catppuccin",
   repoBranch ? "main",
 }:
 let
@@ -58,7 +59,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.sops-nix.nixosModules.sops
 
     # -- Configs --
-    # ../secrets/sops.nix
+    ../secrets/sops.nix
     ../defaults
     ../hosts/${host}.nix
     ../users/${user}.nix
