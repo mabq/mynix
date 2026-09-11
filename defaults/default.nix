@@ -148,11 +148,11 @@ with lib;
       let
         # You can provide the tailscale auth key as a secret to login
         # automatically. Otherwise, login manually with `sudo tailscale login`.
-        hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
+        # hasAuthKey = config ? sops.secrets.tailscaleAuthKey;
       in
       {
         enable = mkDefault true;
-        authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
+        # authKeyFile = lib.mkIf hasAuthKey config.sops.secrets.tailscaleAuthKey.path;
         extraUpFlags = [
           # See possible flags in https://tailscale.com/docs/reference/tailscale-cli#set
           "--hostname=${config.networking.hostName}"
