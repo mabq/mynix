@@ -18,8 +18,8 @@
   # If you want to use non-root CLI tools (like `keyd monitor` to debug
   # keycodes), you need to explicitly declare the group in your NixOS config
   # and add your user to it.
-  users.groups."keyd" = { };
-  users.users.${user}.extraGroups = [ "keyd" ];
+  # users.groups."keyd" = { };
+  # users.users.${user}.extraGroups = [ "keyd" ];
 
   environment = {
     systemPackages = [
