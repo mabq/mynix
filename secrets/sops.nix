@@ -76,7 +76,7 @@ in
   # Since we don't put the private age file in its default location we need to
   # instruct the sops client where to find it.
   environment.sessionVariables = {
-    SOPS_AGE_KEY_FILE = "${ageKeyFile}";
+    SOPS_AGE_KEY_FILE = ageKeyFile;
   };
 
   sops = lib.mkIf hasSecrets {
