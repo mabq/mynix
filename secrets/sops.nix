@@ -43,33 +43,31 @@ let
   # Set secrets owners/permissions and create symlinks
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
   perSecretSettings = {
-    systemSecrets = {
-      "tailscaleAuthKey" = {
-        # Tailscale is a system service, so this secret can be owned by root
-        # (default). We pass this secret to a tailscale option via
-        # `config.sops.secrets.<name>.path`.
-        # The same user can use different Tailscale authkeys depending on the
-        # host and profile.
-      };
+    "tailscaleAuthKey" = {
+      # Tailscale is a system service, so this secret can be owned by root
+      # (default). We pass this secret to a tailscale option via
+      # `config.sops.secrets.<name>.path`.
+      # The same user can use different Tailscale authkeys depending on the
+      # host and profile.
     };
-    userSecrets = {
-      "sshKey" = {
-        # SSH expects to find the private key in this path (this creates a
-        # symlink). The private key must be owned (and be only readable) by the
-        # user. Only include the private key in machines that you can control!
-        path = "/home/${user}/.ssh/id_ed25519";
-        # Either a user id or group name representation of the secret owner
-        owner = config.users.users.${user}.name;
-        mode = "0600";
-      };
-      "atuinKey" = {
-        # This replaces the random key created by atuin at installation, see
-        # `~/.local/share/atuin/key`. Read notes about Atuin in its module.
-        path = "/home/${user}/.local/share/atuin/key";
-        # Either a user id or group name representation of the secret owner
-        owner = config.users.users.${user}.name;
-        mode = "0600";
-      };
+    "sshKey" = {
+      # SSH expects to find the private key in this path (this creates a
+      # symlink). The private key must be owned (and be only readable) by the
+      # user. Only include the private key in machines that you can control!
+      # DON'T!!!!
+      # path = "/home/${user}/.ssh/id_ed25519";
+      # Either a user id or group name representation of the secret owner
+      owner = config.users.users.${user}.name;
+      mode = "0600";
+    };
+    "atuinKey" = {
+      # This replaces the random key created by atuin at installation, see
+      # `~/.local/share/atuin/key`. Read notes about Atuin in its module.
+      # DON'T!!!
+      # path = "/home/${user}/.local/share/atuin/key";
+      # Either a user id or group name representation of the secret owner
+      owner = config.users.users.${user}.name;
+      mode = "0600";
     };
   };
 in
