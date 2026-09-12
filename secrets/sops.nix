@@ -48,13 +48,13 @@ let
     };
     "sshKey" = {
       path = "/home/${user}/.ssh/id_ed25519";
-      owner = user;
-      mode = "0600";
+      # owner = user;
+      # mode = "0600";
     };
     "atuinKey" = {
       path = "/home/${user}/.local/share/atuin/key";
-      owner = user;
-      mode = "0600";
+      # owner = user;
+      # mode = "0600";
     };
   };
 in
@@ -74,17 +74,15 @@ in
   #   secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   # };
 
-  home-manager = {
-    users.${user} = {
-      sops = lib.mkIf hasSecrets {
-        age.keyFile = ageKeyFile;
-        defaultSopsFile = secretsFile;
-        # defaultSopsFormat = "json";
-        # This creates an attribute set where the keys are the secret's names and
-        # their values are the attribute sets matching the perSecretsSettings
-        # above.
-        secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-      };
+  home-manager.users.${user} = {
+    sops = lib.mkIf hasSecrets {
+      age.keyFile = ageKeyFile;
+      defaultSopsFile = secretsFile;
+      # defaultSopsFormat = "json";
+      # This creates an attribute set where the keys are the secret's names and
+      # their values are the attribute sets matching the perSecretsSettings
+      # above.
+      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
     };
   };
 
