@@ -17,6 +17,10 @@
 }:
 with lib;
 {
+  imports = [
+    ./programs/openssh.nix
+  ];
+
   # ----------------------------------------------------------------------------
   # NixOS
   # ----------------------------------------------------------------------------
@@ -135,16 +139,6 @@ with lib;
   # -- Services ----------------------------------------------------------------
 
   services = {
-    openssh = {
-      # The private key file is created by `/secrets/sops.nix` if you pass it
-      # as a secret for the selected system configuration.
-      enable = mkDefault true;
-      settings = {
-        PermitRootLogin = mkDefault "no"; # Never!
-        PasswordAuthentication = mkDefault false; # No! Use tailscale or ssh keys.
-      };
-    };
-
     tailscale =
       let
         # You can provide the tailscale auth key as a secret to login
@@ -183,9 +177,6 @@ with lib;
         config,
         ...
       }:
-      let
-        mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
-      in
       {
         home = {
           username = user;
@@ -205,22 +196,11 @@ with lib;
             lazygit # Simple terminal UI for git commands
           ];
 
-          file = lib.mkMerge [
-            # Symlink to private ssh key (if available)
-            (lib.optionalAttrs (osConfig.sops.secrets ? "sshKey") {
-              ".ssh/id_ed25519" = {
-                source = mkOutOfStoreSymlink osConfig.sops.secrets."sshKey".path;
-                force = true;
-              };
-            })
-            {
-              # Symlink the selected theme
-              "${localThemeDir}" = {
-                source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
-                force = true;
-              };
-            }
-          ];
+          # Symlink the selected theme
+          file."${localThemeDir}" = {
+            source = config.lib.file.mkOutOfStoreSymlink "${repoThemeDirAbs}";
+            force = true;
+          };
         };
       };
   };

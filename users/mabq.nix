@@ -15,11 +15,9 @@
     #  Use `mkpasswd -m sha-512` to create a passwork hash.
     hashedPassword = "$6$slFKhHBtWmrAa8NN$dZD4TelNDAISrLJHAM.35K31m/0MszqHJ.7kuLdNC444FwprmHxvgU3SAcIgIeDpCFhO2EfWbU43JPnSrLGA01";
 
-    # Authorized ssh keys
-    #  The public key should be included as an authorized key in all machines
-    #  configured with this account. Yet, not all machines configured with this
-    #  account should posses the private. You should be able to ssh into a
-    #  server from your workstation, but not the other way around.
+    # Openssh authorized ssh keys
+    #  All machines using this account should include its public ssh key.
+    #  For private key configuration see the ssh module.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINjOlPls0gNkjBTOvXIbmm7HbSUOHM+erfwE4tdNVMLn"
     ];
