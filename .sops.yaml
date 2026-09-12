@@ -9,8 +9,8 @@ keys:
 #
 # You can define multiple keys for each rule. For more information see
 # https://github.com/mic92/sops-nix#usage-example
-creation_rule:
-  - path_regex: secrets/mabq-.*\.yaml$
+creation_rules:
+  - path_regex: ^secrets/mabq-.*\.json$
     key_groups:
     - age:
       - *mabq

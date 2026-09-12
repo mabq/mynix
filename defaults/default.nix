@@ -171,6 +171,7 @@ with lib;
     # consistency, and removes the dependency on `NIX_PATH`, which is otherwise
     # used for importing Nixpkgs.
     useGlobalPkgs = mkDefault true;
+
     # Install packages in `/etc/profiles` instead of `~/.nix-profile`.
     # This makes garbage collection work for both Nixos and HomeManager.
     useUserPackages = mkDefault true;

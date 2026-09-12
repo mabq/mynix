@@ -3,6 +3,7 @@
 {
   config,
   lib,
+  inputs,
   host,
   user,
   profile,
@@ -45,31 +46,34 @@ let
   # Set secrets owners/permissions and create symlinks
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
   perSecretSettings = {
-    "tailscaleAuthKey" = {
-      # Tailscale is a system service, so this secret can be owned by root
-      # (default). We pass this secret to a tailscale option via
-      # `config.sops.secrets.<name>.path`.
-      # The same user can use different Tailscale authkeys depending on the
-      # host and profile.
+    systemSecrets = {
+      "tailscaleAuthKey" = {
+        # Tailscale is a system service, so this secret can be owned by root
+        # (default). We pass this secret to a tailscale option via
+        # `config.sops.secrets.<name>.path`.
+        # The same user can use different Tailscale authkeys depending on the
+        # host and profile.
+      };
     };
-    "sshKey" = {
-      # SSH expects to find the private key in this path (this creates a
-      # symlink). The private key must be owned (and be only readable) by the
-      # user. Only include the private key in machines that you can control!
-      path = "/home/${user}/.ssh/id_ed25519";
-      mode = "0600";
-      # Either a user id or group name representation of the secret owner.
-      owner = config.users.users.${user}.name;
+    userSecrets = {
+      "sshKey" = {
+        # SSH expects to find the private key in this path (this creates a
+        # symlink). The private key must be owned (and be only readable) by the
+        # user. Only include the private key in machines that you can control!
+        path = "/home/${user}/.ssh/id_ed25519";
+        mode = "0600";
+        # Either a user id or group name representation of the secret owner.
+        owner = config.users.users.${user}.name;
+      };
+      "atuinKey" = {
+        # This replaces the random key created by atuin at installation, see
+        # `~/.local/share/atuin/key`. Read notes about Atuin in its module.
+        path = "/home/${user}/.local/share/atuin/key";
+        mode = "0600";
+        # Either a user id or group name representation of the secret owner.
+        owner = config.users.users.${user}.name;
+      };
     };
-    "atuinKey" = {
-      # This replaces the random key created by atuin at installation, see
-      # `~/.local/share/atuin/key`. Read notes about Atuin in its module.
-      path = "/home/${user}/.local/share/atuin/key";
-      mode = "0600";
-      # Either a user id or group name representation of the secret owner.
-      owner = config.users.users.${user}.name;
-    };
-
   };
 in
 {
@@ -79,13 +83,27 @@ in
     SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
 
-  sops = lib.mkIf hasSecrets {
-    age.keyFile = ageKeyFile;
-    defaultSopsFile = secretsFile;
-    # This creates an attribute set where the keys are the secret's names and
-    # their values are the attribute sets matching the perSecretsSettings
-    # above.
-    secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+  # sops = lib.mkIf hasSecrets {
+  #   age.keyFile = ageKeyFile;
+  #   defaultSopsFile = secretsFile;
+  #   # This creates an attribute set where the keys are the secret's names and
+  #   # their values are the attribute sets matching the perSecretsSettings
+  #   # above.
+  #   secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+  # };
+
+  home-manager = {
+    # Import sops-nix's home-manager module
+    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+
+    sops = lib.mkIf hasSecrets {
+      age.keyFile = ageKeyFile;
+      defaultSopsFile = secretsFile;
+      # This creates an attribute set where the keys are the secret's names and
+      # their values are the attribute sets matching the perSecretsSettings
+      # above.
+      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+    };
   };
 
   # Remove stale secrets.

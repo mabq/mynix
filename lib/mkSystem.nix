@@ -6,8 +6,7 @@
   host,
   user,
   profile,
-  # theme ? "tokyo-night",
-  theme ? "catppuccin",
+  theme ? "tokyo-night",
   repoBranch ? "main",
 }:
 let
