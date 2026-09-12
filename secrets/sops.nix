@@ -20,14 +20,11 @@ let
   #  (`~/.config/sops/age/keys.txt`) then the `~/.config` directory ends up
   #  being owned by root, causing permission issues.
   #
-  #  Do not check for this file's existence, when installing via
-  #  `nixos-anywhere`, flake evaluation happens on the source machine, meaning
-  #  it will try to find the file in the source machine. Since this file is
-  #  create manually before installation it is assumed to exist on every
-  #  installation where secrets are required.
+  #  No need to check for this file's existence. Nix will skip secrets if it
+  #  does not find it or if the key contained in it is not correct.
   #
-  #  Must be quoted, otherwise nix throws an error for trying to access files
-  #  outside of the flake.
+  #  Make sure you quote the path, otherwise nix throws an error for trying to
+  #  access files outside of the flake.
   ageKeyFile = "/var/lib/sops-nix/key.txt";
 
   # If no secrets' file is found, no secrets are configured.
@@ -37,11 +34,13 @@ let
   # Sops only encrypts the value, not its attribute name. This is what makes it
   # possible for a secrets file to only define the secrets that it actually
   # needs, not all of them.
-  sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
+  # sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
+  sopsData = builtins.fromJSON (builtins.readFile secretsFile);
   # Remove the "sops" metadata attribute from the list.
   secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
 
-  hasSecrets = secretsFileExist && secretNames != [ ];
+  # hasSecrets = secretsFileExist && secretNames != [ ];
+  hasSecrets = secretNames != [ ];
 
   # Set secrets owners/permissions and create symlinks
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
@@ -93,7 +92,8 @@ in
   # };
 
   home-manager.users.${user} = {
-    sops = lib.mkIf hasSecrets {
+    # sops = lib.mkIf hasSecrets {
+    sops = {
       age.keyFile = ageKeyFile;
       defaultSopsFile = secretsFile;
       # defaultSopsFormat = "json";
@@ -109,15 +109,15 @@ in
   #  prunes a previous generation once a profile has zero secrets. Clear the
   #  *contents* of the ramfs mount ourselves instead of removing the mount
   #  point (which the kernel won't allow while it's mounted).
-  system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
-    lib.stringAfter [ "users" "groups" ] ''
-      for d in /run/secrets.d /run/secrets-for-users.d; do
-        if [ -d "$d" ]; then
-          find "$d" -mindepth 1 -delete 2>/dev/null || true
-        fi
-      done
-      rm -f /run/secrets /run/secrets-for-users
-    ''
-  );
+  # system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
+  #   lib.stringAfter [ "users" "groups" ] ''
+  #     for d in /run/secrets.d /run/secrets-for-users.d; do
+  #       if [ -d "$d" ]; then
+  #         find "$d" -mindepth 1 -delete 2>/dev/null || true
+  #       fi
+  #     done
+  #     rm -f /run/secrets /run/secrets-for-users
+  #   ''
+  # );
 
 }
