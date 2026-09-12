@@ -98,7 +98,7 @@ in
           find "$d" -mindepth 1 -delete 2>/dev/null || true
         fi
       done
-      rm -f /run/secrets /run/secrets-for-users
+      rm -f /run/secrets /home/${user}/.config/sops-nix/secrets
     ''
   );
 
