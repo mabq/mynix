@@ -96,6 +96,7 @@ in
     sops = lib.mkIf hasSecrets {
       age.keyFile = ageKeyFile;
       defaultSopsFile = secretsFile;
+      # defaultSopsFormat = "json";
       # This creates an attribute set where the keys are the secret's names and
       # their values are the attribute sets matching the perSecretsSettings
       # above.
