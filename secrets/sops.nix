@@ -47,14 +47,14 @@ let
       # Tailscale is a system service, so no need to change ownership.
     };
     "sshKey" = {
-      path = "/home/${user}/.ssh/id_ed25519";
-      # owner = user;
-      # mode = "0600";
+      # path = "/home/${user}/.ssh/id_ed25519"; # DON'T!!!!!
+      owner = user;
+      mode = "0600";
     };
     "atuinKey" = {
-      path = "/home/${user}/.local/share/atuin/key";
-      # owner = user;
-      # mode = "0600";
+      # path = "/home/${user}/.local/share/atuin/key"; # DON'T!!!!!
+      owner = user;
+      mode = "0600";
     };
   };
 in
@@ -65,26 +65,31 @@ in
     SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
 
-  # sops = lib.mkIf hasSecrets {
-  #   age.keyFile = ageKeyFile;
-  #   defaultSopsFile = secretsFile;
-  #   # This creates an attribute set where the keys are the secret's names and
-  #   # their values are the attribute sets matching the perSecretsSettings
-  #   # above.
-  #   secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-  # };
-
-  home-manager.users.${user} = {
-    sops = lib.mkIf hasSecrets {
-      age.keyFile = ageKeyFile;
-      defaultSopsFile = secretsFile;
-      # defaultSopsFormat = "json";
-      # This creates an attribute set where the keys are the secret's names and
-      # their values are the attribute sets matching the perSecretsSettings
-      # above.
-      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-    };
+  sops = lib.mkIf hasSecrets {
+    age.keyFile = ageKeyFile;
+    defaultSopsFile = secretsFile;
+    # This creates an attribute set where the keys are the secret's names and
+    # their values are the attribute sets matching the perSecretsSettings
+    # above.
+    secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
+
+  # home-manager = {
+  #   # Use the home-manager module of sops-nix for correct permissions
+  #   sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+  #
+  #   users.${user} = {
+  #     sops = lib.mkIf hasSecrets {
+  #       age.keyFile = ageKeyFile;
+  #       defaultSopsFile = secretsFile;
+  #       # defaultSopsFormat = "json";
+  #       # This creates an attribute set where the keys are the secret's names and
+  #       # their values are the attribute sets matching the perSecretsSettings
+  #       # above.
+  #       secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+  #     };
+  #   };
+  # };
 
   # Remove stale secrets.
   #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never
@@ -98,7 +103,7 @@ in
           find "$d" -mindepth 1 -delete 2>/dev/null || true
         fi
       done
-      rm -f /run/secrets /home/${user}/.config/sops-nix/secrets
+      rm -f /run/secrets
     ''
   );
 

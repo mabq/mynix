@@ -177,9 +177,6 @@ with lib;
     # This makes garbage collection work for both Nixos and HomeManager.
     useUserPackages = mkDefault true;
 
-    # Use the home-manager module of sops-nix for correct permissions
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
-
     users.${user} =
       {
         osConfig, # https://nix-community.github.io/home-manager/installation/nixos.html#sec-install-nixos-module
@@ -208,10 +205,17 @@ with lib;
             lazygit # Simple terminal UI for git commands
           ];
 
-          # Symlink the selected theme
-          file."${localThemeDir}" = {
-            source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
-            force = true;
+          file = {
+            # Symlink to private ssh key (if available)
+            ".ssh/id_ed25519" = lib.mkIf osConfig.sops.secrets.sshKey {
+              source = mkOutOfStoreSymlink "/run/secrets/sshKey";
+              force = true;
+            };
+            # Symlink the selected theme
+            file."${localThemeDir}" = {
+              source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
+              force = true;
+            };
           };
         };
       };
