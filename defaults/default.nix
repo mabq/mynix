@@ -215,8 +215,9 @@ with lib;
                 source = mkOutOfStoreSymlink "/run/secrets/sshKey";
                 force = true;
               };
+
             # Symlink the selected theme
-            file."${localThemeDir}" = {
+            "${localThemeDir}" = {
               source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
               force = true;
             };
