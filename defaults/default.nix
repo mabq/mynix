@@ -19,6 +19,7 @@ with lib;
 {
   imports = [
     ./programs/openssh.nix
+    ./programs/tailscale.nix
   ];
 
   # ----------------------------------------------------------------------------
@@ -134,26 +135,6 @@ with lib;
       MANROFFOPT = "-P -c"; # https://wiki.archlinux.org/title/Color_output_in_console#Using_less
       # TERM = # do not set this variable, it is set by each terminal emulator.
     };
-  };
-
-  # -- Services ----------------------------------------------------------------
-
-  services = {
-    tailscale =
-      let
-        # You can provide the tailscale auth key as a secret to login
-        # automatically. Otherwise, login manually with `sudo tailscale login`.
-        hasAuthKey = config ? sops.secrets."tailscaleAuthKey";
-      in
-      {
-        enable = mkDefault true;
-        authKeyFile = lib.mkIf hasAuthKey config.sops.secrets."tailscaleAuthKey".path;
-        extraUpFlags = [
-          # See possible flags in https://tailscale.com/docs/reference/tailscale-cli#set
-          "--hostname=${config.networking.hostName}"
-          "--ssh" # Make sure you have a proper access policy in place.
-        ];
-      };
   };
 
   # ----------------------------------------------------------------------------
