@@ -57,7 +57,7 @@ let
       # DON'T!!!!
       # path = "/home/${user}/.ssh/id_ed25519";
       # Either a user id or group name representation of the secret owner
-      owner = config.users.users.${user}.name;
+      owner = user;
       mode = "0600";
     };
     "atuinKey" = {
@@ -67,6 +67,7 @@ let
       # path = "/home/${user}/.local/share/atuin/key";
       # Either a user id or group name representation of the secret owner
       owner = config.users.users.${user}.name;
+      owner = user;
       mode = "0600";
     };
   };
