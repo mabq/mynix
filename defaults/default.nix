@@ -207,10 +207,14 @@ with lib;
 
           file = {
             # Symlink to private ssh key (if available)
-            ".ssh/id_ed25519" = lib.mkIf osConfig.sops.secrets.sshKey {
-              source = mkOutOfStoreSymlink "/run/secrets/sshKey";
-              force = true;
-            };
+            ".ssh/id_ed25519" =
+              let
+                hasSSHPrivateKey = osConfig ? sops.secrets.sshKey;
+              in
+              lib.mkIf hasSSHPrivateKey {
+                source = mkOutOfStoreSymlink "/run/secrets/sshKey";
+                force = true;
+              };
             # Symlink the selected theme
             file."${localThemeDir}" = {
               source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
