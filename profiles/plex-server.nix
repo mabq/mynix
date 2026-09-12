@@ -7,13 +7,11 @@
 {
   imports = [
     ./hardware/zram.nix
-    (import ./hardware/keyd.nix { })
-
     ./networking/systemd-networkd.nix
     ./networking/tailscale.nix
-
     ./programs/openssh.nix
 
+    (import ./hardware/keyd.nix { })
     (import ./programs/atuin.nix { configName = "simple"; })
     (import ./programs/bat.nix { })
     (import ./programs/btop.nix { })
