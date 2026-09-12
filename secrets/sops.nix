@@ -34,13 +34,11 @@ let
   # Sops only encrypts the value, not its attribute name. This is what makes it
   # possible for a secrets file to only define the secrets that it actually
   # needs, not all of them.
-  # sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
-  sopsData = builtins.fromJSON (builtins.readFile secretsFile);
+  sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
   # Remove the "sops" metadata attribute from the list.
   secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
 
-  # hasSecrets = secretsFileExist && secretNames != [ ];
-  hasSecrets = secretNames != [ ];
+  hasSecrets = secretsFileExist && secretNames != [ ];
 
   # Set secrets owners/permissions and create symlinks
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
@@ -82,42 +80,41 @@ in
     SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
 
-  # sops = lib.mkIf hasSecrets {
-  #   age.keyFile = ageKeyFile;
-  #   defaultSopsFile = secretsFile;
-  #   # This creates an attribute set where the keys are the secret's names and
-  #   # their values are the attribute sets matching the perSecretsSettings
-  #   # above.
-  #   secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-  # };
-
-  home-manager.users.${user} = {
-    # sops = lib.mkIf hasSecrets {
-    sops = {
-      age.keyFile = ageKeyFile;
-      defaultSopsFile = secretsFile;
-      # defaultSopsFormat = "json";
-      # This creates an attribute set where the keys are the secret's names and
-      # their values are the attribute sets matching the perSecretsSettings
-      # above.
-      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-    };
+  sops = lib.mkIf hasSecrets {
+    age.keyFile = ageKeyFile;
+    defaultSopsFile = secretsFile;
+    # This creates an attribute set where the keys are the secret's names and
+    # their values are the attribute sets matching the perSecretsSettings
+    # above.
+    secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
+
+  # home-manager.users.${user} = {
+  #   sops = lib.mkIf hasSecrets {
+  #     age.keyFile = ageKeyFile;
+  #     defaultSopsFile = secretsFile;
+  #     # defaultSopsFormat = "json";
+  #     # This creates an attribute set where the keys are the secret's names and
+  #     # their values are the attribute sets matching the perSecretsSettings
+  #     # above.
+  #     secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+  #   };
+  # };
 
   # Remove stale secrets.
   #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never
   #  prunes a previous generation once a profile has zero secrets. Clear the
   #  *contents* of the ramfs mount ourselves instead of removing the mount
   #  point (which the kernel won't allow while it's mounted).
-  # system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
-  #   lib.stringAfter [ "users" "groups" ] ''
-  #     for d in /run/secrets.d /run/secrets-for-users.d; do
-  #       if [ -d "$d" ]; then
-  #         find "$d" -mindepth 1 -delete 2>/dev/null || true
-  #       fi
-  #     done
-  #     rm -f /run/secrets /run/secrets-for-users
-  #   ''
-  # );
+  system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
+    lib.stringAfter [ "users" "groups" ] ''
+      for d in /run/secrets.d /run/secrets-for-users.d; do
+        if [ -d "$d" ]; then
+          find "$d" -mindepth 1 -delete 2>/dev/null || true
+        fi
+      done
+      rm -f /run/secrets /run/secrets-for-users
+    ''
+  );
 
 }
