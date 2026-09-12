@@ -61,17 +61,17 @@ let
         # symlink). The private key must be owned (and be only readable) by the
         # user. Only include the private key in machines that you can control!
         path = "/home/${user}/.ssh/id_ed25519";
-        mode = "0600";
         # Either a user id or group name representation of the secret owner.
         owner = config.users.users.${user}.name;
+        mode = "0600";
       };
       "atuinKey" = {
         # This replaces the random key created by atuin at installation, see
         # `~/.local/share/atuin/key`. Read notes about Atuin in its module.
         path = "/home/${user}/.local/share/atuin/key";
-        mode = "0600";
         # Either a user id or group name representation of the secret owner.
         owner = config.users.users.${user}.name;
+        mode = "0600";
       };
     };
   };
