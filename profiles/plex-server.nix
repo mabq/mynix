@@ -10,6 +10,9 @@
     (import ./hardware/keyd.nix { })
 
     ./networking/systemd-networkd.nix
+    ./networking/tailscale.nix
+
+    ./programs/openssh.nix
 
     (import ./programs/atuin.nix { configName = "simple"; })
     (import ./programs/bat.nix { })
