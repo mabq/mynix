@@ -176,6 +176,9 @@ with lib;
     # This makes garbage collection work for both Nixos and HomeManager.
     useUserPackages = mkDefault true;
 
+    # Use the home-manager module of sops-nix for correct permissions
+    sharedModules = [ sops-nix.homeManagerModules.sops ];
+
     users.${user} =
       {
         osConfig, # https://nix-community.github.io/home-manager/installation/nixos.html#sec-install-nixos-module

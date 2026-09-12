@@ -92,10 +92,7 @@ in
   #   secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   # };
 
-  home-manager = {
-    # Import sops-nix's home-manager module
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
-
+  home-manager.users.${user} = {
     sops = lib.mkIf hasSecrets {
       age.keyFile = ageKeyFile;
       defaultSopsFile = secretsFile;
