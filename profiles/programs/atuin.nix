@@ -2,6 +2,7 @@
   configName ? "default",
 }:
 {
+  lib,
   pkgs,
   user,
   repoConfigDirAbs,
@@ -9,7 +10,7 @@
 }:
 {
   home-manager.users.${user} =
-    { config, ... }:
+    { osConfig, config, ... }:
     let
       mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
     in
@@ -19,12 +20,22 @@
           atuin # Replacement for a shell history
         ];
 
-        file = {
-          ".config/atuin/config.toml" = {
-            source = mkOutOfStoreSymlink "${repoConfigDirAbs}/atuin/${configName}.toml";
-            force = true;
+        file =
+          lib.optionalAttrs (osConfig.sops.secrets ? "atuinKey") {
+            # Replace atuin's random encryption key with our encryption key if
+            # provided as a secret. For more details read notes in the openssh
+            # module (similar situation).
+            ".local/share/atuin/key" = {
+              source = mkOutOfStoreSymlink osConfig.sops.secrets."atuinKey".path;
+              force = true;
+            };
+          }
+          // {
+            ".config/atuin/config.toml" = {
+              source = mkOutOfStoreSymlink "${repoConfigDirAbs}/atuin/${configName}.toml";
+              force = true;
+            };
           };
-        };
       };
     };
 }
@@ -33,32 +44,33 @@
   Related configs
   ---------------
 
-  Atuin must be initialized by a shell config file:
+  Must be initialized by a shell config file. In out zsh config we check if
+  atuin is installed before initializing it. For more info, see:
     https://docs.atuin.sh/latest/guide/shell-integration/
     https://docs.atuin.sh/latest/configuration/key-binding/
 
   Sync history
   ------------
 
-  This modules enables Atuin and you can start using it right away, but if you
-  want to sync history with another machine/s you must execute:
+  This module enables Atuin and you can start using it right away, but if you
+  want to sync history with another machine/s you must manually execute:
 
     `atuin login`
 
   The command will prompt you for a encryption key. If you include it as a
-  secret it will be set automatically and you can just hit enter.
+  secret it will be set automatically set, so you can just hit enter to skip.
 
-  If you don't want to sync history with other machine/s just press enter to
-  use the random key created by atuin during installation.
+  If you don't want to sync history with other machine/s, do not provide the
+  encryption key as a secret and just press enter to use the random key created
+  by atuin during installation.
 
-  Otherwise, enter the same encryption key used in the other machine/s. You can
-  obtain the key from the password manager or by executing the following
-  command in one of those machines:
+  To manually enter the encryption key, first obtain the key from the password
+  manager or by executing the following command in one of those machines:
 
     `atuin key`
 
-  Atuin will replace the content of `~/.local/share/atuin/key` with the entered
-  encryption key.
+  Enter the provided key. Atuin will replace the content of
+  `~/.local/share/atuin/key` with it.
 
   Then, Atuin will open a web browser for you to authenticate (use your password
   manager). That's it!
