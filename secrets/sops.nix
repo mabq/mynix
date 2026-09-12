@@ -75,7 +75,6 @@ in
   # };
 
   home-manager = {
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
     users.${user} = {
       sops = lib.mkIf hasSecrets {
         age.keyFile = ageKeyFile;
