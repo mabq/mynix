@@ -205,19 +205,22 @@ with lib;
             lazygit # Simple terminal UI for git commands
           ];
 
-          # Symlink to private ssh key (if available)
-          file = lib.optionalAttrs (osConfig.sops.secrets ? "sshKey") {
-            ".ssh/id_ed25519" = {
-              source = mkOutOfStoreSymlink osConfig.sops.secrets."sshKey";
-              force = true;
-            };
-          };
-
-          # Symlink the selected theme
-          file."${localThemeDir}" = {
-            source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
-            force = true;
-          };
+          file = lib.merge [
+            # Symlink to private ssh key (if available)
+            (lib.optionalAttrs (osConfig.sops.secrets ? "sshKey") {
+              ".ssh/id_ed25519" = {
+                source = mkOutOfStoreSymlink osConfig.sops.secrets."sshKey".path;
+                force = true;
+              };
+            })
+            {
+              # Symlink the selected theme
+              "${localThemeDir}" = {
+                source = mkOutOfStoreSymlink "${repoThemeDirAbs}";
+                force = true;
+              };
+            }
+          ];
         };
       };
   };

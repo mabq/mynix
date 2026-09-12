@@ -47,7 +47,7 @@ let
       # Tailscale is a system service, so no need to change ownership.
     };
     "sshKey" = {
-      path = "/home/${user}/.ssh/id_ed25519"; # DON'T!!!!!
+      # path = "/home/${user}/.ssh/id_ed25519"; # DON'T!!!!!
       owner = user;
       mode = "0600";
     };
