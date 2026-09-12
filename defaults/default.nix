@@ -205,7 +205,7 @@ with lib;
             lazygit # Simple terminal UI for git commands
           ];
 
-          file = lib.merge [
+          file = lib.mkMerge [
             # Symlink to private ssh key (if available)
             (lib.optionalAttrs (osConfig.sops.secrets ? "sshKey") {
               ".ssh/id_ed25519" = {
