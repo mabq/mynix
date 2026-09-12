@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   host,
   user,
   repoBranch,
@@ -177,7 +178,7 @@ with lib;
     useUserPackages = mkDefault true;
 
     # Use the home-manager module of sops-nix for correct permissions
-    sharedModules = [ sops-nix.homeManagerModules.sops ];
+    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
 
     users.${user} =
       {
