@@ -87,18 +87,18 @@ in
     secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
 
-  Remove stale secrets. sops-nix's own cleanup only runs when sops.secrets !=
-  {}, so it never prunes a previous generation once a profile has zero
-  secrets. Clear the *contents* of the ramfs mount ourselves instead of
-  removing the mount point (which the kernel won't allow while it's mounted).
-  system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
-    lib.stringAfter [ "users" "groups" ] ''
-      for d in /run/secrets.d /run/secrets-for-users.d; do
-        if [ -d "$d" ]; then
-          find "$d" -mindepth 1 -delete 2>/dev/null || true
-        fi
-      done
-      rm -f /run/secrets
-    ''
-  );
+  # Remove stale secrets. sops-nix's own cleanup only runs when sops.secrets !=
+  # {}, so it never prunes a previous generation once a profile has zero
+  # secrets. Clear the *contents* of the ramfs mount ourselves instead of
+  # removing the mount point (which the kernel won't allow while it's mounted).
+  # system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
+  #   lib.stringAfter [ "users" "groups" ] ''
+  #     for d in /run/secrets.d /run/secrets-for-users.d; do
+  #       if [ -d "$d" ]; then
+  #         find "$d" -mindepth 1 -delete 2>/dev/null || true
+  #       fi
+  #     done
+  #     rm -f /run/secrets
+  #   ''
+  # );
 }
