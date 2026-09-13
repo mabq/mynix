@@ -25,7 +25,6 @@ let
   # otherwise nix throws an error because flakes cannot reference external
   # files.
   ageKeyFile = "/var/lib/sops-nix/key.txt";
-  ageKeyFileExist = builtins.pathExists ageKeyFile;
 
   # Secrets are optional, if no secrets file is found no secrets are set. Each
   # secrets file should only contain the keys actually required for that
@@ -41,7 +40,7 @@ let
   # Remove the "sops" attribute, it contains sops metadata.
   secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
 
-  hasSecrets = ageKeyFileExist && secretsFileExist && secretNames != [ ];
+  hasSecrets = secretsFileExist && secretNames != [ ];
 
   # Set secrets owners/permissions
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
