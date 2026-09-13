@@ -87,6 +87,7 @@ in
     secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
 
+  # Update: Now it just works, keep it just in case.
   # Remove stale secrets. sops-nix's own cleanup only runs when sops.secrets !=
   # {}, so it never prunes a previous generation once a profile has zero
   # secrets. Clear the *contents* of the ramfs mount ourselves instead of
