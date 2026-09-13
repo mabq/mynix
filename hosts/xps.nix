@@ -1,5 +1,5 @@
 # Options inherent to this machine only!
-{ host, ... }:
+{ config, host, ... }:
 {
   imports = [
     ./disko/ext4-encrypted.nix
