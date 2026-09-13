@@ -1,5 +1,5 @@
 # Secrets are encrypted with the user's age key and are specific to each
-# nixos-configuration (user + host + profile).
+# combined configuration (user + host + profile).
 {
   config,
   lib,
@@ -10,41 +10,52 @@
   ...
 }:
 let
-  # The file containing age's private key (used to decrypt sops secrets).
+  # This is the file containing the user's private age key required to decrypt
+  # sops secrets.
   #
-  #  This file must be created manually (or via `nixos-anywhere --extra-files`)
-  #  at installation time. Without it the flake will fail to build.
+  # By default, `sops` looks for this file in `~/.config/sops/age/keys.txt`. We
+  # cannot use that location because when `nixos-anywhere --extra-files` copies
+  # files it also creates all the required  parent directories, and all those
+  # end up being owned by root, making impossible for tools like home-manager
+  # to write inside it. Therefore, we use a system directory, where files can
+  # be owned by root.
   #
-  #  Files passed via `nixos-anywhere --extra-files` are always owned by root.
-  #  If we copy this file to its default location
-  #  (`~/.config/sops/age/keys.txt`) then the `~/.config` directory ends up
-  #  being owned by root, causing permission issues.
-  #
-  #  No need to check for this file's existence. Nix will skip secrets if it
-  #  does not find it or if the key contained in it is not correct.
-  #
-  #  Make sure you quote the path, otherwise nix throws an error for trying to
-  #  access files outside of the flake.
+  # There is no need to check for this file's existence. Nix will simply skip
+  # secrets if the key file does not exist. Make sure you quote the path,
+  # otherwise nix throws an error because flakes cannot reference external
+  # files.
   ageKeyFile = "/var/lib/sops-nix/key.txt";
 
-  # If no secrets' file is found, no secrets are configured.
+  # Secrets are optional, if no secrets file is found no secrets are set. Each
+  # secrets file should only contain the keys actually required for that
+  # configuration.
   secretsFile = ./${user}-${host}-${profile}.json;
   secretsFileExist = builtins.pathExists secretsFile;
 
-  # Sops only encrypts the value, not its attribute name. This is what makes it
-  # possible for a secrets file to only define the secrets that it actually
-  # needs, not all of them.
+  # Sops only encrypts the secrets (the attributes values, not the attributes
+  # names), this allow us to read the file before decryping it to process only
+  # the secrect that each file defines (and not throw errors if a file does not
+  # include any of the possible secrets).
   sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
-  # Remove the "sops" metadata attribute from the list.
+  # Remove the "sops" attribute, it contains sops metadata.
   secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
 
   hasSecrets = secretsFileExist && secretNames != [ ];
 
-  # Set secrets owners/permissions and create symlinks
+  # Set secrets owners/permissions
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
+  #
+  # IMPORTANT!
+  #  Do not create symlinks here, these symlinks are created by nixos (not
+  #  home-manager), when evaluating the flake for the first time with
+  #  `nixos-anywhere` none of the user directories exist yet, so those
+  #  directories are created and owned by root, causing permission issues. Let
+  #  this module just create the secrets in `/run/secrets/` with the proper
+  #  owners/permissions. Symlinks to those secrets (when required) should be
+  #  created by the modules using them (with home-manager).
   perSecretSettings = {
     "tailscaleAuthKey" = {
-      # Tailscale is a system service, so no need to change ownership.
+      # Tailscale is a system service. No need to change ownership.
     };
     "sshKey" = {
       # path = "/home/${user}/.ssh/id_ed25519"; # DON'T!!!!!
@@ -59,9 +70,9 @@ let
   };
 in
 {
-  # Since we don't put the private age file in its default location we need to
-  # instruct the sops client where to find it.
   environment.sessionVariables = {
+    # Since we don't use the default directory for the key, we must show sops
+    # where to find it.
     SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
 
@@ -74,28 +85,10 @@ in
     secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
   };
 
-  # home-manager = {
-  #   # Use the home-manager module of sops-nix for correct permissions
-  #   sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
-  #
-  #   users.${user} = {
-  #     sops = lib.mkIf hasSecrets {
-  #       age.keyFile = ageKeyFile;
-  #       defaultSopsFile = secretsFile;
-  #       # defaultSopsFormat = "json";
-  #       # This creates an attribute set where the keys are the secret's names and
-  #       # their values are the attribute sets matching the perSecretsSettings
-  #       # above.
-  #       secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-  #     };
-  #   };
-  # };
-
-  # Remove stale secrets.
-  #  sops-nix's own cleanup only runs when sops.secrets != {}, so it never
-  #  prunes a previous generation once a profile has zero secrets. Clear the
-  #  *contents* of the ramfs mount ourselves instead of removing the mount
-  #  point (which the kernel won't allow while it's mounted).
+  # Remove stale secrets. sops-nix's own cleanup only runs when sops.secrets !=
+  # {}, so it never prunes a previous generation once a profile has zero
+  # secrets. Clear the *contents* of the ramfs mount ourselves instead of
+  # removing the mount point (which the kernel won't allow while it's mounted).
   system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
     lib.stringAfter [ "users" "groups" ] ''
       for d in /run/secrets.d /run/secrets-for-users.d; do
@@ -103,8 +96,7 @@ in
           find "$d" -mindepth 1 -delete 2>/dev/null || true
         fi
       done
-      rm -f /run/secrets
+      rm -f /run/secrets.d /run/secrets
     ''
   );
-
 }
