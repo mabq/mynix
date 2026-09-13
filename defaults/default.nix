@@ -31,7 +31,7 @@ with lib;
     unitConfig.ConditionPathExists = "!${repoDir}/.git";
     serviceConfig = {
       Type = "oneshot";
-      User = config.users.users.${user}.name;
+      User = "${user}";
       ExecStart = [
         # systemd requires absolute paths to executables
         "${pkgs.git}/bin/git clone ${repoUrl} ${repoDir}"

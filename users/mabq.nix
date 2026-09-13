@@ -16,6 +16,8 @@
     hashedPassword = "$6$slFKhHBtWmrAa8NN$dZD4TelNDAISrLJHAM.35K31m/0MszqHJ.7kuLdNC444FwprmHxvgU3SAcIgIeDpCFhO2EfWbU43JPnSrLGA01";
 
     # Openssh authorized ssh keys
+    #  THIS IS SPECIALLY IMPORTANT FOR REMOTE MACHINES. IF YOU DON'T PROVIDE AN
+    #  AUTHORIZED KEY YOU WILL LOOSE ACCESS TO THE MACHINE.
     #  All machines using this account should include its public ssh key.
     #  For private key configuration see the ssh module.
     openssh.authorizedKeys.keys = [
