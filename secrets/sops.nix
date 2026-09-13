@@ -1,5 +1,7 @@
-# Secrets are encrypted with the user's age key and are specific to each
-# combined configuration (user + host + profile).
+# IMPORTANT!
+#  IF YOU PROVIDE A SECRETS FILE, YOU MUST ENSURE THAT THE PRIVATE KEY
+#  REQUIRED TO DECRYPT THAT FILE EXIST. IF YOU FAIL TO PROVIDE THAT FILE THE
+#  BUILD WILL FAIL.
 {
   config,
   lib,
@@ -10,34 +12,35 @@
   ...
 }:
 let
-  # This is the file containing the user's private age key required to decrypt
-  # sops secrets.
-  #
-  # By default, `sops` looks for this file in `~/.config/sops/age/keys.txt`. We
-  # cannot use that location because when `nixos-anywhere --extra-files` copies
-  # files it also creates all the required  parent directories, and all those
-  # end up being owned by root, making impossible for tools like home-manager
-  # to write inside it. Therefore, we use a system directory, where files can
-  # be owned by root.
-  #
-  # There is no need to check for this file's existence. Nix will simply skip
-  # secrets if the key file does not exist. Make sure you quote the path,
-  # otherwise nix throws an error because flakes cannot reference external
-  # files.
-  ageKeyFile = "/var/lib/sops-nix/key.txt";
-
-  # Secrets are optional, if no secrets file is found no secrets are set. Each
-  # secrets file should only contain the keys actually required for that
-  # configuration.
+  # Secrets are specific to each "combined" configuration. So, each secret's
+  # file must be named in the following shape.
   secretsFile = ./${user}-${host}-${profile}.json;
   secretsFileExist = builtins.pathExists secretsFile;
 
+  # Why we use a system-level directory?
+  #  Sops normally looks for the private key in `~/.config/sops/age/keys.txt`.
+  #  We cannot use that (or any user's) directory because we use
+  #  `nixos-anywhere --extra-files` to copy the key at installation time.
+  #  `nixos-anywhere` runs as root, and when it does, none of the user's
+  #  directories exist yet, so it will create those directories (including
+  #  `~/.config`) and as a consequence all of those directories end up being
+  #  owned by root, causing all sorts of permissions issues.
+  #
+  # Why don't we check for this file existance?
+  #  `nixos-anywhere` works by building the system closure (and evaluating your
+  #  flake) on the source machine, then it copies the resulting store paths
+  #  (and anything passed via `--extra-files`) over to the target via
+  #  SSH/kexec. So, `builtins.pathExists "/var/lib/sops-nix/key.txt"` would be
+  #  asking if the file exist in the source machine — which is not only wrong,
+  #  but can be confussing.
+  ageKeyFile = "/var/lib/sops-nix/key.txt";
+
   # Sops only encrypts the secrets (the attributes values, not the attributes
   # names), this allow us to read the file before decryping it to process only
-  # the secrect that each file defines (and not throw errors if a file does not
-  # include any of the possible secrets).
+  # the secrets that each file actually defines (and not throw errors if a file
+  # does not include any of the possible secrets).
+  # (remove the "sops" attribute, it contains sops metadata)
   sopsData = if secretsFileExist then builtins.fromJSON (builtins.readFile secretsFile) else { };
-  # Remove the "sops" attribute, it contains sops metadata.
   secretNames = builtins.attrNames (removeAttrs sopsData [ "sops" ]);
 
   hasSecrets = secretsFileExist && secretNames != [ ];
@@ -45,13 +48,12 @@ let
   # Set secrets owners/permissions
   #  https://github.com/mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
   #
-  # IMPORTANT!
-  #  Do not create symlinks here, these symlinks are created by nixos (not
-  #  home-manager), when evaluating the flake for the first time with
-  #  `nixos-anywhere` none of the user directories exist yet, so those
-  #  directories are created and owned by root, causing permission issues. Let
-  #  this module just create the secrets in `/run/secrets/` with the proper
-  #  owners/permissions. Symlinks to those secrets (when required) should be
+  # DO NOT CREATE SYMLINKS HERE!!!
+  #  sops-nix is a system module, hence it is executed as root. If you create
+  #  symlinks here those secrets (and their parent directories) will end up
+  #  being owned by root, causing a lot of permissions issues! Let this module
+  #  just create the secrets files in `/run/secrets/` with the proper
+  #  owners/permissions. Symlinks to those secrets (where required) should be
   #  created by the modules using them (with home-manager).
   perSecretSettings = {
     "tailscaleAuthKey" = {
