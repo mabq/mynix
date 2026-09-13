@@ -1,5 +1,5 @@
 # Options inherent to this machine only!
-{ config, host, ... }:
+{ host, ... }:
 {
   imports = [
     ./disko/ext4-encrypted.nix
@@ -21,7 +21,7 @@
   system.stateVersion = "26.05";
 
   # boot.loader.grub.enable = true; (enabled by default)
-  boot.loader.grub.devices = [ config.disko.devices.disk.main.device ];
+  boot.loader.grub.devices = [ "/dev/disk/by-id/wwn-0x5000cca55ff314ed" ];
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
