@@ -91,14 +91,14 @@ in
   # {}, so it never prunes a previous generation once a profile has zero
   # secrets. Clear the *contents* of the ramfs mount ourselves instead of
   # removing the mount point (which the kernel won't allow while it's mounted).
-  system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
-    lib.stringAfter [ "users" "groups" ] ''
-      for d in /run/secrets.d /run/secrets-for-users.d; do
-        if [ -d "$d" ]; then
-          find "$d" -mindepth 1 -delete 2>/dev/null || true
-        fi
-      done
-      rm -rf /run/secrets.d /run/secrets
-    ''
-  );
+  # system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
+  #   lib.stringAfter [ "users" "groups" ] ''
+  #     for d in /run/secrets.d /run/secrets-for-users.d; do
+  #       if [ -d "$d" ]; then
+  #         find "$d" -mindepth 1 -delete 2>/dev/null || true
+  #       fi
+  #     done
+  #     rm -rf /run/secrets.d /run/secrets
+  #   ''
+  # );
 }
