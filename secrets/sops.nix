@@ -98,7 +98,7 @@ in
           find "$d" -mindepth 1 -delete 2>/dev/null || true
         fi
       done
-      rm -f /run/secrets.d /run/secrets
+      rm -rf /run/secrets.d /run/secrets
     ''
   );
 }
