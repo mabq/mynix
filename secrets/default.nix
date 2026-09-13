@@ -80,6 +80,8 @@ in
     SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
 
+  # Don't use the home-manager module, you would not be able to access secrets
+  # from NixOS options (like tailscale).
   sops = lib.mkIf hasSecrets {
     age.keyFile = ageKeyFile;
     defaultSopsFile = secretsFile;
