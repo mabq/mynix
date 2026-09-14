@@ -36,12 +36,6 @@
           profile = "plex-server";
           repoBranch = "restructure";
         };
-        "xps-hc" = mkSystem {
-          host = "xps-hc";
-          user = "mabq";
-          profile = "plex-server";
-          repoBranch = "restructure";
-        };
       };
     };
 }

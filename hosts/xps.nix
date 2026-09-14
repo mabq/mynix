@@ -3,6 +3,7 @@
 {
   imports = [
     ./disko/ext4-encrypted.nix
+    # ./hardware-configuration/xps-hc.nix # (when not using facter)
   ];
 
   # -- Override imports --------------------------------------------------------
@@ -19,10 +20,20 @@
   #  Newer versions of NixOS could take better decisions with the same report.
   hardware.facter.reportPath = ./facter/${host}.json;
 
-  # boot.loader.grub = {
-  #   enable = true;
-  #   efiSupport = true;
-  #   efiInstallAsRemovable = true;
+  # Grub
+  #  The following configuration for grub works for both EFI and BIOS systems.
+  #  It's not necessary to set `boot.loader.grub.device` here, since Disko will
+  #  take care of that automatically.
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
+
+  # UEFI (systemd-boot)
+  # boot.loader = {
+  #   systemd-boot.enable = true;
+  #   efi.canTouchEfiVariables = true;
   # };
 
   # Installer NixOS version
