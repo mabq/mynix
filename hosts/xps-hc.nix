@@ -2,8 +2,8 @@
 { ... }:
 {
   imports = [
-    ./hardware-configuration/xps-hc.nix
     ./disko/ext4-encrypted.nix
+    ./hardware-configuration/xps-hc.nix
   ];
 
   # -- Override imports --------------------------------------------------------
@@ -15,6 +15,15 @@
   disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
 
   # -- Host specific options ---------------------------------------------------
+
+  # Works for both EFI and BIOS systems. It's not necessary to set
+  # `boot.loader.grub.device` here, since Disko will take care of that
+  # automatically.
+  # boot.loader.grub = {
+  #   enable = true;
+  #   efiSupport = true;
+  #   efiInstallAsRemovable = true;
+  # };
 
   # Installer NixOS version
   #  Set it once at installation and never change it again.
