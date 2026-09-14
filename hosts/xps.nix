@@ -21,9 +21,8 @@
   hardware.facter.reportPath = ./facter/${host}.json;
 
   # Grub
-  #  The following configuration for grub works for both EFI and BIOS systems.
-  #  It's not necessary to set `boot.loader.grub.device` here, since Disko will
-  #  take care of that automatically.
+  #  Works for both EFI and BIOS systems. It's not necessary to set
+  #  `boot.loader.grub.device` here, Disko will take care of that.
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
