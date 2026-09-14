@@ -1,9 +1,7 @@
 # Use `mkDefault`, these should be overidable.
 {
-  config,
   lib,
   pkgs,
-  inputs,
   host,
   user,
   repoBranch,

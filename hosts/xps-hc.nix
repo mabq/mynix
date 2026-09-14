@@ -1,7 +1,8 @@
 # Options inherent to this machine only!
-{ host, ... }:
+{ ... }:
 {
   imports = [
+    ./hardware-configuration/xps-hc.nix
     ./disko/ext4-encrypted.nix
   ];
 
@@ -19,14 +20,4 @@
   #  Set it once at installation and never change it again.
   #  Use `nixos-version` on the ISO to check its version.
   system.stateVersion = "26.05";
-
-  # boot.loader.grub = {
-  #   enable = true;
-  #   efiSupport = true;
-  #   efiInstallAsRemovable = true;
-  # };
-
-  # Facter
-  #  Newer versions of NixOS could take better decisions with the same report.
-  hardware.facter.reportPath = ./facter/${host}.json;
 }
