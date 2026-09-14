@@ -20,8 +20,11 @@
   #  Use `nixos-version` on the ISO to check its version.
   system.stateVersion = "26.05";
 
-  # boot.loader.grub.enable = true; (enabled by default)
-  boot.loader.grub.devices = [ "/dev/disk/by-id/wwn-0x5000cca55ff314ed" ];
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
