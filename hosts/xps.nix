@@ -1,35 +1,35 @@
 # Options inherent to this machine only!
+# Use hardware-configuration or facter, not both [1]
 { host, ... }:
 {
   imports = [
     ./disko/ext4-encrypted.nix
-    # ./hardware-configuration/xps-hc.nix # (when not using facter)
+    # ./hardware-configuration/${host}.nix # [1]
   ];
 
-  # -- Override imports --------------------------------------------------------
-
-  # Use `lsblk -o NAME,ID-LINK` to check device's wwn id.
+  # Disko
+  #  Use `lsblk -o NAME,ID-LINK` to check device's wwn id.
   #  "wwn" stands for World Wide Name, even if you buy two machines of the
   #  exact same model and specs, the hard drives or SSDs inside them will have
-  #  different, unique WWNs.
+  #  different, unique wwn's.
   disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
-
-  # -- Host specific options ---------------------------------------------------
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
-  hardware.facter.reportPath = ./facter/${host}.json;
+  hardware.facter.reportPath = ./facter/${host}.json; # [1]
 
   # Grub
   #  Works for both EFI and BIOS systems. It's not necessary to set
   #  `boot.loader.grub.device` here, Disko will take care of that.
+  #  https://github.com/nix-community/disko/blob/master/docs/quickstart.md
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
 
-  # UEFI (systemd-boot)
+  # UEFI
+  #  On UEFI, systemd-boot is recommended over GRUB
   # boot.loader = {
   #   systemd-boot.enable = true;
   #   efi.canTouchEfiVariables = true;
