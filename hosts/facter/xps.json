@@ -994,7 +994,7 @@
         "power_management": [
           ""
         ],
-        "bogo": 4800,
+        "bogo": 4799,
         "cache": 3072,
         "units": 2,
         "page_size": 4096,
@@ -2397,7 +2397,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 49
+            "address": 54
           },
           {
             "type": "phwaddr",
@@ -2619,7 +2619,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 49
+            "address": 54
           },
           {
             "type": "phwaddr",
