@@ -3,8 +3,8 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
-      # url = "github:NixOS/nixpkgs/nixos-26.05"; # [1]
+      # url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
+      url = "github:NixOS/nixpkgs/nixos-26.05"; # [1]
     };
 
     home-manager = {
