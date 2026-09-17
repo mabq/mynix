@@ -3,7 +3,8 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
+      # url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
+      url = "github:NixOS/nixpkgs/nixos-26.05"; # [1]
     };
 
     home-manager = {
@@ -43,17 +44,15 @@
 /*
   [1]
 
-  The main nixpkgs branch to be used by this flake.
+  The nixpkgs channel used by this flake. You can find all available
+  branches in:
 
-  `nixos-unstable` advances after NixOS integration tests pass — recommended
-  when using NixOS. If you want an even more stable branch use the last version
-  available.
+    `https://channels.nixos.org/`
 
-  `nixpkgs-unstable` advances after package builds succeed (no full NixOS
-  integration tests).
+  The ones starting with `nixos-*` are the ones that include NixOS integration
+  testings and therefore the ones that you should use here.
 
-  Both lag behind `master` for a couple of days. Check status at
-  https://status.nixos.org.
+  For the status of all branches, see: `https://status.nixos.org`.
 
   [2]
 
