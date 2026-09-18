@@ -2397,7 +2397,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 56
+            "address": 48
           },
           {
             "type": "phwaddr",
@@ -2682,7 +2682,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 56
+            "address": 48
           },
           {
             "type": "phwaddr",
