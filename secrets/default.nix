@@ -8,7 +8,6 @@
 
 {
   lib,
-  pkgs,
   host,
   user,
   profile,
@@ -84,7 +83,6 @@ in
   # Don't use the home-manager module, you would not be able to access secrets
   # from NixOS options (like tailscale).
   sops = lib.mkIf hasSecrets {
-    # package = pkgs.sops;
     age.keyFile = ageKeyFile;
     defaultSopsFile = secretsFile;
     # This creates an attribute set where the keys are the secret's names and

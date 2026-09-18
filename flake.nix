@@ -49,7 +49,7 @@
     `https://channels.nixos.org/`
 
   The ones starting with `nixos-*` are the ones that include NixOS integration
-  testings and therefore the ones that you should use here.
+  testings and therefore the ones you should use here.
 
   For the status of all branches, see: `https://status.nixos.org`.
 
@@ -57,23 +57,23 @@
 
   The home-manager branch to be used by this flake.
 
-  We explicitly use the `master` branch since that is the home-manager branch
-  that is tested against the "unstable" branches of nixpkgs.
+  We explicitly use the `master` branch since that is the branch that is tested
+  against the "unstable" branches of nixpkgs.
 
   If you ever change the `nixpkgs` branch to some fixed version like `26.06`
   you should also change the home-manager branch to match that one.
 
   [3]
 
-  Force the input flake to use the same nixpkgs branch used by this flake.
+  Force the flake to use the same nixpkgs branch used in this flake.
 
   This is recommended for most input flakes, but that is now always the case.
   Ask AI whether you should do this for any new input flakes you add.
 
   [4]
 
-  The nixosConfiguration name is only used by the cli command targeting the
-  configuration, for example:
+  The nixos configuration name is passed to the `nixos-rebuild` command to
+  target a specific configuration.
 
     `sudo nixos-rebuild --flake .#<CONFIGURATION-NAME>`
 

@@ -121,7 +121,7 @@ with lib;
       MYNIX_THEME = "${localThemeDirAbs}";
 
       # Include binaries of this repo in PATH
-      # PATH = "${repoDir}/bin"; # don't use `<path>:$PATH` syntax here
+      PATH = "${repoDir}/bin"; # don't use `<path>:$PATH` syntax here
 
       PAGER = "less -R --use-color -Dd+r -Du+b";
       MANPAGER = "less -R --use-color -Dd+r -Du+b";

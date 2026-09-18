@@ -1,9 +1,4 @@
-{
-  config,
-  user,
-  profile,
-  ...
-}:
+{ user, ... }:
 {
   imports = [
     ./hardware/zram.nix

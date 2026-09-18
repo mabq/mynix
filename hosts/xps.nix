@@ -33,8 +33,7 @@
     efiInstallAsRemovable = true;
   };
 
-  # UEFI
-  #  On UEFI, systemd-boot is recommended over GRUB
+  # On UEFI, systemd-boot is recommended over GRUB
   # boot.loader = {
   #   systemd-boot.enable = true;
   #   efi.canTouchEfiVariables = true;
