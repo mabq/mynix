@@ -1,3 +1,4 @@
+# [0]
 {
   description = "My nixos configs";
 
@@ -41,17 +42,26 @@
 }
 
 /*
+  [0]
+
+  To understand flakes, watch:
+    https://www.youtube.com/watch?v=JCeYq72Sko0
+
   [1]
 
-  The nixpkgs channel used by this flake. You can find all available
+  The version of nixpkgs used by this flake. You can find all available
   branches in:
 
-    `https://channels.nixos.org/`
+    https://channels.nixos.org/
 
   The ones starting with `nixos-*` are the ones that include NixOS integration
   testings and therefore the ones you should use here.
 
-  For the status of all branches, see: `https://status.nixos.org`.
+  For the status of all branches, see:
+    https://status.nixos.org
+
+  To update flake inputs, watch:
+    https://www.youtube.com/watch?v=fLICrNK_COw
 
   [2]
 
@@ -65,10 +75,10 @@
 
   [3]
 
-  Force the flake to use the same nixpkgs branch used in this flake.
+  Force the flake input to use the same version of nixpkgs as this flake.
 
-  This is recommended for most input flakes, but that is now always the case.
-  Ask AI whether you should do this for any new input flakes you add.
+  For more information, watch:
+    https://youtu.be/JCeYq72Sko0?t=705
 
   [4]
 

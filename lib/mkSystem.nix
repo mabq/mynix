@@ -1,3 +1,4 @@
+# This is not a nix moduler. It is just a helper function used by the flake.
 {
   self,
   inputs,
@@ -51,13 +52,16 @@ let
 in
 inputs.nixpkgs.lib.nixosSystem {
   inherit specialArgs;
+
+  # These are nix modules. To understand nix modules, watch:
+  #   https://www.youtube.com/watch?v=xdDZT1cEuLU
   modules = [
-    # -- Flake inputs --
+    # Use flake inputs modules
     inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
 
-    # -- Configs --
+    # Our config modules
     ../defaults
     ../secrets
     ../hosts/${host}.nix
