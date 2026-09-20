@@ -4,6 +4,7 @@
 {
   self,
   pkgs,
+  inputs,
   user,
   repoConfigDir,
   repoConfigDirAbs,
@@ -14,6 +15,11 @@ let
   packagesList = self + repoConfigDir + "/nvim/${configName}/packages.nix";
 in
 {
+  # Map the legacy `<nixpkgs>` lookup directly to the exact Nixpkgs path pinned
+  # in the Flake's `flake.lock` file.
+  # https://youtu.be/M_zMoHlbZBY?t=196
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
   # Make nvim the default text editor.
   # Read session variables notes in the default module for more information
   # about this option..

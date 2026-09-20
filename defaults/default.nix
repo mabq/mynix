@@ -2,6 +2,7 @@
 {
   lib,
   pkgs,
+  inputs,
   host,
   user,
   repoBranch,
@@ -43,6 +44,7 @@ with lib;
   nix = {
     # Use the latest version of the cli
     package = mkDefault pkgs.nixVersions.latest;
+
     settings = {
       experimental-features = [
         "nix-command"
@@ -52,6 +54,10 @@ with lib;
       #  https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
       auto-optimise-store = mkDefault true;
     };
+
+    # Register the flake input in the system registry (for commands like `nix run nixpkgs#...`).
+    registry.nixpkgs.flake = inputs.nixpkgs;
+
     gc = {
       # Save disk space by doing garbage collection automatically
       #  https://nixos.org/manual/nixos/stable/#sec-nix-gc

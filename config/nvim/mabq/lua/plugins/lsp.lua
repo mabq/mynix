@@ -68,7 +68,24 @@ return {
         },
 
         -- Nix (nixd required `nixd`)
-        nixd = {},
+        nixd = {
+          cmd = { "nixd" },
+          settings = {
+            nixd = {
+              nixpkgs = {
+                expr = "import <nixpkgs> { }",
+              },
+              -- formatting = {
+              --   command = "nixfmt",
+              -- },
+              options = {
+                nixos = {
+                  expr = '(buintins.getFlake "/home/mabq/.local/share/mynix").nixosConfigurations.xps.options',
+                },
+              },
+            },
+          },
+        },
       }
 
       -- Configure and enable

@@ -18,17 +18,22 @@ with pkgs;
 
   yazi # Blazing fast terminal file manager written in Rust, based on async I/O
 
+  # Language tools
+  # ----------------------------------------------------------------------------
+
+  # Bash
   bash-language-server # Language server for Bash
   shfmt # Shell parser and formatter
 
+  # Lua
   lua-language-server # Language server that offers Lua language support
   stylua # Opinionated Lua code formatter
+  # luajit # High-performance JIT compiler for Lua 5.1
+  # luarocks # A package manager for Lua modules
 
+  # Nix
   nixd # Feature-rich Nix language server interoperating with C++ nix
   nixfmt # Official formatter for Nix code
 
   biome # Toolchain of the web
-
-  # luajit # High-performance JIT compiler for Lua 5.1
-  # luarocks # A package manager for Lua modules
 ]
