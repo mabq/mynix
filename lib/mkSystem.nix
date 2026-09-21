@@ -63,7 +63,7 @@ inputs.nixpkgs.lib.nixosSystem {
 
     # Our config modules
     ../defaults
-    ../secrets
+    #../secrets
     ../hosts/${host}.nix
     ../users/${user}.nix
     ../profiles/${profile}.nix
