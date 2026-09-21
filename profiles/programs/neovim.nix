@@ -16,8 +16,7 @@ let
 in
 {
   # Map the legacy `<nixpkgs>` lookup directly to the exact Nixpkgs path pinned
-  # in the Flake's `flake.lock` file.
-  # https://youtu.be/M_zMoHlbZBY?t=196
+  # in the Flake's `flake.lock` file. Watch https://youtu.be/M_zMoHlbZBY?t=196
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   # Make nvim the default text editor.

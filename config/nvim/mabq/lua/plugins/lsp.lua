@@ -67,7 +67,7 @@ return {
           },
         },
 
-        -- Nix (nixd required `nixd`)
+        -- Nix (nixd, watch https://www.youtube.com/watch?v=M_zMoHlbZBY)
         nixd = {
           cmd = { "nixd" },
           settings = {
