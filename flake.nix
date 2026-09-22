@@ -37,6 +37,12 @@
           profile = "plex-server";
           repoBranch = "restructure";
         };
+        "macbook" = mkSystem {
+          host = "macbook";
+          user = "mabq";
+          profile = "plex-server";
+          repoBranch = "restructure";
+        };
       };
     };
 }
