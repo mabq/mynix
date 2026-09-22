@@ -6,11 +6,25 @@
     content = {
       type = "gpt";
       partitions = {
+
+        # GRUB:
+        #   The MBR/EF02 partition (BIOS boot partition) holds GRUB's core
+        #   image when booting via legacy BIOS on a GPT disk. GRUB can't embed
+        #   itself in the small gap before the first partition on GPT disks the
+        #   way it can on MBR disks, so it needs this dedicated 1M partition to
+        #   stash its second-stage bootloader.
+        # systemd-boot:
+        #   This partition is ignored on systems using systemd-boot.
         MBR = {
           type = "EF02"; # for grub MBR
           size = "1M";
           priority = 1; # needs to be first partition
         };
+
+        # GRUB:
+        #   The ESP/EF00 partition is used by GRUB when booting via UEFI.
+        # systemd-boot:
+        #   Boots entries from this partition.
         ESP = {
           type = "EF00";
           size = "500M";
@@ -21,11 +35,15 @@
             mountOptions = [ "umask=0077" ]; # readable only by root
           };
         };
+
+        # Root partition (boot-loader agnostic)
         luks = {
           size = "100%";
           content = {
             type = "luks";
             name = "crypted";
+            # Small security risk in exchange of extended life time and
+            # performance, only applies to SSDs.
             settings.allowDiscards = lib.mkDefault true;
             content = {
               type = "filesystem";
@@ -34,6 +52,7 @@
             };
           };
         };
+
       };
     };
   };
