@@ -8,6 +8,7 @@
 
 {
   lib,
+  inputs,
   host,
   user,
   profile,
@@ -79,6 +80,10 @@ in
     # where to find it.
     SOPS_AGE_KEY_FILE = "${ageKeyFile}";
   };
+
+  imports = [
+    inputs.sops-nix.nixosModules.sops
+  ];
 
   # Don't use the home-manager module, you would not be able to access secrets
   # from NixOS options (like tailscale).

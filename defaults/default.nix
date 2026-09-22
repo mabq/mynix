@@ -140,6 +140,10 @@ with lib;
   # Home-manager
   # ----------------------------------------------------------------------------
 
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+  ];
+
   home-manager = {
     # Make HomeManager use the global `pkgs` that is configured via the system
     # level nixpkgs options. This saves an extra Nixpkgs evaluation, adds

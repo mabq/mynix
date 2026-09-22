@@ -56,14 +56,8 @@ inputs.nixpkgs.lib.nixosSystem {
   # These are nix modules. To understand nix modules, watch:
   #   https://www.youtube.com/watch?v=xdDZT1cEuLU
   modules = [
-    # Use flake inputs modules
-    inputs.disko.nixosModules.disko
-    inputs.home-manager.nixosModules.home-manager
-    inputs.sops-nix.nixosModules.sops
-
-    # Our config modules
     ../defaults
-    #../secrets
+    ../secrets
     ../hosts/${host}.nix
     ../users/${user}.nix
     ../profiles/${profile}.nix

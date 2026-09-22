@@ -1,15 +1,15 @@
 # Options inherent to this machine only!
 # Use hardware-configuration or facter, not both [1]
 {
-  inputs,
+  # inputs,
   host,
   ...
 }:
 {
   imports = [
-    inputs.disko.nixosModules.disko
-    ./disko/ext4-encrypted.nix
-    # ./hardware-configuration/${host}.nix # [1]
+    # inputs.disko.nixosModules.disko
+    # ./disko/ext4-encrypted.nix
+    ./hardware-configuration/${host}.nix # [1]
   ];
 
   # Disko
@@ -17,11 +17,11 @@
   #  "wwn" stands for World Wide Name, even if you buy two machines of the
   #  exact same model and specs, the hard drives or SSDs inside them will have
   #  different, unique wwn's.
-  disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
+  # disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
-  hardware.facter.reportPath = ./facter/${host}.json; # [1]
+  # hardware.facter.reportPath = ./facter/${host}.json; # [1]
 
   # Installer NixOS version
   #  Set it once at installation and never change it again.
@@ -32,15 +32,15 @@
   #  Works for both EFI and BIOS systems. It's not necessary to set
   #  `boot.loader.grub.device` here, Disko will take care of that.
   #  https://github.com/nix-community/disko/blob/master/docs/quickstart.md
-  boot.loader.grub = {
-    enable = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
+  # boot.loader.grub = {
+  #   enable = true;
+  #   efiSupport = true;
+  #   efiInstallAsRemovable = true;
+  # };
 
   # On UEFI, systemd-boot is recommended over GRUB
-  # boot.loader = {
-  #   systemd-boot.enable = true;
-  #   efi.canTouchEfiVariables = true;
-  # };
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 }
