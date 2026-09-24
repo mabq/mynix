@@ -1,15 +1,15 @@
 # Options inherent to this machine only!
 # Use hardware-configuration or facter, not both [1]
 {
-  # inputs,
+  inputs,
   host,
   ...
 }:
 {
   imports = [
-    # inputs.disko.nixosModules.disko
-    # ./disko/ext4-encrypted.nix
-    ./hardware-configuration/${host}.nix # [1]
+    inputs.disko.nixosModules.disko
+    ./disko/ext4-encrypted.nix
+    # ./hardware-configuration/${host}.nix # [1]
   ];
 
   # Disko
@@ -17,11 +17,11 @@
   #  "wwn" stands for World Wide Name, even if you buy two machines of the
   #  exact same model and specs, the hard drives or SSDs inside them will have
   #  different, unique wwn's.
-  # disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca55ff314ed";
+  disko.devices.disk.main.device = "/dev/disk/by-id/wwn-0x5000cca61ee1b8db";
 
   # Facter
   #  Newer versions of NixOS could take better decisions with the same report.
-  # hardware.facter.reportPath = ./facter/${host}.json; # [1]
+  hardware.facter.reportPath = ./facter/${host}.json; # [1]
 
   # Installer NixOS version
   #  Set it once at installation and never change it again.
