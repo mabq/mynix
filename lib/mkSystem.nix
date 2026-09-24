@@ -1,4 +1,4 @@
-# This is not a nix moduler. It is just a helper function used by the flake.
+# This is not a nix module. It is just a helper function used by the flake.
 {
   self,
   inputs,
@@ -12,10 +12,10 @@
 }:
 let
   # These variables are used across nix and configuration files to avoid
-  # hard-coding paths. Abs (absolute) paths are mostly used to create
-  # outOfStoreSymlinks. Non-abs paths are used in conjuction with `self` to
-  # create paths relative to the flake root, instead of being relative to the
-  # current module. Do a live-grep to see where each one is used.
+  # hard-coding paths. Absolute paths (abs) are mostly used to create
+  # outOfStoreSymlinks. Non-absolute paths are used in conjuction with `self`
+  # to create paths relative to the flake root, instead of being relative to
+  # the current module. Do a live-grep to see where each one is used.
   repoName = "mynix";
   repoUrl = "https://github.com/mabq/${repoName}.git";
   repoDir = "/home/${user}/.local/share/${repoName}";
@@ -53,8 +53,6 @@ in
 inputs.nixpkgs.lib.nixosSystem {
   inherit specialArgs;
 
-  # These are nix modules. To understand nix modules, watch:
-  #   https://www.youtube.com/watch?v=xdDZT1cEuLU
   modules = [
     ../defaults
     ../secrets

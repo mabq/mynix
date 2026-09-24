@@ -1,4 +1,4 @@
-# Use `mkDefault`, these should be overidable.
+# Don't forget to use `mkDefault` here, these definitions must be overidable.
 {
   lib,
   pkgs,
@@ -16,13 +16,19 @@
 }:
 with lib;
 {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+  ];
+
   # ----------------------------------------------------------------------------
   # NixOS
   # ----------------------------------------------------------------------------
 
   # Clone the repo automatically on first boot.
-  #  Most config files are symlinks pointing to this repository, so we need the
-  #  repository in place since the very first boot.
+  #  Most config files are symlinks pointing to this repository (out of store
+  #  symlinks), so we need the repository in place on the very first boot.
+  #  This creates a normal systemd service, so you can check its status as any
+  #  other.
   systemd.services."clone-${repoName}" = {
     description = "Clone ${repoName} repository if missing";
     wantedBy = [ "multi-user.target" ];
@@ -139,10 +145,6 @@ with lib;
   # ----------------------------------------------------------------------------
   # Home-manager
   # ----------------------------------------------------------------------------
-
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
 
   home-manager = {
     # Make HomeManager use the global `pkgs` that is configured via the system

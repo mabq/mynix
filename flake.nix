@@ -1,4 +1,3 @@
-# [0]
 {
   description = "My nixos configs";
 
@@ -48,11 +47,6 @@
 }
 
 /*
-  [0]
-
-  To understand flakes, watch:
-    https://www.youtube.com/watch?v=JCeYq72Sko0
-
   [1]
 
   The version of nixpkgs used by this flake. You can find all available
