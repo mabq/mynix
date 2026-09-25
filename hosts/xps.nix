@@ -7,7 +7,6 @@
 }:
 {
   imports = [
-    inputs.disko.nixosModules.disko
     ./disko/ext4-encrypted.nix
     # ./hardware-configuration/${host}.nix # [1]
   ];

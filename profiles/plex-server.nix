@@ -4,7 +4,6 @@
     ./hardware/zram.nix
     ./networking/systemd-networkd.nix
     ./networking/tailscale.nix
-    ./programs/openssh.nix
 
     (import ./hardware/keyd.nix { })
     (import ./programs/atuin.nix { configName = "simple"; })
@@ -16,6 +15,7 @@
     (import ./programs/tmux.nix { })
     (import ./programs/yazi.nix { })
     (import ./programs/zsh.nix { })
+    ./programs/openssh.nix
 
     (import ./programs/foot.nix { })
     # (import ./programs/wayland/niri.nix { })

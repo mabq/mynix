@@ -77,10 +77,6 @@ let
   };
 in
 {
-  imports = [
-    inputs.sops-nix.nixosModules.sops
-  ];
-
   environment.sessionVariables = {
     # Since we don't use the default directory for the key, we must show sops
     # where to find it.
