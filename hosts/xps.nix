@@ -22,9 +22,13 @@
   #  Newer versions of NixOS could take better decisions with the same report.
   hardware.facter.reportPath = ./facter/${host}.json; # [1]
 
-  # Installer NixOS version
-  #  Set it once at installation and never change it again.
-  #  Use `nixos-version` on the ISO to check its version.
+  # System state version
+  #  Records the NixOS release this machine was first installed on. It is there
+  #  so stateful data (data that survives rebuilds and upgrades, such as
+  #  databases, passwords, or application files) keeps working when everything
+  #  around it moves on. So you set it during installation, and then you leave
+  #  it alone forever. Bumping it because a newer number exists is not an
+  #  upgrade. Use `nixos-version` on the ISO to check its version.
   system.stateVersion = "26.05";
 
   # Grub

@@ -166,6 +166,7 @@ with lib;
           # of truth for the OS. This option is just a path home-manager writes
           # files into.
           homeDirectory = "/home/${user}";
+          # Read notes on host file
           stateVersion = osConfig.system.stateVersion;
           packages = with pkgs; [
             # -- Packages always required --
