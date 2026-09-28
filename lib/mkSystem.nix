@@ -11,25 +11,27 @@
   repoBranch ? "main",
 }:
 let
-  # These variables are used across nix and configuration files to avoid
-  # hard-coding paths. Absolute paths (abs) are mostly used to create
-  # outOfStoreSymlinks. Non-absolute paths are used in conjuction with `self`
-  # to create paths relative to the flake root, instead of being relative to
-  # the current module. Do a live-grep to see where each one is used.
-  repoName = "mynix";
-  repoUrl = "https://github.com/mabq/${repoName}.git";
-  repoDir = "/home/${user}/.local/share/${repoName}";
-  repoConfigDir = "/config";
-  repoConfigDirAbs = repoDir + repoConfigDir;
-  repoThemeDir = "${repoConfigDir}/${repoName}/themes/${theme}";
-  repoThemeDirAbs = repoDir + repoThemeDir;
-  localThemeDir = "/.config/${repoName}/theme";
-  localThemeDirAbs = "/home/${user}" + localThemeDir;
+  paths = rec {
+    # These variables are used across nix and configuration files to avoid
+    # hard-coding paths. Absolute paths (abs) are mostly used to create
+    # outOfStoreSymlinks. Non-absolute paths are used in conjuction with `self`
+    # to create paths relative to the flake root, instead of being relative to
+    # the current module. Do a live-grep to see where each one is used.
+    repoName = "mynix";
+    repoUrl = "https://github.com/mabq/${repoName}.git";
+    repoDir = "/home/${user}/.local/share/${repoName}";
+    repoConfigDir = "/config";
+    repoConfigDirAbs = repoDir + repoConfigDir;
+    repoThemeDir = "${repoConfigDir}/${repoName}/themes/${theme}";
+    repoThemeDirAbs = repoDir + repoThemeDir;
+    localThemeDir = "/.config/${repoName}/theme";
+    localThemeDirAbs = "/home/${user}" + localThemeDir;
+  };
 
   # `specialArgs` (unlike `_module.args`) does not cause infinite recursion
   # when using one of these in the `imports` section of another module.
   #  https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
-  specialArgs = {
+  specialArgs = paths // {
     inherit
       self
       inputs
@@ -38,22 +40,19 @@ let
       profile
       theme
       repoBranch
-      repoName
-      repoUrl
-      repoDir
-      repoConfigDir
-      repoConfigDirAbs
-      repoThemeDir
-      repoThemeDirAbs
-      localThemeDir
-      localThemeDirAbs
       ;
   };
+
 in
+
 inputs.nixpkgs.lib.nixosSystem {
   inherit specialArgs;
 
   modules = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
+
     ../defaults
     ../secrets
     ../hosts/${host}.nix

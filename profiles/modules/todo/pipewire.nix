@@ -9,7 +9,8 @@ with lib;
     wireplumber.enable = mkDefault true;
   };
 
-  security.rtkit.enable = mkDefault true; # required by pipewire
+  # PipeWire use this to acquire realtime priority
+  security.rtkit.enable = mkDefault true;
 
   environment.systemPackages = with pkgs; [
     wiremix # Simple TUI mixer for PipeWire
