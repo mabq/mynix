@@ -15,7 +15,6 @@
     (import ./programs/tmux.nix { })
     (import ./programs/yazi.nix { })
     (import ./programs/zsh.nix { })
-    ./programs/openssh.nix
 
     (import ./programs/foot.nix { })
     # (import ./programs/wayland/niri.nix { })
