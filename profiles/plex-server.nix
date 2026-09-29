@@ -24,6 +24,8 @@
     ./modules/compositor/hyprland.nix
   ];
 
+  mynix.network.manager = "systemd";
+
   services.plex = {
     # Configure Plex via `http://<SERVER-IP>:32400/web`
     enable = true;
