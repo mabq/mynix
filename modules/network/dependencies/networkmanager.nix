@@ -12,7 +12,7 @@ with lib;
     ./systemd-resolved.nix
   ];
 
-  config = lib.mkIf (config.mynix.network.manager == "systemd") {
+  config = lib.mkIf (config.mynix.network.manager == "networkmanager") {
 
     # ----------------------------------------------------------------------------
     # Disable conflicting options
