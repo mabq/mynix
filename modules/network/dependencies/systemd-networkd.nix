@@ -8,7 +8,7 @@
 with lib;
 {
   imports = [
-    ./dependencies/systemd-resolved.nix
+    ./systemd-resolved.nix
   ];
 
   config = lib.mkIf (config.mynix.network.manager == "networkmanager") {
