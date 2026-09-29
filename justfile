@@ -1,6 +1,9 @@
 xps:
   sudo nixos-rebuild --verbose --show-trace switch --flake .#xps
 
+macbook:
+  sudo nixos-rebuild --verbose --show-trace switch --flake .#macbook
+
 nr config:
   sudo nixos-rebuild --verbose --show-trace switch --flake .#{{config}}
 
