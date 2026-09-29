@@ -1,6 +1,7 @@
 # systemd-networkd as the network manager
 {
   lib,
+  config,
   pkgs,
   user,
   ...
