@@ -11,10 +11,24 @@
   repoBranch ? "main",
 }:
 let
-  paths = rec {
+  # `specialArgs` (unlike `_module.args`) does not cause infinite recursion
+  # when using one of these in the `imports` section of another module.
+  #  https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
+  specialArgs = {
+    inherit
+      self
+      inputs
+      host
+      user
+      profile
+      theme
+      repoBranch
+      ;
+  }
+  // rec {
     # These variables are used across nix and configuration files to avoid
     # hard-coding paths. Absolute paths (abs) are mostly used to create
-    # outOfStoreSymlinks. Non-absolute paths are used in conjuction with `self`
+    # OutOfStoreSymlinks. Non-absolute paths are used in conjuction with `self`
     # to create paths relative to the flake root, instead of being relative to
     # the current module. Do a live-grep to see where each one is used.
     repoName = "mynix";
@@ -26,21 +40,6 @@ let
     repoThemeDirAbs = repoDir + repoThemeDir;
     localThemeDir = "/.config/${repoName}/theme";
     localThemeDirAbs = "/home/${user}" + localThemeDir;
-  };
-
-  # `specialArgs` (unlike `_module.args`) does not cause infinite recursion
-  # when using one of these in the `imports` section of another module.
-  #  https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
-  specialArgs = paths // {
-    inherit
-      self
-      inputs
-      host
-      user
-      profile
-      theme
-      repoBranch
-      ;
   };
 
 in

@@ -1,8 +1,9 @@
 { user, ... }:
 {
   imports = [
+    ../modules
+
     ./hardware/zram.nix
-    ./networking/systemd-networkd.nix
     ./networking/tailscale.nix
 
     (import ./hardware/keyd.nix { })

@@ -49,18 +49,18 @@
 /*
   [1]
 
-  The version of nixpkgs used by this flake. You can find all available
+  The moving version of nixpkgs used by this flake. You can find all available
   branches in:
 
     https://channels.nixos.org/
 
   The ones starting with `nixos-*` are the ones that include NixOS integration
-  testings and therefore the ones you should use here.
+  tests and therefore the ones you should use here.
 
   For the status of all branches, see:
     https://status.nixos.org
 
-  To update flake inputs, watch:
+  To update the lock file execute `sudo nix flake update`, for info watch:
     https://www.youtube.com/watch?v=fLICrNK_COw
 
   [2]

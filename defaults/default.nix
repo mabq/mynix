@@ -78,7 +78,7 @@ with lib;
 
   boot = {
     # Use the absolute newest, bleeding-edge Linux kernel version available in
-    # the nixpkgs repository
+    # the nixpkgs repository.
     kernelPackages = mkDefault pkgs.linuxPackages_latest;
   };
 
@@ -102,6 +102,7 @@ with lib;
     users.${user} = {
       isNormalUser = mkDefault true;
       home = mkDefault "/home/${user}";
+      # packages = with pkgs; [ ];
     };
   };
 

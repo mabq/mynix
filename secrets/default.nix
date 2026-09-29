@@ -10,7 +10,6 @@
 
 {
   lib,
-  inputs,
   host,
   user,
   profile,

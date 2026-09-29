@@ -1,10 +1,6 @@
 # Options inherent to this machine only!
 # Use hardware-configuration or facter, not both [1]
-{
-  # inputs,
-  host,
-  ...
-}:
+{ host, ... }:
 {
   imports = [
     # ./disko/ext4-encrypted.nix
