@@ -4,7 +4,6 @@
     ../modules
 
     ./hardware/zram.nix
-    ./networking/tailscale.nix
 
     (import ./hardware/keyd.nix { })
     (import ./programs/atuin.nix { configName = "simple"; })

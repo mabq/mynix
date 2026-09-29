@@ -8,10 +8,6 @@
 }:
 with lib;
 {
-  imports = [
-    ./systemd-resolved.nix
-  ];
-
   config = lib.mkIf (config.mynix.network.manager == "systemd") {
     # ----------------------------------------------------------------------------
     # Disable conflicting options
