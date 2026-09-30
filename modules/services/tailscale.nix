@@ -5,6 +5,7 @@
 }:
 let
   cfg = config.mynix.services.tailscale;
+  secrets = config.sops.secrets;
 in
 with lib;
 {
@@ -13,16 +14,11 @@ with lib;
     services.tailscale = {
       enable = mkDefault true;
 
-      # Login automatically if the tailscaleAuthKey is passed as a secret. The
-      # key file is created by sops-nix at activation time in memory in
-      # `/run/secrets/sshKey`. See notes in that module for more information.
-      #
-      # Otherwise, login manually with `sudo tailscale login`.
-      authKeyFile =
-        let
-          secrets = config.sops.secrets;
-        in
-        lib.mkIf (secrets ? "tailscaleAuthKey") secrets."tailscaleAuthKey".path;
+      # If a tailscale authentication key is passed as a secret the machine is
+      # authenticated automatically. Otherwise, login manually with `sudo
+      # tailscale login`. For information about secrets see notes in that
+      # module.
+      authKeyFile = lib.mkIf (secrets ? "tailscaleAuthKey") secrets."tailscaleAuthKey".path;
 
       # For all possible flags, see:
       #  https://tailscale.com/docs/reference/tailscale-cli#set

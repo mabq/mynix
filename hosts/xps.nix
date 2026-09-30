@@ -27,7 +27,7 @@
   #  upgrade. Use `nixos-version` on the ISO to check its version.
   system.stateVersion = "26.05";
 
-  # Grub
+  # Use GRUB as boot loader
   #  Works for both EFI and BIOS systems. It's not necessary to set
   #  `boot.loader.grub.device` here, Disko will take care of that.
   #  https://github.com/nix-community/disko/blob/master/docs/quickstart.md
@@ -36,12 +36,6 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-
-  # On UEFI, systemd-boot is recommended over GRUB
-  # boot.loader = {
-  #   systemd-boot.enable = true;
-  #   efi.canTouchEfiVariables = true;
-  # };
 
   mynix.hardware.memory.zram.enable = true;
 }

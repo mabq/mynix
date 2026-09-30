@@ -17,8 +17,10 @@
 with lib;
 {
   imports = [
+    # Check `mynix` options with `nix repl .#nixos`
     ./hardware
     ./network
+    ./secrets
     ./services
   ];
 

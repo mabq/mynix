@@ -53,7 +53,6 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.sops-nix.nixosModules.sops
 
     ../modules
-    ../secrets
     ../hosts/${host}.nix
     ../users/${user}.nix
     ../profiles/${profile}.nix

@@ -1,4 +1,3 @@
-# These options should be set in the host config file, not in the profile.
 { lib, ... }:
 {
   imports = [
@@ -6,6 +5,7 @@
     ./memory/swap.nix
   ];
 
+  # Use these options in the host file (not in the profile file)
   options = {
     mynix.hardware.memory.zram = {
       enable = lib.mkEnableOption "Whether to enable zram"; # disabled by default
