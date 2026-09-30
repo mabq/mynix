@@ -1,4 +1,4 @@
-# Options inherent to this machine only!
+# Options inherent to this machine required at installation time!
 # Use hardware-configuration or disko+facter (not both) [1]
 { host, ... }:
 {
@@ -27,7 +27,7 @@
   #  upgrade. Use `nixos-version` on the ISO to check its version.
   system.stateVersion = "26.05";
 
-  # Use GRUB as boot loader
+  # GRUB as boot loader
   #  Works for both EFI and BIOS systems. It's not necessary to set
   #  `boot.loader.grub.device` here, Disko will take care of that.
   #  https://github.com/nix-community/disko/blob/master/docs/quickstart.md
@@ -37,5 +37,6 @@
     efiInstallAsRemovable = true;
   };
 
+  # Compress memory
   mynix.hardware.memory.zram.enable = true;
 }

@@ -1,4 +1,4 @@
-# Options inherent to this machine only!
+# Options inherent to this machine required at installation time!
 # Use hardware-configuration or disko+facter (not both) [1]
 { host, ... }:
 {
@@ -27,7 +27,7 @@
   #  upgrade. Use `nixos-version` on the ISO to check its version.
   system.stateVersion = "26.05";
 
-  # Use systemd-boot as boot loader
+  # systemd-boot as boot loader
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
