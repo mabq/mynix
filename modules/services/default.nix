@@ -17,7 +17,7 @@
         # Add future possible configurations here for type checking
         type = lib.types.enum [ "default" ];
         default = "default";
-        description = "The configuration to use";
+        description = "keyd configuration name";
       };
     };
 

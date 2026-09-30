@@ -20,6 +20,7 @@ with lib;
     # To check all `mynix` options, first execute `nix repl .` and then `:p nixosConfigurations.<HOST>.config.mynix`
     ./hardware
     ./network
+    ./programs
     ./secrets
     ./services
   ];

@@ -13,7 +13,7 @@
         "systemd"
       ];
       default = "networkmanager";
-      description = "The system network manager.";
+      description = "System network manager";
     };
   };
 
