@@ -52,7 +52,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
 
-    ../defaults
+    ../modules
     ../secrets
     ../hosts/${host}.nix
     ../users/${user}.nix

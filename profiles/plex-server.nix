@@ -1,8 +1,6 @@
 { user, ... }:
 {
   imports = [
-    ../modules
-
     (import ./programs/atuin.nix { configName = "simple"; })
     (import ./programs/bat.nix { })
     (import ./programs/btop.nix { })
@@ -20,7 +18,6 @@
   ];
 
   mynix.network.manager = "systemd";
-  mynix.hardware.memory.zram.enable = true;
 
   services.plex = {
     # Configure Plex via `http://<SERVER-IP>:32400/web`

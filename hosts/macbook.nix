@@ -1,5 +1,5 @@
 # Options inherent to this machine only!
-# Use hardware-configuration or facter, not both [1]
+# Use hardware-configuration or disko+facter (not both) [1]
 { host, ... }:
 {
   imports = [
