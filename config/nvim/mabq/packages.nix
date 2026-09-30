@@ -1,5 +1,4 @@
-# Define all packages required by this Neovim configuration here!
-
+# Packages required by this Neovim configuration
 { pkgs }:
 with pkgs;
 [

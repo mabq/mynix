@@ -1,45 +1,48 @@
 {
-  configName ? "default",
-}:
-{
+  config,
+  lib,
   pkgs,
   user,
   repoConfigDirAbs,
   ...
 }:
+let
+  cfg = config.mynix.programs.zsh;
+in
 {
-  # Must be enabled to be used as the default shell
-  programs.zsh.enable = true;
+  config = lib.mkIf cfg.enable {
+    # The user file sets the default shell for each user.
 
-  # Make it the default shell for the user
-  users.users.${user}.shell = pkgs.zsh;
+    # Must be enabled to be used as the default shell
+    programs.zsh.enable = true;
 
-  # Home-manager
-  home-manager.users.${user} = {
-    home = {
-      packages = with pkgs; [
-        # -- Packages required by default config files --
-        exfatprogs # exFAT filesystem userspace utilities
-        eza # Modern, maintained replacement for ls (!aliases)
-        ffmpeg # Complete, cross-platform solution to record, convert and stream audio and video (!functions)
-        fzf # Command-line fuzzy finder
-        imagemagick # Software suite to create, edit, compose, or convert bitmap images (!functions(
-        parted # Create, destroy, resize, check, and copy partitions
-        zoxide # Fast cd command that learns your habits (!aliases) (must be initialized)
-        zsh-autosuggestions # Fish-like shell autosuggestions for Zsh (!inputrc)
-        zsh-history-substring-search # Fish-like shell history-substring-search for Zsh (!inputrc)
-        zsh-syntax-highlighting # Fish-like shell like syntax highlighting for Zsh (!inputrc)
+    # Home-manager
+    home-manager.users.${user} = {
+      home = {
+        packages = with pkgs; [
+          # -- Packages required by default config files --
+          exfatprogs # exFAT filesystem userspace utilities
+          eza # Modern, maintained replacement for ls (!aliases)
+          ffmpeg # Complete, cross-platform solution to record, convert and stream audio and video (!functions)
+          fzf # Command-line fuzzy finder
+          imagemagick # Software suite to create, edit, compose, or convert bitmap images (!functions(
+          parted # Create, destroy, resize, check, and copy partitions
+          zoxide # Fast cd command that learns your habits (!aliases) (must be initialized)
+          zsh-autosuggestions # Fish-like shell autosuggestions for Zsh (!inputrc)
+          zsh-history-substring-search # Fish-like shell history-substring-search for Zsh (!inputrc)
+          zsh-syntax-highlighting # Fish-like shell like syntax highlighting for Zsh (!inputrc)
 
-        # -- If you add more config names, add the packages required by those here --
-      ];
+          # -- If you add more config names, add the packages required by those here --
+        ];
 
-      file.".zshenv" = {
-        text = ''
-          ## -- Read notes in zsh nix module --
-          setopt NO_GLOBAL_RCS
-          ZDOTDIR="${repoConfigDirAbs}/zsh/${configName}"
-        '';
-        force = true;
+        file.".zshenv" = {
+          text = ''
+            ## -- Read notes in zsh nix module --
+            setopt NO_GLOBAL_RCS
+            ZDOTDIR="${repoConfigDirAbs}/zsh/${cfg.configName}"
+          '';
+          force = true;
+        };
       };
     };
   };

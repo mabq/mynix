@@ -3,6 +3,10 @@
   imports = [
     ./memory/zram.nix
     ./memory/swap.nix
+
+    ./network/networkmanager.nix
+    ./network/systemd-networkd.nix
+    ./network/systemd-resolved.nix
   ];
 
   # Use these options in the host file (not in the profile file)
@@ -31,6 +35,15 @@
         default = 4096;
         description = "Swap file size in MiB";
       };
+    };
+
+    mynix.hardware.network.manager = lib.mkOption {
+      type = lib.types.enum [
+        "networkmanager"
+        "systemd"
+      ];
+      default = "networkmanager";
+      description = "System network manager";
     };
   };
 

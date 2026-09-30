@@ -23,6 +23,9 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINjOlPls0gNkjBTOvXIbmm7HbSUOHM+erfwE4tdNVMLn"
     ];
+
+    # Make zsh the default shell
+    shell = pkgs.zsh;
   };
 
   home-manager.users.${user} = {

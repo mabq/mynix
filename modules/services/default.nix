@@ -3,6 +3,7 @@
   imports = [
     ./keyd.nix
     ./openssh.nix
+    ./plex.nix
     ./tailscale.nix
   ];
 
@@ -25,6 +26,10 @@
       type = lib.types.bool;
       default = true;
       description = "Whether to enable openssh";
+    };
+
+    mynix.services.plex = {
+      enable = lib.mkEnableOption "Whether to enable plex";
     };
 
     mynix.services.tailscale.enable = lib.mkOption {

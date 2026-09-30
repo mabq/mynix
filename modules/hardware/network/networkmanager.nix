@@ -7,7 +7,7 @@
   ...
 }:
 let
-  cfg = config.mynix.network.manager;
+  cfg = config.mynix.hardware.network.manager;
 in
 with lib;
 {

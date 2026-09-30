@@ -1,43 +1,46 @@
 {
-  configName ? "default",
-}:
-{
   lib,
+  config,
   pkgs,
   user,
   repoConfigDirAbs,
   ...
 }:
+let
+  cfg = config.mynix.programs.atuin;
+in
 {
-  home-manager.users.${user} =
-    { osConfig, config, ... }:
-    let
-      mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
-    in
-    {
-      home = {
-        packages = with pkgs; [
-          atuin # Replacement for a shell history
-        ];
+  config = lib.mkIf cfg.enable {
+    home-manager.users.${user} =
+      { osConfig, config, ... }:
+      let
+        mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
+      in
+      {
+        home = {
+          packages = with pkgs; [
+            atuin # Replacement for a shell history
+          ];
 
-        file =
-          lib.optionalAttrs (osConfig.sops.secrets ? "atuinKey") {
-            # Replace atuin's random encryption key with our encryption key if
-            # provided as a secret. For more details read notes in the openssh
-            # module (similar situation).
-            ".local/share/atuin/key" = {
-              source = mkOutOfStoreSymlink osConfig.sops.secrets."atuinKey".path;
-              force = true;
+          file =
+            lib.optionalAttrs (osConfig.sops.secrets ? "atuinKey") {
+              # Replace atuin's random encryption key with our encryption key if
+              # provided as a secret. For more details read notes in the openssh
+              # module (similar situation).
+              ".local/share/atuin/key" = {
+                source = mkOutOfStoreSymlink osConfig.sops.secrets."atuinKey".path;
+                force = true;
+              };
+            }
+            // {
+              ".config/atuin/config.toml" = {
+                source = mkOutOfStoreSymlink "${repoConfigDirAbs}/atuin/${cfg.configName}.toml";
+                force = true;
+              };
             };
-          }
-          // {
-            ".config/atuin/config.toml" = {
-              source = mkOutOfStoreSymlink "${repoConfigDirAbs}/atuin/${configName}.toml";
-              force = true;
-            };
-          };
+        };
       };
-    };
+  };
 }
 
 /*
