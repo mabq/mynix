@@ -17,7 +17,7 @@
 with lib;
 {
   imports = [
-    # Check `mynix` options with `nix repl .#nixos`
+    # To check all `mynix` options, first execute `nix repl .` and then `:p nixosConfigurations.<HOST>.config.mynix`
     ./hardware
     ./network
     ./secrets
