@@ -6,7 +6,7 @@
   ];
 
   options = {
-    mynix.memory.zram = {
+    mynix.hardware.memory.zram = {
       enable = lib.mkEnableOption "Whether to enable zram"; # disabled by default
       algorithm = lib.mkOption {
         type = lib.types.enum [
@@ -23,7 +23,7 @@
       };
     };
 
-    mynix.memory.swap = {
+    mynix.hardware.memory.swap = {
       enable = lib.mkEnableOption "Whether to create a swap file"; # disabled by default
       size = lib.mkOption {
         type = lib.types.ints.between 1024 8192;

@@ -1,7 +1,7 @@
 # TIP: Before using this module try enabling zram.
 { lib, config, ... }:
 let
-  cfg = config.mynix.memory.swap;
+  cfg = config.mynix.hardware.memory.swap;
 in
 {
   config = lib.mkIf cfg.enable {

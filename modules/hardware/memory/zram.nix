@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  cfg = config.mynix.memory.zram;
+  cfg = config.mynix.hardware.memory.zram;
 in
 {
   config = lib.mkIf cfg.enable {

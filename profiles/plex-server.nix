@@ -20,6 +20,7 @@
   ];
 
   mynix.network.manager = "systemd";
+  mynix.hardware.memory.zram.enable = true;
 
   services.plex = {
     # Configure Plex via `http://<SERVER-IP>:32400/web`
