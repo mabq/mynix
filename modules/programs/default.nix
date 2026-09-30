@@ -2,6 +2,7 @@
 {
   imports = [
     ./bat.nix
+    ./btop.nix
   ];
 
   options = {
@@ -16,6 +17,20 @@
         type = lib.types.enum [ "default" ];
         default = "default";
         description = "bat configuration name";
+      };
+    };
+
+    mynix.programs.btop = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable btop";
+      };
+      configName = lib.mkOption {
+        # Add future possible configurations here for type checking
+        type = lib.types.enum [ "default" ];
+        default = "default";
+        description = "btop configuration name";
       };
     };
   };
