@@ -1,5 +1,6 @@
 {
   imports = [
+    ./hardware
     ./network
     ./services
   ];

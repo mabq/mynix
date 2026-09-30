@@ -1,12 +1,15 @@
-{ lib, ... }:
-with lib;
+{ lib, config, ... }:
+let
+  cfg = config.mynix.memory.zram;
+in
 {
-  zramSwap = {
-    algorithm = mkDefault "lz4";
-    memoryPercent = mkDefault 50;
-
-    enable = true;
-    priority = 100; # prioritize zram over swap
+  config = lib.mkIf cfg.enable {
+    zramSwap = {
+      enable = true;
+      priority = 100; # prioritize zram over swap
+      algorithm = lib.mkDefault cfg.algorithm;
+      memoryPercent = lib.mkDefault cfg.percentage;
+    };
   };
 }
 
