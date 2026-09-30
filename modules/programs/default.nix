@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, user, ... }:
 {
   imports = [
     ./bat.nix
@@ -31,6 +31,23 @@
         type = lib.types.enum [ "default" ];
         default = "default";
         description = "btop configuration name";
+      };
+    };
+
+    mynix.programs.git = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable git";
+      };
+      configName = lib.mkOption {
+        # Add future possible configurations here for type checking
+        type = lib.types.enum [
+          "default"
+          "${user}"
+        ];
+        default = "${user}";
+        description = "git configuration name";
       };
     };
   };
