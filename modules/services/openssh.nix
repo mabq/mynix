@@ -4,9 +4,12 @@
   user,
   ...
 }:
+let
+  cfg = config.mynix.services.openssh;
+in
 with lib;
 {
-  config = lib.mkIf config.mynix.network.openssh.enable {
+  config = lib.mkIf cfg.enable {
 
     # Configure ssh server
     services.openssh = {

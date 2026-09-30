@@ -6,9 +6,12 @@
   user,
   ...
 }:
+let
+  cfg = config.mynix.network.manager
+in
 with lib;
 {
-  config = lib.mkIf (config.mynix.network.manager == "systemd") {
+  config = lib.mkIf (cfg == "systemd") {
     # ----------------------------------------------------------------------------
     # Disable conflicting options
     #  These options are enabled by default and must be disabled to avoid

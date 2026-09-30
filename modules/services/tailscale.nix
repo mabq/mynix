@@ -1,7 +1,14 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
+let
+  cfg = config.mynix.services.tailscale;
+in
 with lib;
 {
-  config = lib.mkIf config.mynix.network.tailscale.enable {
+  config = lib.mkIf cfg.enable {
 
     services.tailscale = {
       enable = mkDefault true;

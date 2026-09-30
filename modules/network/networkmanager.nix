@@ -6,9 +6,12 @@
   user,
   ...
 }:
+let
+  cfg = config.mynix.network.manager;
+in
 with lib;
 {
-  config = lib.mkIf (config.mynix.network.manager == "networkmanager") {
+  config = lib.mkIf (cfg == "networkmanager") {
 
     # ----------------------------------------------------------------------------
     # Disable conflicting options
