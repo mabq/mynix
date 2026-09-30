@@ -2,7 +2,6 @@
 {
   imports = [
     (import ./programs/atuin.nix { configName = "simple"; })
-    (import ./programs/btop.nix { })
     (import ./programs/git.nix { configName = user; })
     (import ./programs/neovim.nix { configName = user; })
     (import ./programs/starship.nix { configName = "simple"; })
