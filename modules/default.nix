@@ -17,6 +17,11 @@
 with lib;
 {
   imports = [
+    # flake inputs
+    inputs.home-manager.nixosModules.home-manager
+    inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
+
     # To check all `mynix` options, first execute `nix repl .` and then `:p nixosConfigurations.<HOST>.config.mynix`
     ./hardware
     ./programs

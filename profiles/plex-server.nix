@@ -10,7 +10,9 @@
   };
 
   mynix.programs = {
+    atuin.enable = true;
     atuin.configName = "simple";
+
     git.configName = user;
     neovim.configName = user;
     starship.configName = "simple";

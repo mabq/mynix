@@ -48,10 +48,6 @@ inputs.nixpkgs.lib.nixosSystem {
   inherit specialArgs;
 
   modules = [
-    inputs.home-manager.nixosModules.home-manager
-    inputs.disko.nixosModules.disko
-    inputs.sops-nix.nixosModules.sops
-
     ../modules
     ../hosts/${host}.nix
     ../users/${user}.nix
