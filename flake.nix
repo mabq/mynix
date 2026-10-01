@@ -2,9 +2,7 @@
   description = "My nixos configs";
 
   inputs = {
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -26,28 +24,30 @@
     };
   };
 
-  outputs =
-    { self, ... }@inputs:
-    let
-      mkSystem = import ./lib/mkSystem.nix { inherit self inputs; };
-    in
-    {
-      # [4]
-      nixosConfigurations = {
-        "xps" = mkSystem {
-          host = "xps";
-          user = "mabq";
-          profile = "plex-server";
-          repoBranch = "restructure";
-        };
-        "macbook" = mkSystem {
-          host = "macbook";
-          user = "mabq";
-          profile = "plex-server";
-          repoBranch = "restructure";
-        };
-      };
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+
+  # outputs =
+  #   { self, ... }@inputs:
+  #   let
+  #     mkSystem = import ./lib/mkSystem.nix { inherit self inputs; };
+  #   in
+  #   {
+  #     # [4]
+  #     nixosConfigurations = {
+  #       "xps" = mkSystem {
+  #         host = "xps";
+  #         user = "mabq";
+  #         profile = "plex-server";
+  #         repoBranch = "restructure";
+  #       };
+  #       "macbook" = mkSystem {
+  #         host = "macbook";
+  #         user = "mabq";
+  #         profile = "plex-server";
+  #         repoBranch = "restructure";
+  #       };
+  #     };
+  #   };
 }
 
 /*
