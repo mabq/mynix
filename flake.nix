@@ -6,6 +6,10 @@
       url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
     };
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
+    import-tree.url = "github:vic/import-tree";
+
     home-manager = {
       url = "github:nix-community/home-manager/master"; # [2]
       inputs.nixpkgs.follows = "nixpkgs"; # [3]
