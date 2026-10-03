@@ -10,6 +10,8 @@ in
       self.nixosModules.networkManager
     ];
 
+    programs.zsh.enable = true;
+
     users.users.${user} = {
       extraGroups = [ "wheel" ];
       hashedPassword = "$6$slFKhHBtWmrAa8NN$dZD4TelNDAISrLJHAM.35K31m/0MszqHJ.7kuLdNC444FwprmHxvgU3SAcIgIeDpCFhO2EfWbU43JPnSrLGA01";
@@ -24,7 +26,6 @@ in
       gh # CLI GitHub tool (authenticate from the terminal)
       git # Distributed version control system
       lazygit # Simple terminal UI for git commands
-      zsh
     ];
   };
 }
