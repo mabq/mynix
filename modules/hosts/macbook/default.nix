@@ -5,14 +5,15 @@
   ...
 }:
 {
-  mynix.host = {
-    name = "macbook";
-    stateVersion = "26.05";
-  };
-
-  mynix.user = {
-    name = "mabq";
-    email = "alejandro.banderas@me.com";
+  mynix = {
+    host = {
+      name = "macbook";
+      stateVersion = "26.05";
+    };
+    user = {
+      name = "mabq";
+      email = "alejandro.banderas@me.com";
+    };
   };
 
   flake.nixosConfigurations.${config.mynix.host.name} = inputs.nixpkgs.lib.nixosSystem {
