@@ -4,19 +4,26 @@
 
     mynix = {
 
-      host.name = lib.mkOption {
+      host = lib.mkOption {
         type = lib.types.str;
         description = "Machine name";
       };
 
-      host.biosFirmware = lib.mkOption {
-        # UEFI by default
-        type = lib.types.bool;
-        default = false;
-        description = "Host has BIOS firmware";
+      timeZone = lib.mkOption {
+        type = lib.types.enum [
+          "America/Guayaquil"
+        ];
+        default = "America/Guayaquil";
+        description = "Machine time zone";
       };
 
-      host.stateVersion = lib.mkOption {
+      isUEFI = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Host has UEFI firmware (set to false if BIOS)";
+      };
+
+      stateVersion = lib.mkOption {
         type = lib.types.enum [
           "26.05"
           "26.11"
@@ -24,12 +31,12 @@
         description = "NixOS installer version";
       };
 
-      user.name = lib.mkOption {
+      user = lib.mkOption {
         type = lib.types.str;
         description = "Primary user's name";
       };
 
-      user.email = lib.mkOption {
+      email = lib.mkOption {
         type = lib.types.str;
         description = "User's email (required for GitHub)";
       };

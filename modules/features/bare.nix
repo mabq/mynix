@@ -1,7 +1,11 @@
 { inputs, config, ... }:
 let
-  biosFirmware = config.mynix.host.biosFirmware;
-  user = config.mynix.user.name;
+  inherit (config.mynix)
+    host
+    isUEFI
+    user
+    timeZone
+    ;
 in
 {
   flake.nixosModules.bare = { pkgs, lib, ... }: {
@@ -9,15 +13,15 @@ in
     boot = {
       loader = {
         # UEFI (systemd-boot)
-        systemd-boot.enable = !biosFirmware;
-        efi.canTouchEfiVariables = !biosFirmware;
+        systemd-boot.enable = isUEFI;
+        efi.canTouchEfiVariables = isUEFI;
 
         # BIOS (Grub)
         grub = {
-          enable = biosFirmware;
+          enable = !isUEFI;
           # device = # (set by disko)
-          efiSupport = biosFirmware;
-          efiInstallAsRemovable = biosFirmware;
+          efiSupport = !isUEFI;
+          efiInstallAsRemovable = !isUEFI;
         };
       };
 
@@ -55,7 +59,7 @@ in
     i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
 
     networking = {
-      hostName = lib.mkDefault config.mynix.host.name; # override it in host file if required
+      hostName = lib.mkDefault host; # override it in host file if required
       firewall.enable = lib.mkDefault true; # tailscale can go through
     };
 
@@ -95,7 +99,7 @@ in
 
     services.tzupdate.enable = lib.mkDefault true; # update timezone automatically
 
-    time.timeZone = lib.mkDefault "America/Guayaquil";
+    time.timeZone = lib.mkDefault timeZone;
 
     users = {
       mutableUsers = lib.mkDefault false; # do not allow imperative changes
@@ -107,4 +111,5 @@ in
     };
 
   };
+
 }

@@ -6,19 +6,16 @@
 }:
 {
   mynix = {
-    host = {
-      name = "macbook";
-      stateVersion = "26.05";
-    };
-    user = {
-      name = "mabq";
-      email = "alejandro.banderas@me.com";
-    };
+    host = "macbook";
+    stateVersion = "26.05";
+    user = "mabq";
+    email = "alejandro.banderas@me.com";
   };
 
-  flake.nixosConfigurations.${config.mynix.host.name} = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.${config.mynix.host} = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.nixosModules."${config.mynix.host.name}-config"
+      inputs.hjem.nixosModules.default
+      self.nixosModules."${config.mynix.host}-config"
     ];
   };
 }

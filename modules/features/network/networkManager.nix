@@ -1,12 +1,12 @@
 { self, config, ... }:
 let
-  user = config.mynix.user.name;
+  inherit (config.mynix) user;
 in
 {
-  flake.nixosModules.networkManager = { lib, ... }: {
+  flake.nixosModules.networkManager = { lib, pkgs, ... }: {
 
     imports = [
-      self.nixosModules.systemd-resolved
+      self.nixosModules.resolved
     ];
 
     # ----------------------------------------------------------------------------
@@ -46,11 +46,9 @@ in
     # Extra packages
     # ----------------------------------------------------------------------------
 
-    # home-manager.users.${user} = {
-    #   home.packages = with pkgs; [
-    #     dig # Domain name server
-    #   ];
-    # };
+    environment.systemPackages = with pkgs; [
+      dig # Domain name server
+    ];
 
   };
 }

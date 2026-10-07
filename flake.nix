@@ -4,24 +4,36 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
-
-    import-tree.url = "github:denful/import-tree";
-
-    home-manager = {
-      url = "github:nix-community/home-manager/master"; # [2]
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs.follows = "nixpkgs"; # [3]
     };
 
-    disko = {
-      url = "github:nix-community/disko";
+    import-tree = {
+      url = "github:denful/import-tree";
+      inputs.nixpkgs.follows = "nixpkgs"; # [3]
+    };
+
+    hjem = {
+      url = "github:feel-co/hjem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # disko = {
+    #   url = "github:nix-community/disko";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    #
+    # home-manager = {
+    #   url = "github:nix-community/home-manager/master"; # [2]
+    #   inputs.nixpkgs.follows = "nixpkgs"; # [3]
+    # };
+    #
+    # sops-nix = {
+    #   url = "github:Mic92/sops-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
   };
 
   # Import all modules from a directory as flake-parts modules

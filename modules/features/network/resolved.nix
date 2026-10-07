@@ -8,7 +8,7 @@
 */
 
 {
-  flake.nixosModules.systemd-resolved =
+  flake.nixosModules.resolved =
     { lib, ... }:
     {
       # Disable default resolveconf to avoid conflicts with systemd-resolved

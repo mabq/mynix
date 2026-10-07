@@ -1,13 +1,13 @@
 { self, config, ... }:
 let
-  user = config.mynix.user.name;
+  inherit (config.mynix) host user;
 in
 {
-  flake.nixosModules."${config.mynix.host.name}-config" = { pkgs, ... }: {
+  flake.nixosModules."${host}-config" = { pkgs, ... }: {
     imports = [
       ./_hardware.configuration.nix
       self.nixosModules.bare
-      self.nixosModules.networkManager
+      self.nixosModules.networkd
     ];
 
     users.users.${user} = {
