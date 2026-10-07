@@ -10,6 +10,7 @@ in
       self.nixosModules.bare
       self.nixosModules.networkd
       self.nixosModules.keyd
+      self.nixosModules.btop
     ];
 
     users.users.${user} = {

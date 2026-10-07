@@ -1,10 +1,10 @@
 { config, lib, ... }:
 {
   options = {
-    mynix.keyd.config = lib.mkOption {
+    mynix.keyd.configName = lib.mkOption {
       type = lib.types.str;
       default = "default";
-      description = "Keyd configuration";
+      description = "Keyd configuration name";
     };
   };
 
@@ -22,7 +22,7 @@
         ];
 
         # Keyd config files
-        etc."keyd".source = ./config/${config.mynix.keyd.config};
+        etc."keyd".source = ./config/${config.mynix.keyd.configName};
       };
     };
   };

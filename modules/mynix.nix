@@ -41,6 +41,22 @@
         description = "User's email (required for GitHub)";
       };
 
+      theme = lib.mkOption {
+        type = lib.types.enum [
+          "catppuccin"
+          "catppuccin-latte"
+          "everforest"
+          "gruvbox"
+          "kanagawa"
+          "nord"
+          "rosepine"
+          "tokyonight"
+          "tokyonight-moon"
+        ];
+        default = "tokyonight-moon";
+        description = "System theme";
+      };
+
     };
 
   };

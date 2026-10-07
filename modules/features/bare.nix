@@ -56,6 +56,12 @@ in
       };
     };
 
+    hjem = {
+      clobberByDefault = true;
+      users.${user} = {
+        directory = "/home/${user}";
+    };
+
     i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
 
     networking = {
