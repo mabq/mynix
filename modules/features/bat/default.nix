@@ -25,7 +25,7 @@
         };
 
         systemd.user.services.bat-cache = {
-          description = "Rebuild bat cache";
+          description = "Rebuild bat cache on theme change";
           wantedBy = [ "default.target" ];
           restartTriggers = [ themePath ];
           serviceConfig = {

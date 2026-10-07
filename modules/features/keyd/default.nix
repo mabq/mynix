@@ -22,7 +22,7 @@
         ];
 
         # Keyd config files
-        etc."keyd".source = ./config/${config.mynix.keyd.configName};
+        etc."keyd".source = ./configs/${config.mynix.keyd.configName};
       };
     };
   };
