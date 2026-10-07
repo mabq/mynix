@@ -19,8 +19,8 @@
         ];
 
         hjem.users.${user}.files = {
-          ".config/btop/btop.conf".source = ./config/${config.mynix.btop.configName}.conf;
-          ".config/btop/themes/current.theme".source = ./theme/${theme}.theme;
+          ".config/btop/btop.conf".source = ./configs/${config.mynix.btop.configName}.conf;
+          ".config/btop/themes/current.theme".source = ./themes/${theme}.theme;
         };
       };
     };

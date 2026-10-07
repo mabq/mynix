@@ -11,6 +11,7 @@ in
       self.nixosModules.networkd
       self.nixosModules.keyd
       self.nixosModules.btop
+      self.nixosModules.bat
     ];
 
     users.users.${user} = {
