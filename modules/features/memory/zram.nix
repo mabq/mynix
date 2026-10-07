@@ -1,7 +1,6 @@
 { lib, config, ... }:
 {
   options = {
-
     mynix.zram = {
       algorithm = lib.mkOption {
         # To see which algorithms your kernel supports, use:
@@ -24,11 +23,9 @@
         description = "Percentage of total memory to compress";
       };
     };
-
   };
 
   config = {
-
     flake.nixosModules.zram = {
       zramSwap = {
         enable = true;
@@ -37,6 +34,5 @@
         memoryPercent = config.mynix.zram.percentage;
       };
     };
-
   };
 }
