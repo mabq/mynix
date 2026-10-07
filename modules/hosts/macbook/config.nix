@@ -9,6 +9,7 @@ in
       ./_hardware.configuration.nix
       self.nixosModules.bare
       self.nixosModules.networkd
+      self.nixosModules.keyd
     ];
 
     users.users.${user} = {
