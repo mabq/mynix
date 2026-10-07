@@ -1,15 +1,15 @@
 { config, lib, ... }:
 {
-  options = {
-    mynix.keyd.config = lib.mkOption {
-      type = lib.types.str;
-      default = "default";
-      description = "Keyd configuration";
+  flake.nixosModules.keyd = { pkgs, ... }: {
+    options = {
+      mynix.keyd.config = lib.mkOption {
+        type = lib.types.str;
+        default = "default";
+        description = "Keyd configuration";
+      };
     };
-  };
 
-  config = {
-    flake.nixosModules.keyd = { pkgs, ... }: {
+    config = {
       # The keyd systemd service runs as root. It captures your input events,
       # remaps them, and emits them to the system at a low level.
       services.keyd.enable = true;
@@ -25,5 +25,4 @@
       };
     };
   };
-
 }
