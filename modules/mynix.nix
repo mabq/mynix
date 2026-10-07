@@ -53,7 +53,7 @@
           "tokyonight"
           "tokyonight-moon"
         ];
-        default = "tokyonight-moon";
+        default = "catppuccin";
         description = "System theme";
       };
 
