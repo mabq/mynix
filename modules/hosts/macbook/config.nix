@@ -4,6 +4,7 @@ let
 in
 {
   flake.nixosModules."${host}-config" = { pkgs, ... }: {
+
     imports = [
       ./_hardware.configuration.nix
       self.nixosModules.bare
@@ -24,5 +25,6 @@ in
       git # Distributed version control system
       lazygit # Simple terminal UI for git commands
     ];
+
   };
 }
