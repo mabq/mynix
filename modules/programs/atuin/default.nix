@@ -1,54 +1,43 @@
+{ lib, config, ... }:
 {
-  lib,
-  config,
-  pkgs,
-  user,
-  repoConfigDirAbs,
-  ...
-}:
-let
-  cfg = config.mynix.programs.atuin;
-in
-{
-  config = lib.mkIf cfg.enable {
-    home-manager.users.${user} =
-      { osConfig, config, ... }:
-      let
-        mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
-      in
-      {
-        home = {
-          packages = with pkgs; [
-            atuin # Replacement for a shell history
-          ];
-
-          file =
-            lib.optionalAttrs (osConfig.sops.secrets ? "atuinKey") {
-              # Replace atuin's random encryption key with our encryption key if
-              # provided as a secret. For more details read notes in the openssh
-              # module (similar situation).
-              ".local/share/atuin/key" = {
-                source = mkOutOfStoreSymlink osConfig.sops.secrets."atuinKey".path;
-                force = true;
-              };
-            }
-            // {
-              ".config/atuin/config.toml" = {
-                source = mkOutOfStoreSymlink "${repoConfigDirAbs}/atuin/${cfg.configName}.toml";
-                force = true;
-              };
-            };
-        };
-      };
+  options = {
+    mynix.atuin.configName = lib.mkOption {
+      type = lib.types.str;
+      default = "default";
+      description = "Atuin configuration name";
+    };
   };
+
+  config =
+    let
+      inherit (config.mynix) user;
+    in
+    {
+      flake.nixosModules.atuin = { pkgs, ... }: {
+        environment.systemPackages = with pkgs; [
+          atuin # Replacement for a shell history
+        ];
+
+        hjem.users.${user}.files =
+          lib.optionalAttrs (config.sops.secrets ? "atuinKey") {
+            # Replace atuin's random encryption key with our encryption key if
+            # provided as a secret. For more details read notes in the openssh
+            # module (similar situation).
+            ".local/share/atuin/key".source = config.sops.secrets."atuinKey".path;
+          }
+          // {
+            ".config/atuin/config.toml".source = ./configs/${config.mynix.atuin.configName}.toml;
+          };
+      };
+    };
 }
 
 /*
   Related configs
   ---------------
 
-  Must be initialized by a shell config file. In out zsh config we check if
-  atuin is installed before initializing it. For more info, see:
+  Atuin must be initialized by a shell config file. In out zsh config we check
+  if atuin is installed before initializing it. For more info, see:
     https://docs.atuin.sh/latest/guide/shell-integration/
     https://docs.atuin.sh/latest/configuration/key-binding/
 
