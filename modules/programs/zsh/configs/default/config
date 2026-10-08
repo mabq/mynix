@@ -41,11 +41,11 @@ setopt NO_BEEP # Don't beep on error
 bindkey -v                           # Use vi mode instead of emacs (default)
 bindkey '^[[1;5C' forward-word       # Ctrl+Right
 bindkey '^[[1;5D' backward-word      # Ctrl+Left
-bindkey '^?' backward-kill-word      # Ctrl+Backspace
+bindkey '^H' backward-kill-word      # Ctrl+Backspace
 bindkey '^[[3;5~' backward-kill-word # Ctrl+Backspace alternative sequence
-# bindkey '^?' backward-delete-char    # Bug fix (https://github.com/spaceship-prompt/spaceship-prompt/issues/91#issuecomment-327996599)
-bindkey '^[[H' beginning-of-line # Home
-bindkey '^[[F' end-of-line       # End
+bindkey '^?' backward-delete-char    # Bug fix (https://github.com/spaceship-prompt/spaceship-prompt/issues/91#issuecomment-327996599)
+bindkey '^[[H' beginning-of-line     # Home
+bindkey '^[[F' end-of-line           # End
 
 # ------------------------------------------------------------------------------
 # History
