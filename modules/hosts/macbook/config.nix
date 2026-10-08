@@ -3,8 +3,7 @@ let
   inherit (config.mynix) host user;
 in
 {
-  flake.nixosModules."hosts-${host}" = { pkgs, ... }: {
-
+  flake.nixosModules."hosts-${host}" = {
     imports = [
       ./_hardware.configuration.nix
       self.nixosModules.bare
@@ -18,6 +17,5 @@ in
       self.nixosModules.zsh
       self.nixosModules."users-${user}"
     ];
-
   };
 }
