@@ -1,4 +1,9 @@
-{ self, config, ... }:
+{
+  self,
+  inputs,
+  config,
+  ...
+}:
 let
   inherit (config.mynix) host user;
 in
@@ -6,6 +11,7 @@ in
   flake.nixosModules."hosts-${host}" = {
     imports = [
       ./_hardware.configuration.nix
+      inputs.sops-nix.nixosModules.sops
       self.nixosModules.atuin
       self.nixosModules.bare
       self.nixosModules.bat
