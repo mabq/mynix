@@ -1,6 +1,8 @@
 { lib, ... }:
 {
+
   options = {
+
     mynix = {
       host = lib.mkOption {
         type = lib.types.str;
@@ -49,9 +51,11 @@
         description = "System theme";
       };
     };
+
   };
 
   config = {
+
     systems = [
       # Required by `perSystem` configurations (packages, devShells, formatter,
       # checks, and so on). You can omit it if your flake only defines
@@ -60,5 +64,6 @@
       "aarch64-linux"
       "aarch64-darwin"
     ];
+
   };
 }

@@ -11,6 +11,10 @@ in
 {
   flake.nixosModules.bare = { pkgs, lib, ... }: {
 
+    imports = [
+      inputs.sops-nix.nixosModules.sops
+    ];
+
     boot = {
       loader = {
         # UEFI (systemd-boot)

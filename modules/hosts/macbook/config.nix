@@ -11,7 +11,6 @@ in
   flake.nixosModules."hosts-${host}" = {
     imports = [
       ./_hardware.configuration.nix
-      inputs.sops-nix.nixosModules.sops
       self.nixosModules.atuin
       self.nixosModules.bare
       self.nixosModules.bat
