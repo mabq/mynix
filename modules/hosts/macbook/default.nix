@@ -15,6 +15,7 @@
   flake.nixosConfigurations.${config.mynix.host} = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       inputs.hjem.nixosModules.default
+      inputs.sops-nix.nixosModules.sops
       self.nixosModules."hosts-${config.mynix.host}"
     ];
   };
