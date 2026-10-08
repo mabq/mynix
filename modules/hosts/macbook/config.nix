@@ -8,11 +8,11 @@ in
     imports = [
       ./_hardware.configuration.nix
       self.nixosModules.bare
-      self.nixosModules.networkd
-      self.nixosModules.keyd
-      self.nixosModules.btop
       self.nixosModules.bat
-      self.nixosModules.swap
+      self.nixosModules.btop
+      self.nixosModules.keyd
+      self.nixosModules.networkd
+      self.nixosModules.zram
     ];
 
     users.users.${user} = {
