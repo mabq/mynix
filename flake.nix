@@ -4,15 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # [1]
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs"; # [3]
-    };
-
-    import-tree = {
-      url = "github:denful/import-tree";
-      inputs.nixpkgs.follows = "nixpkgs"; # [3]
-    };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:denful/import-tree";
 
     hjem = {
       url = "github:feel-co/hjem";
