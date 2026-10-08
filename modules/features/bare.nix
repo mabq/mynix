@@ -3,6 +3,7 @@ let
   inherit (config.mynix)
     host
     isUEFI
+    stateVersion
     user
     timeZone
     ;
@@ -103,6 +104,8 @@ in
     security.sudo.wheelNeedsPassword = lib.mkDefault false; # no password for sudo (wheel members)
 
     services.tzupdate.enable = lib.mkDefault true; # update timezone automatically
+
+    system.stateVersion = stateVersion;
 
     time.timeZone = lib.mkDefault timeZone;
 
