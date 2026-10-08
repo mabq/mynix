@@ -13,7 +13,7 @@
       inherit (config.mynix) user;
     in
     {
-      flake.nixosModules.yazi = { pkgs, ... }: {
+      flake.nixosModules.zsh = { pkgs, ... }: {
         # Must be enabled to be used as the default shell
         programs.zsh.enable = true;
 
