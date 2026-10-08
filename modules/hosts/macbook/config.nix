@@ -16,7 +16,7 @@ in
       self.nixosModules.tmux
       self.nixosModules.yazi
       self.nixosModules.zsh
-      "self.nixosModules.users-${user}"
+      self.nixosModules."users-${user}"
     ];
 
   };
