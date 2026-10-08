@@ -1,0 +1,48 @@
+{ config, ... }:
+{
+  config =
+    let
+      inherit (config.mynix) user;
+    in
+    {
+      flake.nixosModules.users-mabq = { pkgs, ... }: {
+
+        users.users.${user} = {
+          # Make zsh the default shell
+          shell = pkgs.zsh;
+
+          # NixOS groups all human accounts into the `users` group.
+          # group = "${user}";
+
+          # Elevated privileges without password
+          extraGroups = [ "wheel" ];
+
+          # User account password
+          #  The defaults module disables imperative changes, so this is the only way
+          #  to set the user account password. For improved security, the default
+          #  module also disables using account credentials for ssh authentication.
+          #  Use `mkpasswd -m sha-512` to create a passwork hash.
+          hashedPassword = "$6$slFKhHBtWmrAa8NN$dZD4TelNDAISrLJHAM.35K31m/0MszqHJ.7kuLdNC444FwprmHxvgU3SAcIgIeDpCFhO2EfWbU43JPnSrLGA01";
+
+          # Openssh authorized ssh keys
+          #  THIS IS SPECIALLY IMPORTANT FOR REMOTE MACHINES. IF YOU DON'T PROVIDE AN
+          #  AUTHORIZED KEY YOU WILL LOOSE ACCESS TO THE MACHINE.
+          #  All machines using this account should include its public ssh key.
+          #  For private key configuration see the ssh module.
+          openssh.authorizedKeys.keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINjOlPls0gNkjBTOvXIbmm7HbSUOHM+erfwE4tdNVMLn"
+          ];
+        };
+
+        environment.systemPackages = with pkgs; [
+          caligula # User-friendly, lightweight TUI for disk imaging
+          exfatprogs # exFAT filesystem userspace utilities
+          fastfetch # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
+          fzf # Command-line fuzzy finder
+          pciutils # Collection of programs for inspecting and manipulating configuration of PCI devices
+          psmisc # Set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
+          ripgrep # Utility that combines the usability of The Silver Searcher with the raw speed of grep
+        ];
+      };
+    };
+}

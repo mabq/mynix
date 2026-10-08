@@ -30,7 +30,15 @@ in
     };
 
     environment = {
-      # systemPackages = with pkgs; [ ];
+      systemPackages = with pkgs; [
+        # age # Modern encryption tool with small explicit keys
+        gh # CLI GitHub tool (authenticate from the terminal)
+        git # Distributed version control system
+        just # Handy way to save and run project-specific commands
+        lazygit # Simple terminal UI for git commands
+        neovim # Vim text editor fork
+        yazi # Blazing fast terminal file manager written in Rust, based on async I/O
+      ];
 
       # Add ~/.local/bin to PATH.
       #  This is where we put symlinks to binaries in this repo.
@@ -119,5 +127,4 @@ in
     };
 
   };
-
 }
