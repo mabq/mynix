@@ -13,6 +13,7 @@ in
       self.nixosModules.keyd
       self.nixosModules.networkd
       self.nixosModules.zram
+      self.nixosModules.tmux
     ];
 
     users.users.${user} = {
