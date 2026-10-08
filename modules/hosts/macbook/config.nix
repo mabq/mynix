@@ -15,6 +15,7 @@ in
       self.nixosModules.zram
       self.nixosModules.tmux
       self.nixosModules.yazi
+      self.nixosModules.zsh
     ];
 
     users.users.${user} = {

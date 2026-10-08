@@ -1,26 +1,23 @@
+{ lib, config, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  user,
-  repoConfigDirAbs,
-  ...
-}:
-let
-  cfg = config.mynix.programs.zsh;
-in
-{
-  config = lib.mkIf cfg.enable {
-    # The user file sets the default shell for each user.
+  options = {
+    mynix.zsh.configName = lib.mkOption {
+      type = lib.types.str;
+      default = "default";
+      description = "Zsh configuration name";
+    };
+  };
 
-    # Must be enabled to be used as the default shell
-    programs.zsh.enable = true;
+  config =
+    let
+      inherit (config.mynix) user;
+    in
+    {
+      flake.nixosModules.yazi = { pkgs, ... }: {
+        # Must be enabled to be used as the default shell
+        programs.zsh.enable = true;
 
-    # Home-manager
-    home-manager.users.${user} = {
-      home = {
-        packages = with pkgs; [
-          # -- Packages required by default config files --
+        environment.systemPackages = with pkgs; [
           exfatprogs # exFAT filesystem userspace utilities
           eza # Modern, maintained replacement for ls (!aliases)
           ffmpeg # Complete, cross-platform solution to record, convert and stream audio and video (!functions)
@@ -31,21 +28,17 @@ in
           zsh-autosuggestions # Fish-like shell autosuggestions for Zsh (!inputrc)
           zsh-history-substring-search # Fish-like shell history-substring-search for Zsh (!inputrc)
           zsh-syntax-highlighting # Fish-like shell like syntax highlighting for Zsh (!inputrc)
-
-          # -- If you add more config names, add the packages required by those here --
         ];
 
-        file.".zshenv" = {
-          text = ''
-            ## -- Read notes in zsh nix module --
+        hjem.users.${user}.files = {
+          ".config/zsh".source = ./configs/${config.mynix.zsh.configName};
+          ".zshenv".text = ''
             setopt NO_GLOBAL_RCS
-            ZDOTDIR="${repoConfigDirAbs}/zsh/${cfg.configName}"
+            ZDOTDIR="/home/${user}/.config/zsh"
           '';
-          force = true;
         };
       };
     };
-  };
 }
 
 /*
