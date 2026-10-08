@@ -12,7 +12,7 @@ in
       self.nixosModules.keyd
       self.nixosModules.btop
       self.nixosModules.bat
-      self.nixosModules.zram
+      self.nixosModules.swap
     ];
 
     users.users.${user} = {
