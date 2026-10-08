@@ -22,6 +22,10 @@
 
         hjem.users.${user}.files = {
           ".config/tmux/tmux.conf".source = ./configs/${config.mynix.tmux.configName}.conf;
+
+          # The bare module adds `~/.local/bin` to PATH.
+          # Shortcuts to trigger the script are set in the shell config files
+          # (zsh) and in neovim config files.
           ".local/bin/tmux-sessionizer" = {
             source = ./scripts/tmux-sessionizer;
             executable = true;
@@ -30,12 +34,3 @@
       };
     };
 }
-
-/*
-  Related configurations:
-
-    The bare module adds localBinInPath (~/.local/bin).
-
-    Shortcuts to trigger the script are set in the shell config files (zsh) and in
-    neovim config files.
-*/
