@@ -11,9 +11,11 @@
   config =
     let
       inherit (config.mynix) user;
+      outConfig = config;
     in
     {
-      flake.nixosModules.atuin = { pkgs, ... }: {
+      flake.nixosModules.atuin = { pkgs, config, ... }: {
+
         environment.systemPackages = with pkgs; [
           atuin # Replacement for a shell history
         ];
@@ -26,9 +28,10 @@
             ".local/share/atuin/key".source = config.sops.secrets."atuinKey".path;
           }
           // {
-            ".config/atuin/config.toml".source = ./configs/${config.mynix.atuin.configName}.toml;
+            ".config/atuin/config.toml".source = ./configs/${outConfig.mynix.atuin.configName}.toml;
           };
       };
+
     };
 }
 
