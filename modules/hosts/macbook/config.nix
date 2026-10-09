@@ -11,6 +11,7 @@ in
       self.nixosModules.bare
       self.nixosModules.bat
       self.nixosModules.btop
+      self.nixosModules.git
       self.nixosModules.keyd
       self.nixosModules.networkd
       self.nixosModules.sops
