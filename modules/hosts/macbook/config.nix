@@ -1,27 +1,23 @@
-{
-  self,
-  inputs,
-  config,
-  ...
-}:
+{ self, config, ... }:
 let
   inherit (config.mynix) host user;
 in
 {
   flake.nixosModules."hosts-${host}" = {
     imports = [
-      ./_hardware.configuration.nix
+      ./_hardware-configuration.nix
+      self.nixosModules."users-${user}"
       self.nixosModules.atuin
       self.nixosModules.bare
       self.nixosModules.bat
       self.nixosModules.btop
       self.nixosModules.keyd
       self.nixosModules.networkd
-      self.nixosModules.zram
+      self.nixosModules.sops
       self.nixosModules.tmux
       self.nixosModules.yazi
+      self.nixosModules.zram
       self.nixosModules.zsh
-      self.nixosModules."users-${user}"
     ];
   };
 }

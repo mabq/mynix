@@ -9,16 +9,17 @@
 */
 
 {
+  inputs,
   lib,
-  host,
-  user,
-  profile,
+  config,
   ...
 }:
 let
+  inherit (config.mynix) user host;
+
   # Secrets are specific to each "combined" configuration. So, each secret's
   # file must be named in the following shape.
-  secretsFile = ./${user}-${host}-${profile}.json;
+  secretsFile = ./${user}-${host}.json;
   secretsFileExist = builtins.pathExists secretsFile;
 
   # Why we use a system-level directory?
@@ -76,36 +77,48 @@ let
   };
 in
 {
-  environment.sessionVariables = {
-    # Since we don't use the default directory for the key, we must show sops
-    # where to find it.
-    SOPS_AGE_KEY_FILE = "${ageKeyFile}";
+  imports = [
+    inputs.sops-nix.nixosModules.sops
+  ];
+
+  flake.nixosModules.sops = { pkgs, ... }: {
+
+    environment = {
+      sessionVariables = {
+        # Since we don't use the default directory for the key, we must show
+        # sops where to find it.
+        SOPS_AGE_KEY_FILE = "${ageKeyFile}";
+      };
+      systemPackages = with pkgs; [
+        age # Modern encryption tool with small explicit keys
+        sops # Simple and flexible tool for managing secrets
+      ];
+    };
+
+    sops = lib.mkIf hasSecrets {
+      age.keyFile = ageKeyFile;
+      defaultSopsFile = secretsFile;
+      # This function creates an attribute set where the keys are the secret's
+      # names and their values are the attribute sets matching the
+      # perSecretsSettings above.
+      secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
+    };
+
+    # Update: Now it just works, keep it just in case.
+    # Remove stale secrets. sops-nix's own cleanup only runs when sops.secrets !=
+    # {}, so it never prunes a previous generation once a profile has zero
+    # secrets. Clear the *contents* of the ramfs mount ourselves instead of
+    # removing the mount point (which the kernel won't allow while it's mounted).
+    # system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
+    #   lib.stringAfter [ "users" "groups" ] ''
+    #     for d in /run/secrets.d /run/secrets-for-users.d; do
+    #       if [ -d "$d" ]; then
+    #         find "$d" -mindepth 1 -delete 2>/dev/null || true
+    #       fi
+    #     done
+    #     rm -f /run/secrets
+    #   ''
+    # );
   };
 
-  # Don't use the home-manager module, you would not be able to access secrets
-  # from NixOS options (like tailscale).
-  sops = lib.mkIf hasSecrets {
-    age.keyFile = ageKeyFile;
-    defaultSopsFile = secretsFile;
-    # This function creates an attribute set where the keys are the secret's
-    # names and their values are the attribute sets matching the
-    # perSecretsSettings above.
-    secrets = lib.genAttrs secretNames (name: perSecretSettings.${name} or { });
-  };
-
-  # Update: Now it just works, keep it just in case.
-  # Remove stale secrets. sops-nix's own cleanup only runs when sops.secrets !=
-  # {}, so it never prunes a previous generation once a profile has zero
-  # secrets. Clear the *contents* of the ramfs mount ourselves instead of
-  # removing the mount point (which the kernel won't allow while it's mounted).
-  # system.activationScripts.clear-stale-sops-secrets = lib.mkIf (!hasSecrets) (
-  #   lib.stringAfter [ "users" "groups" ] ''
-  #     for d in /run/secrets.d /run/secrets-for-users.d; do
-  #       if [ -d "$d" ]; then
-  #         find "$d" -mindepth 1 -delete 2>/dev/null || true
-  #       fi
-  #     done
-  #     rm -f /run/secrets
-  #   ''
-  # );
 }
