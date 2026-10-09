@@ -15,9 +15,6 @@
   ...
 }:
 {
-  imports = [
-    inputs.sops-nix.nixosModules.sops
-  ];
 
   config =
     let
@@ -86,7 +83,11 @@
 
     {
 
-      flake.nixosModules.secrets = { pkgs, ... }: {
+      imports = [
+        inputs.sops-nix.nixosModules.sops
+      ];
+
+      flake.nixosModules.sops = { pkgs, ... }: {
 
         environment = {
           sessionVariables = {
