@@ -13,7 +13,7 @@ in
       self.nixosModules.btop
       self.nixosModules.keyd
       self.nixosModules.networkd
-      # self.nixosModules.secrets
+      self.nixosModules.sops
       self.nixosModules.tmux
       self.nixosModules.yazi
       self.nixosModules.zram
