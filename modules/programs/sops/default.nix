@@ -81,7 +81,7 @@ in
     inputs.sops-nix.nixosModules.sops
   ];
 
-  flake.nixosModules.sops = { pkgs, ... }: {
+  flake.nixosModules.secrets = { pkgs, ... }: {
 
     environment = {
       sessionVariables = {
