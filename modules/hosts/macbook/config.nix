@@ -14,6 +14,7 @@ in
       self.nixosModules.keyd
       self.nixosModules.networkd
       self.nixosModules.sops
+      self.nixosModules.starship
       self.nixosModules.tmux
       self.nixosModules.yazi
       self.nixosModules.zram
