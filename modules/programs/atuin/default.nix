@@ -11,7 +11,7 @@
   config =
     let
       inherit (config.mynix) user;
-      outConfig = config;
+      partsConfig = config;
     in
     {
       flake.nixosModules.atuin = { pkgs, config, ... }: {
@@ -28,7 +28,7 @@
             ".local/share/atuin/key".source = config.sops.secrets."atuinKey".path;
           }
           // {
-            ".config/atuin/config.toml".source = ./configs/${outConfig.mynix.atuin.configName}.toml;
+            ".config/atuin/config.toml".source = ./configs/${partsConfig.mynix.atuin.configName}.toml;
           };
       };
 
@@ -39,8 +39,7 @@
   Related configs
   ---------------
 
-  Atuin must be initialized by a shell config file. In out zsh config we check
-  if atuin is installed before initializing it. For more info, see:
+  Atuin must be initialized by a shell config file, see:
     https://docs.atuin.sh/latest/guide/shell-integration/
     https://docs.atuin.sh/latest/configuration/key-binding/
 
