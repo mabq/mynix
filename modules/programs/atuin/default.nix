@@ -19,14 +19,13 @@
         ];
 
         hjem.users.${user}.files =
-          # lib.optionalAttrs (config.sops.secrets ? "atuinKey") {
-          #   # Replace atuin's random encryption key with our encryption key if
-          #   # provided as a secret. For more details read notes in the openssh
-          #   # module (similar situation).
-          #   ".local/share/atuin/key".source = config.sops.secrets."atuinKey".path;
-          # }
-          # // {
-          {
+          lib.optionalAttrs (config.sops.secrets ? "atuinKey") {
+            # Replace atuin's random encryption key with our encryption key if
+            # provided as a secret. For more details read notes in the openssh
+            # module (similar situation).
+            ".local/share/atuin/key".source = config.sops.secrets."atuinKey".path;
+          }
+          // {
             ".config/atuin/config.toml".source = ./configs/${config.mynix.atuin.configName}.toml;
           };
       };
