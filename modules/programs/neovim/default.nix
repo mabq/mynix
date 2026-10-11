@@ -41,7 +41,7 @@ in
 
         hjem.users.${user}.files = {
           ".config/nvim".source =
-            "home/${user}/.local/share/mynix/modules/programs/neovim/configs/${config.mynix.neovim.configName}";
+            "/home/${user}/.local/share/mynix/modules/programs/neovim/configs/${config.mynix.neovim.configName}";
         };
       };
 
