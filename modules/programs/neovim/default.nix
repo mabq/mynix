@@ -40,7 +40,8 @@ in
         environment.systemPackages = import ./configs/${config.mynix.neovim.configName}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/nvim".source = ./configs/${config.mynix.neovim.configName};
+          ".config/nvim".source =
+            "home/${user}/.local/share/mynix/modules/programs/neovim/configs/${config.mynix.neovim.configName}";
         };
       };
 
