@@ -1,7 +1,4 @@
-# Packages required by this Neovim configuration
-{ pkgs }:
-with pkgs;
-[
+pkgs: with pkgs; [
   neovim # Vim text editor fork
 
   tree-sitter # Parser generator tool and an incremental parsing library

@@ -13,6 +13,7 @@ in
       self.nixosModules.btop
       self.nixosModules.git
       self.nixosModules.keyd
+      self.nixosModules.neovim
       self.nixosModules.networkd
       self.nixosModules.sops
       self.nixosModules.starship
