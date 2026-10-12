@@ -4,8 +4,7 @@
 
     imports = [
       ./_hardware-configuration.nix
-      self.nixosModules.userConfig-
-      "${config.mynix.user}"
+      self.nixosModules."userConfig-${config.mynix.user}"
       # self.nixosModules.atuin
       self.nixosModules.base
       # self.nixosModules.bat
