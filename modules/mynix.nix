@@ -1,9 +1,10 @@
-{ lib, ... }:
+{ config, lib, ... }:
 {
 
   options = {
 
     mynix = {
+
       host = lib.mkOption {
         type = lib.types.str;
         description = "Machine name";
@@ -50,6 +51,12 @@
         default = "tokyonight-moon";
         description = "System theme";
       };
+      repoDir = lib.mkOption {
+        type = lib.types.str;
+        defalt = "/home/${config.mynix.user}/.local/share/mynix;";
+        description = "Directory where the repository is cloned";
+      };
+
     };
 
   };

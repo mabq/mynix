@@ -5,8 +5,8 @@
   ...
 }:
 let
-  inherit (config.mynix) user theme;
-  moduleDir = "/home/${user}/.local/share/mynix/modules/programs/neovim";
+  inherit (config.mynix) user theme repoDir;
+  dir = "${repoDir}/modules/programs/neovim";
 in
 {
   options = {
@@ -44,8 +44,8 @@ in
         environment.systemPackages = import ./configs/${configName}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/nvim".source = "${moduleDir}/configs/${configName}";
-          ".config/mynix/theme/neovim.lua".source = "${moduleDir}/themes/${theme}.lua";
+          ".config/nvim".source = "${dir}/configs/${configName}";
+          ".config/mynix/theme/neovim.lua".source = "${dir}/themes/${theme}.lua";
         };
       };
 
