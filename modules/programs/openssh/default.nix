@@ -7,7 +7,7 @@
     {
 
       flake.nixosModules.openssh =
-        # This is the `config` containing sops secrets
+        # This is the `config` that contains sops secrets
         { config, ... }:
         {
 
@@ -21,12 +21,11 @@
             };
           };
 
-          # The private key file is created by sops-nix at activation time in
-          # memory `/run/secrets/sshKey`. See notes in that module for more
-          # information.
+          # The private key file is created by sops-nix (sops module) at
+          # activation time in memory `/run/secrets/sshKey`.
           #
           # Here, we  create a symlink in `~/.ssh/id_ed25519` pointing to that
-          # file in memory.
+          # file in memory (this is where ssh expects to find the private key).
           #
           # Don't worry if you see `~/.ssh/id_ed25519` pointing to a file in the
           # `/nix/store/`, that is just another symlink pointing to the actual
