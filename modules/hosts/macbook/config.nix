@@ -5,8 +5,14 @@ in
 {
   config = {
 
-    flake.nixosModules."hosts-${host}" = {
+    mynix = {
+      host = "macbook";
+      stateVersion = "26.05";
+      user = "mabq";
+      email = "alejandro.banderas@me.com";
+    };
 
+    flake.nixosModules."hostsConfig-${host}" = {
       imports = [
         ./_hardware-configuration.nix
         self.nixosModules."users-${user}"
@@ -26,7 +32,6 @@ in
         self.nixosModules.zram
         self.nixosModules.zsh
       ];
-
     };
 
   };
