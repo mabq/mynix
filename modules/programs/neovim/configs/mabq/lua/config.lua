@@ -23,7 +23,7 @@ require("lazy").setup {
     { import = "plugins" },
 
     -- Source theme file
-    -- dofile(vim.fn.expand "$MYNIX_THEME/neovim.lua") or nil,
+    dofile(vim.fn.expand "~/.config/mynix/theme/neovim.lua") or nil,
   },
   change_detection = {
     notify = false, -- do not notify when changes are found

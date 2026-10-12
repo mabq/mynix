@@ -5,7 +5,8 @@
   ...
 }:
 let
-  inherit (config.mynix) user;
+  inherit (config.mynix) user theme;
+  moduleDir = "/home/${user}/.local/share/mynix/modules/programs/neovim";
 in
 {
   options = {
@@ -21,6 +22,9 @@ in
   config = {
 
     flake.nixosModules.neovim =
+      let
+        configName = config.mynix.neovim.configName;
+      in
       { pkgs, ... }:
       {
         # The default Nix expression search path, used by the Nix evaluator to
@@ -37,11 +41,11 @@ in
           VISUAL = "nvim";
         };
 
-        environment.systemPackages = import ./configs/${config.mynix.neovim.configName}/_packages.nix pkgs;
+        environment.systemPackages = import ./configs/${configName}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/nvim".source =
-            "/home/${user}/.local/share/mynix/modules/programs/neovim/configs/${config.mynix.neovim.configName}";
+          ".config/nvim".source = "${moduleDir}/configs/${configName}";
+          ".config/mynix/theme/neovim.lua".source = "${moduleDir}/themes/${theme}.lua";
         };
       };
 
