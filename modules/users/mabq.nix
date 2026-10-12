@@ -5,6 +5,9 @@
       inherit (config.mynix) user;
     in
     {
+      # TODO: Remove later
+      programs.zsh.enable = true;
+
       users.users.${user} = {
         # Make zsh the default shell
         shell = pkgs.zsh;
