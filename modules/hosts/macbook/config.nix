@@ -15,6 +15,7 @@ in
       self.nixosModules.keyd
       self.nixosModules.neovim
       self.nixosModules.networkd
+      self.nixosModules.openssh
       self.nixosModules.sops
       self.nixosModules.starship
       self.nixosModules.tmux
