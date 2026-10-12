@@ -5,8 +5,8 @@
   ...
 }:
 let
-  inherit (config.mynix) user theme repoDir;
-  dir = "${repoDir}/modules/programs/neovim";
+  inherit (config.mynix) user theme;
+  dir = "/home/${user}/.local/share/mynix/modules/programs/neovim";
 in
 {
   options = {

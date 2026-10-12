@@ -51,11 +51,6 @@
         default = "tokyonight-moon";
         description = "System theme";
       };
-      repoDir = lib.mkOption {
-        type = lib.types.str;
-        defalt = "/home/${config.mynix.user}/.local/share/mynix;";
-        description = "Directory where the repository is cloned";
-      };
 
     };
 
