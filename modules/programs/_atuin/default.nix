@@ -1,20 +1,26 @@
-{ lib, config, ... }:
 {
-  options = {
-    mynix.atuin.configName = lib.mkOption {
-      type = lib.types.str;
-      default = "default";
-      description = "Atuin configuration name";
-    };
-  };
-
-  config =
+  flake.nixosModules.atuin =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
-      inherit (config.mynix) user;
-      partsConfig = config;
+      inherit (config.mynix) user atuinConfig;
     in
     {
-      flake.nixosModules.atuin = { pkgs, config, ... }: {
+      options = {
+
+        mynix.atuinConfig = lib.mkOption {
+          type = lib.types.str;
+          default = "default";
+          description = "Selected atuin configuration";
+        };
+
+      };
+
+      config = {
 
         environment.systemPackages = with pkgs; [
           atuin # Replacement for a shell history
@@ -28,8 +34,9 @@
             ".local/share/atuin/key".source = config.sops.secrets."atuinKey".path;
           }
           // {
-            ".config/atuin/config.toml".source = ./configs/${partsConfig.mynix.atuin.configName}.toml;
+            ".config/atuin/config.toml".source = ./configs/${atuinConfig}.toml;
           };
+
       };
 
     };

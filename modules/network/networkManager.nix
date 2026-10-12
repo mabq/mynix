@@ -1,12 +1,16 @@
-{ self, config, ... }:
-let
-  inherit (config.mynix) user;
-in
+{ self, ... }:
 {
-  config = {
-
-    flake.nixosModules.networkManager = { lib, pkgs, ... }: {
-
+  flake.nixosModules.networkManager =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      inherit (config.mynix) user;
+    in
+    {
       imports = [
         self.nixosModules.resolved
       ];
@@ -54,7 +58,6 @@ in
 
     };
 
-  };
 }
 
 /*

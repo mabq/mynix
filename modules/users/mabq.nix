@@ -1,12 +1,10 @@
-{ config, ... }:
-let
-  inherit (config.mynix) user;
-in
 {
-  config = {
-
-    flake.nixosModules.users-mabq = { pkgs, ... }: {
-
+  flake.nixosModules.userConfig-mabq =
+    { config, pkgs, ... }:
+    let
+      inherit (config.mynix) user;
+    in
+    {
       users.users.${user} = {
         # Make zsh the default shell
         shell = pkgs.zsh;
@@ -40,8 +38,10 @@ in
         fastfetch # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
         pciutils # Collection of programs for inspecting and manipulating configuration of PCI devices
         psmisc # Set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
+        git
+        gh
+        yazi
+        neovim
       ];
     };
-
-  };
 }
