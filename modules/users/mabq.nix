@@ -38,10 +38,8 @@
           caligula # User-friendly, lightweight TUI for disk imaging
           exfatprogs # exFAT filesystem userspace utilities
           fastfetch # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
-          fzf # Command-line fuzzy finder
           pciutils # Collection of programs for inspecting and manipulating configuration of PCI devices
           psmisc # Set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
-          ripgrep # Utility that combines the usability of The Silver Searcher with the raw speed of grep
         ];
       };
     };

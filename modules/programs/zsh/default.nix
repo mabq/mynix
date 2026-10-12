@@ -11,27 +11,17 @@
   config =
     let
       inherit (config.mynix) user;
+      configName = config.mynix.zsh.configName;
     in
     {
       flake.nixosModules.zsh = { pkgs, ... }: {
         # Must be enabled to be used as the default shell
         programs.zsh.enable = true;
 
-        environment.systemPackages = with pkgs; [
-          exfatprogs # exFAT filesystem userspace utilities
-          eza # Modern, maintained replacement for ls (!aliases)
-          ffmpeg # Complete, cross-platform solution to record, convert and stream audio and video (!functions)
-          fzf # Command-line fuzzy finder
-          imagemagick # Software suite to create, edit, compose, or convert bitmap images (!functions(
-          parted # Create, destroy, resize, check, and copy partitions
-          zoxide # Fast cd command that learns your habits (!aliases) (must be initialized)
-          zsh-autosuggestions # Fish-like shell autosuggestions for Zsh (!inputrc)
-          zsh-history-substring-search # Fish-like shell history-substring-search for Zsh (!inputrc)
-          zsh-syntax-highlighting # Fish-like shell like syntax highlighting for Zsh (!inputrc)
-        ];
+        environment.systemPackages = import ./configs/${configName}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/zsh".source = ./configs/${config.mynix.zsh.configName};
+          ".config/zsh".source = ./configs/${configName};
           ".zshenv".text = ''
             setopt NO_GLOBAL_RCS
             ZDOTDIR="/home/${user}/.config/zsh"

@@ -27,10 +27,12 @@ in
       in
       { pkgs, ... }:
       {
-        # The default Nix expression search path, used by the Nix evaluator to
-        # look up paths enclosed in angle brackets (e.g. `<nixpkgs>`). Required
-        # by nixd lsp config.
-        nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+        environment.systemPackages = import ./configs/${configName}/_packages.nix pkgs;
+
+        hjem.users.${user}.files = {
+          ".config/nvim".source = "${dir}/configs/${configName}";
+          ".config/mynix/theme/neovim.lua".source = "${dir}/themes/${theme}.lua";
+        };
 
         # Make nvim the default text editor.
         # Read session variables notes in the default module for more information
@@ -41,12 +43,10 @@ in
           VISUAL = "nvim";
         };
 
-        environment.systemPackages = import ./configs/${configName}/_packages.nix pkgs;
-
-        hjem.users.${user}.files = {
-          ".config/nvim".source = "${dir}/configs/${configName}";
-          ".config/mynix/theme/neovim.lua".source = "${dir}/themes/${theme}.lua";
-        };
+        # The default Nix expression search path, used by the Nix evaluator to
+        # look up paths enclosed in angle brackets (e.g. `<nixpkgs>`). Required
+        # by nixd lsp config.
+        nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
       };
 
   };
