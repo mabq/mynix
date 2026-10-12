@@ -26,9 +26,9 @@
         ;
     in
     {
-      imports = [
-        inputs.hjem.nixosModules.default
-      ];
+      # imports = [
+      #   inputs.hjem.nixosModules.default
+      # ];
 
       options = {
 
