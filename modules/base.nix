@@ -9,13 +9,13 @@ let
     ;
 in
 {
-  imports = [
-    inputs.hjem.nixosModules.default
-  ];
-
   config = {
 
     flake.nixosModules.base = { pkgs, lib, ... }: {
+
+      imports = [
+        inputs.hjem.nixosModules.default
+      ];
 
       boot = {
         loader = {
