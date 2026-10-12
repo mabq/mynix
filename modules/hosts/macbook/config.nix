@@ -12,7 +12,7 @@ in
       email = "alejandro.banderas@me.com";
     };
 
-    flake.nixosModules."hostsConfig-${host}" = {
+    flake.nixosModules."hostConfig-${host}" = {
       imports = [
         ./_hardware-configuration.nix
         self.nixosModules."users-${user}"
