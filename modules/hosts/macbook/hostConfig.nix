@@ -2,9 +2,6 @@
 {
   flake.nixosModules."hostConfig-macbook" =
     { config, ... }:
-    let
-      inherit (config.mynix) user;
-    in
     {
       mynix = {
         host = "macbook";
@@ -15,7 +12,7 @@
 
       imports = [
         ./_hardware-configuration.nix
-        self.nixosModules."userConfig-${user}"
+        self.nixosModules."userConfig-${config.mynix.user}"
         # self.nixosModules.atuin
         self.nixosModules.base
         # self.nixosModules.bat
