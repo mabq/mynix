@@ -3,52 +3,56 @@ let
   inherit (config.mynix) user;
 in
 {
-  flake.nixosModules.networkManager = { lib, pkgs, ... }: {
+  config = {
 
-    imports = [
-      self.nixosModules.resolved
-    ];
+    flake.nixosModules.networkManager = { lib, pkgs, ... }: {
 
-    # ----------------------------------------------------------------------------
-    # Disable conflicting options
-    #  These options are enabled by default and must be disabled to avoid
-    #  conflicts with NetworkManager.
-    # ----------------------------------------------------------------------------
+      imports = [
+        self.nixosModules.resolved
+      ];
 
-    # Each network interface should be managed by only one DHCP client or network
-    # manager. Disable NixOS default script-based DHCP configuration on all
-    # interfaces. NetworkManager has its own built-in DHCP client daemon.
-    networking.useDHCP = false;
+      # ----------------------------------------------------------------------------
+      # Disable conflicting options
+      #  These options are enabled by default and must be disabled to avoid
+      #  conflicts with NetworkManager.
+      # ----------------------------------------------------------------------------
 
-    # Disable facter network configurations.
-    hardware.facter.detected.dhcp.enable = false;
+      # Each network interface should be managed by only one DHCP client or network
+      # manager. Disable NixOS default script-based DHCP configuration on all
+      # interfaces. NetworkManager has its own built-in DHCP client daemon.
+      networking.useDHCP = false;
 
-    # ----------------------------------------------------------------------------
-    # Network Manager
-    #  https://wiki.archlinux.org/title/NetworkManager
-    #  https://networkmanager.dev/docs/api/latest/settings-ipv4.html
-    # ----------------------------------------------------------------------------
+      # Disable facter network configurations.
+      hardware.facter.detected.dhcp.enable = false;
 
-    networking.networkmanager = {
-      enable = true;
+      # ----------------------------------------------------------------------------
+      # Network Manager
+      #  https://wiki.archlinux.org/title/NetworkManager
+      #  https://networkmanager.dev/docs/api/latest/settings-ipv4.html
+      # ----------------------------------------------------------------------------
 
-      # Important!
-      # Instruct NetworkManager to ignore DNS servers obtained from DHCP on all
-      # interfaces. Required to let systemd-resolved manage DNS resolution.
-      dns = lib.mkForce "none";
-      settings.main."systemd-resolved" = false;
+      networking.networkmanager = {
+        enable = true;
+
+        # Important!
+        # Instruct NetworkManager to ignore DNS servers obtained from DHCP on all
+        # interfaces. Required to let systemd-resolved manage DNS resolution.
+        dns = lib.mkForce "none";
+        settings.main."systemd-resolved" = false;
+      };
+
+      # Only members of the `networkmanager` group can use `nmtui` or `nmcli`
+      users.users.${user}.extraGroups = [ "networkmanager" ];
+
+      # ----------------------------------------------------------------------------
+      # Extra packages
+      # ----------------------------------------------------------------------------
+
+      environment.systemPackages = with pkgs; [
+        dig # Domain name server
+      ];
+
     };
-
-    # Only members of the `networkmanager` group can use `nmtui` or `nmcli`
-    users.users.${user}.extraGroups = [ "networkmanager" ];
-
-    # ----------------------------------------------------------------------------
-    # Extra packages
-    # ----------------------------------------------------------------------------
-
-    environment.systemPackages = with pkgs; [
-      dig # Domain name server
-    ];
 
   };
 }

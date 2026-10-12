@@ -1,7 +1,7 @@
 { lib, config, ... }:
 {
   options = {
-    mynix.swap.size = lib.mkOption {
+    mynix.swapSize = lib.mkOption {
       type = lib.types.int;
       default = 4;
       description = "Swapfile size in GB";
@@ -12,7 +12,7 @@
     flake.nixosModules.swap = {
       swapDevices = [
         {
-          size = config.mynix.swap.size * 1024;
+          size = config.mynix.swapSize * 1024;
           device = "/var/lib/swapfile";
           priority = 5; # lower priority than zram
         }
