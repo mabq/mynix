@@ -1,6 +1,13 @@
 { self, ... }:
 {
-  flake.nixosModules."hostConfig-macbook" = {
+  flake.nixosModules."hosts-macbook" = {
+
+    mynix = {
+      host = "macbook";
+      stateVersion = "26.05";
+      user = "mabq";
+      email = "alejandro.banderas@me.com";
+    };
 
     imports = [
       ./_hardware-configuration.nix
@@ -21,13 +28,6 @@
       # self.nixosModules.zram
       # self.nixosModules.zsh
     ];
-
-    mynix = {
-      host = "macbook";
-      stateVersion = "26.05";
-      user = "mabq";
-      email = "alejandro.banderas@me.com";
-    };
 
   };
 }

@@ -2,7 +2,7 @@
 {
   flake.nixosConfigurations."macbook" = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.nixosModules."hostConfig-macbook"
+      self.nixosModules."hosts-macbook"
     ];
   };
 }
