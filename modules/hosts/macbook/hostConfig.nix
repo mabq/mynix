@@ -1,10 +1,11 @@
 { self, ... }:
 {
-  flake.nixosModules."hostConfig-macbook" = {
+  flake.nixosModules."hostConfig-macbook" = { config, ... }: {
 
     imports = [
       ./_hardware-configuration.nix
-      self.nixosModules.userConfig-mabq
+      self.nixosModules.userConfig-
+      "${config.mynix.user}"
       # self.nixosModules.atuin
       self.nixosModules.base
       # self.nixosModules.bat
