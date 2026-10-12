@@ -23,62 +23,59 @@
 
       options = {
 
-        mynix = {
-
-          host = lib.mkOption {
-            type = lib.types.str;
-            description = "Machine name";
-          };
-
-          timeZone = lib.mkOption {
-            type = lib.types.enum [
-              "America/Guayaquil"
-            ];
-            default = "America/Guayaquil";
-            description = "Machine time zone";
-          };
-
-          isUEFI = lib.mkOption {
-            type = lib.types.bool;
-            default = true;
-            description = "Host has UEFI firmware (set to false if BIOS)";
-          };
-
-          stateVersion = lib.mkOption {
-            type = lib.types.enum [
-              "26.05"
-              "26.11"
-            ];
-            description = "NixOS installer version";
-          };
-
-          user = lib.mkOption {
-            type = lib.types.str;
-            description = "Primary user's name";
-          };
-
-          email = lib.mkOption {
-            type = lib.types.str;
-            description = "User's email (required for GitHub)";
-          };
-
-          theme = lib.mkOption {
-            type = lib.types.enum [
-              "catppuccin"
-              "catppuccin-latte"
-              "everforest"
-              "gruvbox"
-              "kanagawa"
-              "nord"
-              "rosepine"
-              "tokyonight"
-              "tokyonight-moon"
-            ];
-            default = "tokyonight-moon";
-            description = "System theme";
-          };
-
+        mynix.host = lib.mkOption {
+          type = lib.types.str;
+          description = "Machine name";
         };
+
+        mynix.timeZone = lib.mkOption {
+          type = lib.types.enum [
+            "America/Guayaquil"
+          ];
+          default = "America/Guayaquil";
+          description = "Machine time zone";
+        };
+
+        mynix.isUEFI = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Host has UEFI firmware (set to false if BIOS)";
+        };
+
+        mynix.stateVersion = lib.mkOption {
+          type = lib.types.enum [
+            "26.05"
+            "26.11"
+          ];
+          description = "NixOS installer version";
+        };
+
+        mynix.user = lib.mkOption {
+          type = lib.types.str;
+          description = "Primary user's name";
+        };
+
+        mynix.email = lib.mkOption {
+          type = lib.types.str;
+          description = "User's email (required for GitHub)";
+        };
+
+        mynix.theme = lib.mkOption {
+          type = lib.types.enum [
+            "catppuccin"
+            "catppuccin-latte"
+            "everforest"
+            "gruvbox"
+            "kanagawa"
+            "nord"
+            "rosepine"
+            "tokyonight"
+            "tokyonight-moon"
+          ];
+          default = "tokyonight-moon";
+          description = "System theme";
+        };
+
       };
 
       config =
@@ -92,6 +89,7 @@
             ;
         in
         {
+
           boot = {
             loader = {
               # UEFI (systemd-boot)
@@ -112,7 +110,6 @@
 
           environment = {
             systemPackages = with pkgs; [
-              # age # Modern encryption tool with small explicit keys
               gh # CLI GitHub tool (authenticate from the terminal)
               git # Distributed version control system
               just # Handy way to save and run project-specific commands
@@ -206,6 +203,7 @@
               # packages = with pkgs; [ ];
             };
           };
+
         };
 
     };

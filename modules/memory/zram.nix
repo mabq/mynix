@@ -2,7 +2,6 @@
   flake.nixosModules.zram = { config, lib, ... }: {
 
     options = {
-
       mynix.zramAlgorithm = lib.mkOption {
         # To see which algorithms your kernel supports, use:
         #   `cat /sys/block/zram0/comp_algorithm`
@@ -23,18 +22,16 @@
         default = 50;
         description = "Percentage of total memory to compress";
       };
-
     };
 
     config = {
-
       zramSwap = {
         enable = true;
         priority = 100; # prioritize zram over swap
         algorithm = config.mynix.zramAlgorithm;
         memoryPercent = config.mynix.zramPercentage;
       };
-
     };
+
   };
 }
