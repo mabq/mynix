@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.btop =
+  flake.nixosModules.niri =
     {
       config,
       lib,
