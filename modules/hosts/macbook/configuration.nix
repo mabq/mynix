@@ -12,17 +12,18 @@ in
         inherit mynix;
       }
       ./_hardware-configuration.nix
-      self.nixosModules.atuin
-      self.nixosModules.audio
       self.nixosModules.base
+      self.nixosModules.atuin
       self.nixosModules.bat
       self.nixosModules.btop
       self.nixosModules.cliamp
+      self.nixosModules.foot
       self.nixosModules.git
       self.nixosModules.keyd
       self.nixosModules.neovim
       self.nixosModules.networkd
       self.nixosModules.openssh
+      self.nixosModules.pipewire
       self.nixosModules.plex
       self.nixosModules.sops
       self.nixosModules.starship

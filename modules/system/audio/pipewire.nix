@@ -1,8 +1,8 @@
 {
-  flake.nixosModules.audio = { pkgs, ... }: {
+  flake.nixosModules.pipewire = { pkgs, ... }: {
 
     # Make sure the old stack is off; it conflicts with PipeWire
-    services.pulseaudio.enable = false;
+    services.pulseaudio.enable = false; # older releases: hardware.pulseaudio.enable
 
     # Lets PipeWire get realtime scheduling
     security.rtkit.enable = true;
@@ -21,5 +21,4 @@
     ];
 
   };
-
 }
