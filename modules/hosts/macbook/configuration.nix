@@ -15,9 +15,9 @@
       self.nixosModules.atuin
       self.nixosModules.base
       self.nixosModules.bat
-      # self.nixosModules.btop
+      self.nixosModules.btop
       self.nixosModules.git
-      # self.nixosModules.keyd
+      self.nixosModules.keyd
       # self.nixosModules.neovim
       self.nixosModules.networkd
       # self.nixosModules.openssh
