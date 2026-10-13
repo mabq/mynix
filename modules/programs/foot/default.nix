@@ -26,7 +26,7 @@
 
         hjem.users.${user}.files = {
           ".config/foot/foot.ini".source = ./configs/${footConfig}.ini;
-          ".config/foot/theme.ini".source = ./themes/${theme}.theme;
+          ".config/foot/theme.ini".source = ./themes/${theme}.ini;
         };
       };
 
