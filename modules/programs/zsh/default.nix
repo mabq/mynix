@@ -1,33 +1,39 @@
-{ lib, config, ... }:
 {
-  options = {
-    mynix.zsh.configName = lib.mkOption {
-      type = lib.types.str;
-      default = "default";
-      description = "Zsh configuration name";
-    };
-  };
-
-  config =
+  flake.nixosModules.zsh =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
-      inherit (config.mynix) user;
-      configName = config.mynix.zsh.configName;
+      inherit (config.mynix) user zshConfig;
     in
     {
-      flake.nixosModules.zsh = { pkgs, ... }: {
+
+      options = {
+        mynix.zshConfig = lib.mkOption {
+          type = lib.types.str;
+          default = "default";
+          description = "Zsh configuration name";
+        };
+      };
+
+      config = {
         # Must be enabled to be used as the default shell
         programs.zsh.enable = true;
 
-        environment.systemPackages = import ./configs/${configName}/_packages.nix pkgs;
+        environment.systemPackages = import ./configs/${zshConfig}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/zsh".source = ./configs/${configName};
+          ".config/zsh".source = ./configs/${zshConfig};
           ".zshenv".text = ''
             setopt NO_GLOBAL_RCS
             ZDOTDIR="/home/${user}/.config/zsh"
           '';
         };
       };
+
     };
 }
 

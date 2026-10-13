@@ -1,19 +1,25 @@
-{ lib, config, ... }:
 {
-  options = {
-    mynix.tmux.configName = lib.mkOption {
-      type = lib.types.str;
-      default = "default";
-      description = "Tmux configuration name";
-    };
-  };
-
-  config =
+  flake.nixosModules.tmux =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
-      inherit (config.mynix) user;
+      inherit (config.mynix) user tmuxConfig;
     in
     {
-      flake.nixosModules.tmux = { pkgs, ... }: {
+
+      options = {
+        mynix.tmuxConfig = lib.mkOption {
+          type = lib.types.str;
+          default = "default";
+          description = "Selected tmux configuration";
+        };
+      };
+
+      config = {
         environment.systemPackages = with pkgs; [
           tmux # Terminal multiplexer
           fd # Simple, fast and user-friendly alternative to find (!tmux-sessionizer)
@@ -21,7 +27,7 @@
         ];
 
         hjem.users.${user}.files = {
-          ".config/tmux/tmux.conf".source = ./configs/${config.mynix.tmux.configName}.conf;
+          ".config/tmux/tmux.conf".source = ./configs/${tmuxConfig}.conf;
 
           # The bare module adds `~/.local/bin` to PATH.
           # Shortcuts to trigger the script are set in the shell config files
@@ -32,5 +38,6 @@
           };
         };
       };
+
     };
 }

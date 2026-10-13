@@ -1,19 +1,23 @@
-{ lib, config, ... }:
 {
-  options = {
-    mynix.yazi.configName = lib.mkOption {
-      type = lib.types.str;
-      default = "default";
-      description = "Yazi configuration name";
-    };
-  };
-
-  config =
+  flake.nixosModules.yazi =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
-      inherit (config.mynix) user;
+      inherit (config.mynix) user yaziConfig;
     in
     {
-      flake.nixosModules.yazi = { pkgs, ... }: {
+      options = {
+        mynix.yaziConfig = lib.mkOption {
+          type = lib.types.str;
+          default = "default";
+          description = "Selected yazi configuration";
+        };
+      };
+      config = {
         environment.systemPackages = with pkgs; [
           _7zz # Command line version of the 7-Zip archiver utility
           exiftool # Tool to read, write and edit EXIF meta information
@@ -35,7 +39,7 @@
         ];
 
         hjem.users.${user}.files = {
-          ".config/yazi".source = ./configs/${config.mynix.yazi.configName};
+          ".config/yazi".source = ./configs/${yaziConfig};
         };
       };
     };

@@ -5,8 +5,8 @@
     mynix = {
       host = "macbook";
       stateVersion = "26.05";
-      user = "mabq";
-      email = "alejandro.banderas@me.com";
+      # user = "mabq";
+      # email = "alejandro.banderas@me.com";
     };
 
     imports = [
@@ -22,11 +22,11 @@
       self.nixosModules.networkd
       self.nixosModules.openssh
       self.nixosModules.sops
-      # self.nixosModules.starship
-      # self.nixosModules.tmux
-      # self.nixosModules.yazi
+      self.nixosModules.starship
+      self.nixosModules.tmux
+      self.nixosModules.yazi
       self.nixosModules.zram
-      # self.nixosModules.zsh
+      self.nixosModules.zsh
     ];
 
   };

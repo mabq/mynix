@@ -1,12 +1,7 @@
-/*
-  IMPORTANT!
-
-  IN ORDER TO DECRYPT SECRETS, THE AGE PRIVATE KEY MUST EXIST IN
-  `/var/lib/sops-nix/key.txt`.
-
-  IF A SECRETS FILE MATCHES THE <USER-HOST-PROFILE> CONFIGURATION AND THE
-  AGE PRIVATE KEY IS NOT FOUND, THE BUILD WILL FAIL.
-*/
+# IMPORTANT!
+#  IN ORDER TO DECRYPT SECRETS, THE AGE PRIVATE KEY MUST EXIST IN `/var/lib/sops-nix/key.txt`.
+#  IF A SECRETS FILE MATCHES THE `secretsFile` NAME AND THE AGE PRIVATE KEY IS NOT FOUND,
+#  THE BUILD WILL FAIL.
 
 { inputs, ... }: {
 
@@ -78,7 +73,6 @@
           mode = "0600";
         };
       };
-
     in
     {
       imports = [
