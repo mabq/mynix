@@ -17,6 +17,7 @@ in
       self.nixosModules.base
       self.nixosModules.bat
       self.nixosModules.btop
+      self.nixosModules.cliamp
       self.nixosModules.git
       self.nixosModules.keyd
       self.nixosModules.neovim
