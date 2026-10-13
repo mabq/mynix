@@ -12,8 +12,8 @@ in
         inherit mynix;
       }
       ./_hardware-configuration.nix
-      self.nixosModules.users-mabq
       self.nixosModules.atuin
+      self.nixosModules.audio
       self.nixosModules.base
       self.nixosModules.bat
       self.nixosModules.btop
@@ -28,6 +28,7 @@ in
       self.nixosModules.starship
       self.nixosModules.tailscale
       self.nixosModules.tmux
+      self.nixosModules.users-mabq
       self.nixosModules.yazi
       self.nixosModules.zram
       self.nixosModules.zsh
