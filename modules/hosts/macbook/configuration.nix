@@ -2,13 +2,6 @@
 {
   flake.nixosModules."hosts-macbook" = {
 
-    mynix = {
-      host = "macbook";
-      stateVersion = "26.05";
-      # user = "mabq";
-      # email = "alejandro.banderas@me.com";
-    };
-
     imports = [
       ./_hardware-configuration.nix
       self.nixosModules.users-mabq
