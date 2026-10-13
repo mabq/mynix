@@ -22,6 +22,7 @@ in
       self.nixosModules.neovim
       self.nixosModules.networkd
       self.nixosModules.openssh
+      self.nixosModules.plex
       self.nixosModules.sops
       self.nixosModules.starship
       self.nixosModules.tmux
