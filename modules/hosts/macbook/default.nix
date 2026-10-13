@@ -1,14 +1,33 @@
 { self, inputs, ... }:
+let
+  mynix = {
+    host = "macbook";
+    stateVersion = "26.05";
+  };
+in
 {
-  flake.nixosConfigurations."macbook" = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.${mynix.host} = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       {
-        mynix = {
-          host = "macbook";
-          stateVersion = "26.05";
-        };
+        inherit mynix;
       }
-      self.nixosModules."hosts-macbook"
+      ./_hardware-configuration.nix
+      self.nixosModules.users-mabq
+      self.nixosModules.atuin
+      self.nixosModules.base
+      self.nixosModules.bat
+      self.nixosModules.btop
+      self.nixosModules.git
+      self.nixosModules.keyd
+      self.nixosModules.neovim
+      self.nixosModules.networkd
+      self.nixosModules.openssh
+      self.nixosModules.sops
+      self.nixosModules.starship
+      self.nixosModules.tmux
+      self.nixosModules.yazi
+      self.nixosModules.zram
+      self.nixosModules.zsh
     ];
   };
 }
