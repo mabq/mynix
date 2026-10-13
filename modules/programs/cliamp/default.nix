@@ -20,16 +20,14 @@
       };
 
       config = {
-        environment = {
-          systemPackages = [
-            pkgs.cliamp # Terminal Winamp - a retro terminal music player inspired by Winamp 2.x
-          ];
+        environment.systemPackages = [
+          pkgs.cliamp # Terminal Winamp - a retro terminal music player inspired by Winamp 2.x
+        ];
 
-          hjem.users.${user}.files = {
-            ".config/cliamp/config.toml".source = ./configs/${user}.toml;
-          };
+        hjem.users.${user}.files = {
+          ".config/cliamp/config.toml".source = ./configs/${user}.toml;
         };
       };
-
     };
+
 }
