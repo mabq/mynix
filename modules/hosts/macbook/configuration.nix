@@ -18,9 +18,9 @@
       self.nixosModules.btop
       self.nixosModules.git
       self.nixosModules.keyd
-      # self.nixosModules.neovim
+      self.nixosModules.neovim
       self.nixosModules.networkd
-      # self.nixosModules.openssh
+      self.nixosModules.openssh
       # self.nixosModules.sops
       # self.nixosModules.starship
       # self.nixosModules.tmux
