@@ -13,6 +13,7 @@
 
 // XPS 13 (1280 x 800)
 output "LVDS-1" {
+    off
     scale 1
     position x=0 y=0
     // backdrop-color "#1a1b26"
@@ -30,5 +31,7 @@ output "DP-1" {
 
 // Macbook (disable ghost display)
 output "LVDS-2" {
-    off
+    // off
+    scale 1
+    position x=0 y=0
 }
