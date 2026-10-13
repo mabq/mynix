@@ -11,6 +11,7 @@
     in
     {
       options = {
+
         mynix.gitConfig = lib.mkOption {
           type = lib.types.str;
           default = user;
@@ -22,11 +23,11 @@
           default = "default";
           description = "Lazygit configuration name";
         };
+
       };
 
-      #
-
       config = {
+
         environment.systemPackages = with pkgs; [
           git # Distributed version control system
           gh # CLI GitHub tool (authenticate from the terminal)
@@ -38,6 +39,8 @@
           ".config/git/config".source = ./configs/git/${gitConfig};
           ".config/lazygit/config.yml".source = ./configs/lazygit/${lazygitConfig}.yml;
         };
+
       };
+
     };
 }

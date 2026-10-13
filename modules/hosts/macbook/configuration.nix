@@ -12,7 +12,7 @@
     imports = [
       ./_hardware-configuration.nix
       self.nixosModules.users-mabq
-      # self.nixosModules.atuin
+      self.nixosModules.atuin
       self.nixosModules.base
       # self.nixosModules.bat
       # self.nixosModules.btop
