@@ -25,6 +25,7 @@ in
       self.nixosModules.plex
       self.nixosModules.sops
       self.nixosModules.starship
+      self.nixosModules.tailscale
       self.nixosModules.tmux
       self.nixosModules.yazi
       self.nixosModules.zram
