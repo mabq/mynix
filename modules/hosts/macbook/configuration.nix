@@ -14,7 +14,7 @@
       self.nixosModules.users-mabq
       self.nixosModules.atuin
       self.nixosModules.base
-      # self.nixosModules.bat
+      self.nixosModules.bat
       # self.nixosModules.btop
       self.nixosModules.git
       # self.nixosModules.keyd

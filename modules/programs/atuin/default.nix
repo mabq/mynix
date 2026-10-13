@@ -10,6 +10,7 @@
       inherit (config.mynix) user atuinConfig;
     in
     {
+
       options = {
 
         mynix.atuinConfig = lib.mkOption {

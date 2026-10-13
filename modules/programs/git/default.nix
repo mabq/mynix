@@ -10,18 +10,19 @@
       inherit (config.mynix) user gitConfig lazygitConfig;
     in
     {
+
       options = {
 
         mynix.gitConfig = lib.mkOption {
           type = lib.types.str;
           default = user;
-          description = "Git configuration name";
+          description = "Selected git configuration";
         };
 
         mynix.lazygitConfig = lib.mkOption {
           type = lib.types.str;
           default = "default";
-          description = "Lazygit configuration name";
+          description = "Selected lazygit configuration";
         };
 
       };
