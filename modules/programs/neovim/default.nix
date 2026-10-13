@@ -25,7 +25,7 @@
         environment.systemPackages = import ./configs/${neovimConfig}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/nvim".source = "${dir}/configs/${neovimConfig}"; # outOfStoreSymlink
+          ".config/nvim".source = "${dir}/configs/${neovimConfig}"; # out of store
           ".config/mynix/theme/neovim.lua".source = "${dir}/themes/${theme}.lua"; # do not affect flake repo
         };
 
