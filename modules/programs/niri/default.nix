@@ -36,9 +36,9 @@
           nautilus # File manager for GNOME
         ];
 
-        # hjem.users.${user}.files = {
-        #   ".config/niri".source = "${dir}/configs/${niriConfig}"; # out of store
-        # };
+        hjem.users.${user}.files = {
+          ".config/niri".source = "${dir}/configs/${niriConfig}"; # out of store
+        };
       };
 
     };
