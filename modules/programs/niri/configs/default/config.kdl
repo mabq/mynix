@@ -1,14 +1,15 @@
-// This config is in the KDL format: https://kdl.dev
-// "/-" comments out the following node.
-// Check the wiki for a full description of the configuration:
-// https://niri-wm.github.io/niri/Configuration:-Introduction
+// Config sections
+//  https://niri-wm.github.io/niri/Configuration%3A-Introduction.html
 
-include "./layout.kdl"
+// KDL format
+//  https://kdl.dev
+
 include "./input.kdl"
-include "./outputs.kdl"
-include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
+include "./layout.kdl"
 include "./binds.kdl"
 include "./window-rules.kdl"
+include "./outputs.kdl"
+include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
 
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
