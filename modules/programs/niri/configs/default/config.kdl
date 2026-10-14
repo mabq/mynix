@@ -6,9 +6,9 @@
 include "./layout.kdl"
 include "./input.kdl"
 include "./outputs.kdl"
+include optional=true "../mynix/niri/outputs.kdl"
 include "./binds.kdl"
 include "./window-rules.kdl"
-
 
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,

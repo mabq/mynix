@@ -7,7 +7,7 @@
       ...
     }:
     let
-      inherit (config.mynix) user niriConfig;
+      inherit (config.mynix) user host niriConfig;
       dir = "/home/${user}/.local/share/mynix/modules/programs/niri";
     in
     {
@@ -23,13 +23,7 @@
       config = {
         programs.niri.enable = true;
 
-        # services.displayManager.sddm = {
-        #   enable = true;
-        #   wayland.enable = true;
-        # };
-
         environment.systemPackages = with pkgs; [
-          alacritty
           fuzzel # Wayland-native application launcher, similar to rofi’s drun mode
           foot # Fast, lightweight and minimalistic Wayland terminal emulator
           brave # Privacy-oriented browser for Desktop and Laptop computers
@@ -38,6 +32,13 @@
 
         hjem.users.${user}.files = {
           ".config/niri".source = "${dir}/configs/${niriConfig}"; # out of store
+
+          # Disable macbook phantom display
+          ".config/mynix/niri/outputs.kdl".text = lib.mkIf (host == "macbook") ''
+            output "LVDS-1" {
+                off
+            }
+          '';
         };
       };
 
