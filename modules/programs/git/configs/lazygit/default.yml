@@ -3,6 +3,6 @@
 # Use delta to show diffs
 #  https://lazygit.dev/docs/configuration/
 git:
-  pagers:
-    - colorArg: always
-      pager: delta --dark --paging=never
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
