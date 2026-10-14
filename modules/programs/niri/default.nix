@@ -34,7 +34,7 @@
           ".config/niri".source = "${dir}/configs/${niriConfig}"; # out of store
 
           # Disable macbook phantom display
-          ".config/mynix/niri/outputs.kdl".text = lib.mkIf (host == "macbook") ''
+          ".config/mynix/niri/outputs-macbook.kdl".text = lib.mkIf (host == "macbook") ''
             output "LVDS-1" {
                 off
             }
