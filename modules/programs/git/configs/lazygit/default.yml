@@ -5,9 +5,4 @@
 
 git:
   diffRenderers:
-    - colorArg: always
-      command: delta --dark --paging=never
-    - colorArg: always
-      command: delta --dark --paging=never --side-by-side --line-numbers
-    - type: extDiff
-      command: difft --color=always
+    - command: delta --dark --paging=never
