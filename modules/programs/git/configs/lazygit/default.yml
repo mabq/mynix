@@ -1,8 +1,8 @@
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#default
 
-# Use delta to show diffs
-#  https://lazygit.dev/docs/configuration/
-
+# This will automatically read and apply all your global settings defined under
+# `[delta]` in your git config file (such as custom themes, line numbers, and
+# side-by-side preferences).
 git:
   diffRenderers:
     - command: delta --dark --paging=never
