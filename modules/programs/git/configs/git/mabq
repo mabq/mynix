@@ -46,7 +46,8 @@
   diffFilter = delta --color-only
 [delta]
   navigate = true  # use n and N to move between diff sections
-  # side-by-side = true
+  line-numbers = true
+  side-by-side = true
   dark = true      # or light = true, or omit for auto-detection
 [merge]
   conflictStyle = zdiff3
