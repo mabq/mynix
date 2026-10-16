@@ -3,8 +3,10 @@
 # Use delta to show diffs
 #  https://lazygit.dev/docs/configuration/
 
-# git:
-  # paging:
-    # colorArg: always
-    # pager: delta --dark --paging=never
-    # pager: delta --dark --paging=never --side-by-side --line-numbers
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --side-by-side --line-numbers
+    - colorArg: always
+      pager: delta --dark --paging=never
+    - externalDiffCommand: difft --color=always
