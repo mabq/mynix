@@ -4,9 +4,10 @@
 #  https://lazygit.dev/docs/configuration/
 
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --dark --paging=never --side-by-side --line-numbers
+      command: delta --dark --paging=never
     - colorArg: always
-      pager: delta --dark --paging=never
-    - externalDiffCommand: difft --color=always
+      command: delta --dark --paging=never --side-by-side --line-numbers
+    - type: extDiff
+      command: difft --color=always
