@@ -48,6 +48,6 @@
   dark = true      # or light = true, or omit for auto-detection
   navigate = true  # use n and N to move between diff sections
   line-numbers = true
-  # side-by-side = true
+  side-by-side = false
 [merge]
   conflictStyle = zdiff3
