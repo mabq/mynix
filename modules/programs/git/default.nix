@@ -37,6 +37,7 @@
           ".config/git/config".source = ./configs/git/${gitConfig};
           ".config/lazygit/config.yml" = {
             uid = 1000;
+            permissions = "0600";
             source = ./configs/lazygit/${lazygitConfig}.yml;
           };
         };
