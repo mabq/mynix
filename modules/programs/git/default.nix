@@ -35,7 +35,11 @@
 
         hjem.users.${user}.files = {
           ".config/git/config".source = ./configs/git/${gitConfig};
-          ".config/lazygit/config.yml".source = ./configs/lazygit/${lazygitConfig}.yml;
+          ".config/lazygit/config.yml" = {
+            uid = 1000;
+            gid = 100;
+            source = ./configs/lazygit/${lazygitConfig}.yml;
+          };
         };
       };
 
