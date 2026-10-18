@@ -1,15 +1,23 @@
-// Config sections
+// For configuration options and KDL syntax visit:
 //  https://niri-wm.github.io/niri/Configuration%3A-Introduction.html
 
-// KDL format
-//  https://kdl.dev
-
 include "./input.kdl"
-include "./layout.kdl"
-include "./binds.kdl"
-include "./window-rules.kdl"
-include "./outputs.kdl"
+// include "./outputs.kdl"
 include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
+include "./binds.kdl"
+include "./layout.kdl"
+include "./window-rules.kdl"
+
+
+cursor {
+    hide-when-typing
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}
 
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,

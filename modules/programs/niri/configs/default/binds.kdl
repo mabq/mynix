@@ -1,13 +1,17 @@
 /*
   https://niri-wm.github.io/niri/Configuration%3A-Key-Bindings.html
 
-  To find the XKB name for a particular key, use a program like wev.
+  To find the XKB name for a particular key, use `wev`.
 
   Most actions invoked here can also be called programmatically with
   `niri msg action do-something`.
 */
 
 binds {
+    Mod+Shift+w repeat=false { quit; }
+
+    Mod+Shift+m repeat=false { power-off-monitors; }
+
     Mod+o repeat=false { toggle-overview; }
 
     Mod+w repeat=false { close-window; }
@@ -17,84 +21,85 @@ binds {
     Mod+Down { set-window-height "-1%"; }
     Mod+Up { set-window-height "+1%"; }
 
-    Mod+Period { expand-column-to-available-width; }
+    Mod+r { switch-preset-column-width; }
 
-    Mod+m repeat=false repeat=false { maximize-column; }
-    Mod+Shift+m repeat=false { maximize-window-to-edges; }
+    Mod+m repeat=false { maximize-window-to-edges; }
+    // Mod+Shift+f repeat=false { fullscreen-window; }
+    Mod+z repeat=false { toggle-windowed-fullscreen; } // zen (no borders)
 
-    Mod+f repeat=false { toggle-windowed-fullscreen; }
-    Mod+Shift+f repeat=false { fullscreen-window; }
+    Mod+Period repeat=false { expand-column-to-available-width; }
+    // Mod+m repeat=false repeat=false { maximize-column; }
 
     Mod+c repeat=false { center-column; }
 
-    Mod+v repeat=false { toggle-window-floating; }
-    Mod+Shift+v repeat=false { switch-focus-between-floating-and-tiling; }
+    Mod+f repeat=false { toggle-window-floating; }
+    Mod+Shift+f repeat=false { switch-focus-between-floating-and-tiling; }
 
-    Mod+t repeat=false { toggle-column-tabbed-display; }
+    // Mod+t repeat=false { toggle-column-tabbed-display; }
 
-    Mod+h { focus-column-left; }
-    Mod+l { focus-column-right; }
-    Mod+j { focus-window-or-workspace-down; }
-    Mod+k { focus-window-or-workspace-up; }
-    Mod+Home { focus-column-first; }
-    Mod+End { focus-column-last; }
+    Mod+h cooldown-ms=25 { focus-column-left; }
+    Mod+l cooldown-ms=25 { focus-column-right; }
+    Mod+k cooldown-ms=25 { focus-window-or-workspace-up; }
+    Mod+j cooldown-ms=25 { focus-window-or-workspace-down; }
 
-    Mod+Semicolon { focus-window-previous; }
-
-    Mod+WheelScrollLeft cooldown-ms=150 { focus-column-right; }
     Mod+WheelScrollRight cooldown-ms=150 { focus-column-left; }
-    Mod+WheelScrollDown cooldown-ms=150 { focus-window-or-workspace-down; }
+    Mod+WheelScrollLeft cooldown-ms=150 { focus-column-right; }
     Mod+WheelScrollUp cooldown-ms=150 { focus-window-or-workspace-up; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-window-or-workspace-down; }
 
-    Mod+Shift+h { move-column-left; }
-    Mod+Shift+l { move-column-right; }
-    Mod+Shift+j { move-column-to-workspace-down; }
-    Mod+Shift+k { move-column-to-workspace-up; }
+    Mod+b repeat=false { focus-window-previous; }
 
-    Mod+Shift+left { consume-or-expel-window-left; }
-    Mod+Shift+right { consume-or-expel-window-right; }
-    Mod+Shift+down { move-window-down-or-to-workspace-down; }
-    Mod+Shift+up { move-window-up-or-to-workspace-up; }
+    Mod+Shift+h cooldown-ms=25 { move-column-left; }
+    Mod+Shift+l cooldown-ms=25 { move-column-right; }
+    Mod+Shift+j cooldown-ms=25 { move-column-to-workspace-down; }
+    Mod+Shift+k cooldown-ms=25 { move-column-to-workspace-up; }
 
-    Mod+1 { focus-workspace 1; }
-    Mod+2 { focus-workspace 2; }
-    Mod+3 { focus-workspace 3; }
-    Mod+4 { focus-workspace 4; }
-    Mod+5 { focus-workspace 5; }
-    Mod+6 { focus-workspace 6; }
-    Mod+7 { focus-workspace 7; }
-    Mod+8 { focus-workspace 8; }
-    Mod+9 { focus-workspace 9; }
+    Mod+Shift+left cooldown-ms=25 { consume-or-expel-window-left; }
+    Mod+Shift+right cooldown-ms=25 { consume-or-expel-window-right; }
+    Mod+Shift+down cooldown-ms=25 { move-window-down-or-to-workspace-down; }
+    Mod+Shift+up cooldown-ms=25 { move-window-up-or-to-workspace-up; }
 
-    Mod+Shift+1 { move-column-to-workspace 1; }
-    Mod+Shift+2 { move-column-to-workspace 2; }
-    Mod+Shift+3 { move-column-to-workspace 3; }
-    Mod+Shift+4 { move-column-to-workspace 4; }
-    Mod+Shift+5 { move-column-to-workspace 5; }
-    Mod+Shift+6 { move-column-to-workspace 6; }
-    Mod+Shift+7 { move-column-to-workspace 7; }
-    Mod+Shift+8 { move-column-to-workspace 8; }
-    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+1 repeat=false { focus-workspace 1; }
+    Mod+2 repeat=false { focus-workspace 2; }
+    Mod+3 repeat=false { focus-workspace 3; }
+    Mod+4 repeat=false { focus-workspace 4; }
+    Mod+5 repeat=false { focus-workspace 5; }
+    Mod+6 repeat=false { focus-workspace 6; }
+    Mod+7 repeat=false { focus-workspace 7; }
+    Mod+8 repeat=false { focus-workspace 8; }
+    Mod+9 repeat=false { focus-workspace 9; }
 
-    Mod+Alt+j { move-workspace-down; }
-    Mod+Alt+k { move-workspace-up; }
+    Mod+Shift+1 repeat=false { move-column-to-workspace 1; }
+    Mod+Shift+2 repeat=false { move-column-to-workspace 2; }
+    Mod+Shift+3 repeat=false { move-column-to-workspace 3; }
+    Mod+Shift+4 repeat=false { move-column-to-workspace 4; }
+    Mod+Shift+5 repeat=false { move-column-to-workspace 5; }
+    Mod+Shift+6 repeat=false { move-column-to-workspace 6; }
+    Mod+Shift+7 repeat=false { move-column-to-workspace 7; }
+    Mod+Shift+8 repeat=false { move-column-to-workspace 8; }
+    Mod+Shift+9 repeat=false { move-column-to-workspace 9; }
 
-    Mod+Ctrl+h { focus-monitor-left; }
-    Mod+Ctrl+l { focus-monitor-right; }
-    Mod+Ctrl+j { focus-monitor-down; }
-    Mod+Ctrl+k { focus-monitor-up; }
+    Mod+Ctrl+h repeat=false { focus-monitor-left; }
+    Mod+Ctrl+l repeat=false { focus-monitor-right; }
+    Mod+Ctrl+k repeat=false { focus-monitor-up; }
+    Mod+Ctrl+j repeat=false { focus-monitor-down; }
 
-    Mod+Ctrl+Shift+h { move-column-to-monitor-left; }
-    Mod+Ctrl+Shift+l { move-column-to-monitor-right; }
-    Mod+Ctrl+Shift+j { move-column-to-monitor-down; }
-    Mod+Ctrl+Shift+k { move-column-to-monitor-up; }
+    Mod+Ctrl+Shift+h repeat=false { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+l repeat=false { move-column-to-monitor-right; }
+    Mod+Ctrl+Shift+k repeat=false { move-column-to-monitor-up; }
+    Mod+Ctrl+Shift+j repeat=false { move-column-to-monitor-down; }
 
-    Mod+Ctrl+Alt+h { move-workspace-to-monitor-left; }
-    Mod+Ctrl+Alt+l { move-workspace-to-monitor-right; }
-    Mod+Ctrl+Alt+j { move-workspace-to-monitor-down; }
-    Mod+Ctrl+Alt+k { move-workspace-to-monitor-up; }
+    Mod+Alt+k repeat=false { move-workspace-up; }
+    Mod+Alt+j repeat=false { move-workspace-down; }
+    Mod+Prior repeat=false { move-workspace-up; }
+    Mod+Next repeat=false { move-workspace-down; }
 
-    //
+    Mod+Ctrl+Alt+h repeat=false { move-workspace-to-monitor-left; }
+    Mod+Ctrl+Alt+l repeat=false { move-workspace-to-monitor-right; }
+    Mod+Ctrl+Alt+k repeat=false { move-workspace-to-monitor-up; }
+    Mod+Ctrl+Alt+j repeat=false { move-workspace-to-monitor-down; }
+
+    // -------------------------------------------------------------------------
 
     Mod+return repeat=false hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
     Mod+Space repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
@@ -129,10 +134,7 @@ binds {
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
-    //
-
-    Mod+Ctrl+Alt+p repeat=false { power-off-monitors; }
-    Mod+Ctrl+Alt+e repeat=false { quit; }
+    // -------------------------------------------------------------------------
 
     // Applications such as remote-desktop clients and software KVM switches
     // may request that niri stops processing the keyboard shortcuts defined
@@ -143,5 +145,5 @@ binds {
     // The allow-inhibiting=false property can be applied to other binds as
     // well, which ensures niri always processes them, even when an inhibitor
     // is active.
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Alt+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 }

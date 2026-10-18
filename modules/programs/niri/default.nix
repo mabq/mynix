@@ -28,9 +28,11 @@
         hjem.users.${user}.files = {
           ".config/niri".source = "${dir}/configs/${niriConfig}"; # out of store
 
-          # Disable macbook phantom display
+          # Per-host outputs
+          #  Do not put the file in `~/.config/niri`, otherwise it will always be imported
           ".config/mynix/niri/outputs-macbook.kdl".text = lib.mkIf (host == "macbook") ''
             output "LVDS-1" {
+                // Disable macbook phantom display
                 off
             }
           '';

@@ -1,37 +1,56 @@
-// https://niri-wm.github.io/niri/Configuration:-Input
+// https://niri-wm.github.io/niri/Configuration%3A-Input.html
 
 input {
+    // General settings
+    // ----------------
+
+    // Modify super key, valid options are `Super`, `Alt`, `Mod3`, `Mod5`, `Ctrl`, `Shift`.
+    // mod-key "Super"
+    // mod-key-nested "Alt"
+
+    // By default, niri will take over the power button to make it sleep instead of power off
+    // disable-power-key-handling
+
+    // Always center the cursor when changing focus
     warp-mouse-to-focus mode="center-xy-always"
+
+    // Focuses windows and outputs automatically when moving the mouse over them
     // focus-follows-mouse
+
+    // Switching to the same workspace by index twice will switch back to the previous workspace
+    // workspace-auto-back-and-forth
+
+
+    // Device settings
+    // ---------------
+
+    // Currently, there's no way to configure specific devices individually (but that is planned)
 
     keyboard {
         xkb {
             layout "us,us"
             variant ",intl"
-            options "grp:alt_space_toggle, compose:caps"
+            options "grp:alt_space_toggle,compose:caps"
         }
-        numlock
+        track-layout "window" // remember keyboard layout per-window
         repeat-rate 32
         repeat-delay 250
+        numlock
     }
 
     touchpad {
         tap
+        dwt // disable when typing
+        accel-speed 0.0
+        accel-profile "adaptive"
+        scroll-method "two-finger"
+        scroll-factor 0.25
         natural-scroll
-        scroll-factor 0.5
     }
 
     mouse {
-        scroll-factor horizontal=-1.0 vertical=1.0 // MxKeys
-    }
-}
-
-cursor {
-    hide-when-typing
-}
-
-gestures {
-    hot-corners {
-        off
+        accel-speed -0.2
+        accel-profile "adaptive"
+        scroll-factor 0.5
     }
 }
