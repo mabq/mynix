@@ -12,8 +12,8 @@ prefer-no-csd // no client side decorations
 screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
 
 cursor {
-    // xcursor-theme "breeze_cursors"
-    xcursor-size 24
+    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 22
     hide-when-typing
     // hide-after-inactive-ms 1000
 }
