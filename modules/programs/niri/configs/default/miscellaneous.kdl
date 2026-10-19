@@ -1,0 +1,37 @@
+// This line starts waybar, a commonly used bar for Wayland compositors.
+// spawn-at-startup "waybar"
+
+// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+prefer-no-csd // no client side decorations
+
+// You can change the path where screenshots are saved.
+// A ~ at the front will be expanded to the home directory.
+// The path is formatted with strftime(3) to give you the screenshot date and time.
+screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+
+cursor {
+    // xcursor-theme "breeze_cursors"
+    xcursor-size 24
+    hide-when-typing
+    // hide-after-inactive-ms 1000
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+blur {
+    off
+    passes 3
+    offset 3.0
+    noise 0.02
+    saturation 1.5
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}
