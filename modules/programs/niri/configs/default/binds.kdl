@@ -8,34 +8,32 @@
 */
 
 binds {
-    Mod+Shift+w repeat=false { quit; }
+    Mod+Alt+q repeat=false { quit; } // quit niri
 
-    Mod+Shift+m repeat=false { power-off-monitors; }
+    Mod+Alt+p repeat=false { power-off-monitors; }
 
     Mod+o repeat=false { toggle-overview; }
 
     Mod+w repeat=false { close-window; }
+
+    Mod+f repeat=false { maximize-window-to-edges; }
+    Mod+Shift+f repeat=false { fullscreen-window; }
+    Mod+z repeat=false { toggle-windowed-fullscreen; } // hide tabs (zen mode)
+
+    Mod+Period repeat=false { switch-preset-window-width; }
+    Mod+Comma repeat=false { switch-preset-window-width-back; }
+    Mod+m repeat=false repeat=false { maximize-column; }
+    Mod+Shift+m repeat=false { expand-column-to-available-width; }
+
+    Mod+c repeat=false { center-column; }
 
     Mod+Left { set-column-width "-1%"; }
     Mod+Right { set-column-width "+1%"; }
     Mod+Down { set-window-height "-1%"; }
     Mod+Up { set-window-height "+1%"; }
 
-    Mod+r { switch-preset-column-width; }
-
-    Mod+m repeat=false { maximize-window-to-edges; }
-    // Mod+Shift+f repeat=false { fullscreen-window; }
-    Mod+z repeat=false { toggle-windowed-fullscreen; } // zen (no borders)
-
-    Mod+Period repeat=false { expand-column-to-available-width; }
-    // Mod+m repeat=false repeat=false { maximize-column; }
-
-    Mod+c repeat=false { center-column; }
-
-    Mod+f repeat=false { toggle-window-floating; }
-    Mod+Shift+f repeat=false { switch-focus-between-floating-and-tiling; }
-
-    // Mod+t repeat=false { toggle-column-tabbed-display; }
+    Mod+t repeat=false { switch-focus-between-floating-and-tiling; }
+    Mod+Shift+t repeat=false { toggle-window-floating; } // toggle tiling
 
     Mod+h cooldown-ms=25 { focus-column-left; }
     Mod+l cooldown-ms=25 { focus-column-right; }
@@ -102,7 +100,9 @@ binds {
     // -------------------------------------------------------------------------
 
     Mod+return repeat=false hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
+
     Mod+Space repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+
     // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -117,8 +117,8 @@ binds {
     // PipeWire & WirePlumber
     // Using spawn-sh allows to pass multiple arguments together with the command
     // "-l 0.0" limits the volume to 100%
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
     XF86AudioMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
