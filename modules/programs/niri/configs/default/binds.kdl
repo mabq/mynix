@@ -8,9 +8,9 @@
 */
 
 binds {
-    Mod+Alt+q repeat=false { quit; } // quit niri
+    Mod+Shift+e repeat=false { quit; } // exit niri
 
-    Mod+Alt+p repeat=false { power-off-monitors; }
+    Mod+Shift+p repeat=false { power-off-monitors; }
 
     Mod+o repeat=false { toggle-overview; }
 
@@ -32,8 +32,8 @@ binds {
     Mod+Down { set-window-height "-1%"; }
     Mod+Up { set-window-height "+1%"; }
 
-    Mod+t repeat=false { switch-focus-between-floating-and-tiling; }
-    Mod+Shift+t repeat=false { toggle-window-floating; } // toggle tiling
+    Mod+t repeat=false { toggle-window-floating; } // toggle tiling
+    Mod+slash repeat=false { switch-focus-between-floating-and-tiling; }
 
     Mod+h cooldown-ms=25 { focus-column-left; }
     Mod+l cooldown-ms=25 { focus-column-right; }
@@ -45,6 +45,7 @@ binds {
     Mod+WheelScrollUp cooldown-ms=150 { focus-window-or-workspace-up; }
     Mod+WheelScrollDown cooldown-ms=150 { focus-window-or-workspace-down; }
 
+    // see bottom
     Mod+b repeat=false { focus-window-previous; }
 
     Mod+Shift+h cooldown-ms=25 { move-column-left; }
@@ -123,8 +124,8 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
     Print repeat=false { screenshot; }
-    Ctrl+Print repeat=false { screenshot-screen; }
     Alt+Print repeat=false { screenshot-window; }
+    Ctrl+Print repeat=false { screenshot-screen; }
 
     // Applications such as remote-desktop clients and software KVM switches
     // may request that niri stops processing the keyboard shortcuts defined

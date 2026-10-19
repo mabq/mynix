@@ -23,6 +23,17 @@
       config = {
         programs.niri.enable = true;
 
+        # https://docs.noctalia.dev/noctalia/getting-started/nixos/
+        hardware.bluetooth.enable = true;
+        services.power-profiles-daemon.enable = true;
+        services.upower.enable = true;
+
+        programs.noctalia = {
+          enable = true;
+          systemd.enable = true;
+          recommendedServices.enable = true;
+        };
+
         environment.systemPackages = import ./configs/${niriConfig}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {

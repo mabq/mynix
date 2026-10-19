@@ -21,7 +21,8 @@ in
       self.nixosModules.git
       self.nixosModules.keyd
       self.nixosModules.neovim
-      self.nixosModules.networkd
+      # self.nixosModules.networkd
+      self.nixosModules.networkManager
       self.nixosModules.niri
       self.nixosModules.openssh
       self.nixosModules.pipewire

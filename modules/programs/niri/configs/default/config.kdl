@@ -1,10 +1,14 @@
 // https://niri-wm.github.io/niri/Configuration%3A-Introduction.html
 
-include "./input.kdl"
-include "./outputs.kdl"
-include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
 include "./binds.kdl"
+include "./input.kdl"
 include "./layout.kdl"
-include "./miscellaneous.kdl"
-include "./window-rules.kdl"
+include "./look-and-feel.kdl"
+include "./outputs.kdl"
 include "./startup.kdl"
+include "./window-rules.kdl"
+include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
+
+screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+
+// background
