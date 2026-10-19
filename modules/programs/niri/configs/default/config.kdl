@@ -9,7 +9,6 @@ include "./layout.kdl"
 include "./miscellaneous.kdl"
 include "./window-rules.kdl"
 
-
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
 
