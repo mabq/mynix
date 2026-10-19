@@ -1,24 +1,10 @@
-// For configuration options and KDL syntax visit:
-//  https://niri-wm.github.io/niri/Configuration%3A-Introduction.html
+// https://niri-wm.github.io/niri/Configuration%3A-Introduction.html
 
 include "./input.kdl"
-// include "./outputs.kdl"
+include "./outputs.kdl"
 include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
 include "./binds.kdl"
 include "./layout.kdl"
 include "./miscellaneous.kdl"
 include "./window-rules.kdl"
-
-// You can also set this to null to disable saving screenshots to disk.
-// screenshot-path null
-
-// Animation settings.
-// The wiki explains how to configure individual animations:
-// https://niri-wm.github.io/niri/Configuration:-Animations
-animations {
-    // Uncomment to turn off all animations.
-    off
-
-    // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
-}
+include "./startup.kdl"

@@ -36,3 +36,7 @@ gestures {
         off
     }
 }
+
+animations {
+    off
+}
