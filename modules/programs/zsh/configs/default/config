@@ -85,7 +85,3 @@ compinit -d "$ZCOMPFILE"                                  # initialize the compl
 setopt NO_MENU_COMPLETE
 setopt ALWAYS_TO_END
 setopt COMPLETE_IN_WORD
-
-# ---
-
-source <(niri completions zsh)

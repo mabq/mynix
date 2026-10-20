@@ -7,6 +7,7 @@ pkgs: with pkgs; [
   foot # Fast, lightweight and minimalistic Wayland terminal emulator
   libreoffice # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
   nautilus # File manager for GNOME
+  niri # Scrollable-tiling Wayland compositor
   # playerctl # Command-line utility and library for controlling media players that implement MPRIS
   wev # Wayland event viewer
 ]
