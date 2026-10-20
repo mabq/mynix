@@ -8,6 +8,7 @@
     }:
     let
       inherit (config.mynix) user zshConfig;
+      dir = "/home/${user}/.local/share/mynix/modules/programs/zsh";
     in
     {
 
@@ -26,7 +27,7 @@
         environment.systemPackages = import ./configs/${zshConfig}/_packages.nix pkgs;
 
         hjem.users.${user}.files = {
-          ".config/zsh".source = ./configs/${zshConfig};
+          ".config/zsh".source = "${dir}/configs/${zshConfig}";
           ".zshenv".text = ''
             setopt NO_GLOBAL_RCS
             ZDOTDIR="/home/${user}/.config/zsh"

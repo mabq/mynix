@@ -78,6 +78,9 @@ binds {
     Mod+Shift+8 repeat=false { move-column-to-workspace 8; }
     Mod+Shift+9 repeat=false { move-column-to-workspace 9; }
 
+    Mod+Prior repeat=false { move-workspace-up; }
+    Mod+Next repeat=false { move-workspace-down; }
+
     Mod+Ctrl+h repeat=false { focus-monitor-left; }
     Mod+Ctrl+l repeat=false { focus-monitor-right; }
     Mod+Ctrl+k repeat=false { focus-monitor-up; }
@@ -87,11 +90,6 @@ binds {
     Mod+Ctrl+Shift+l repeat=false { move-column-to-monitor-right; }
     Mod+Ctrl+Shift+k repeat=false { move-column-to-monitor-up; }
     Mod+Ctrl+Shift+j repeat=false { move-column-to-monitor-down; }
-
-    Mod+Alt+k repeat=false { move-workspace-up; }
-    Mod+Alt+j repeat=false { move-workspace-down; }
-    Mod+Prior repeat=false { move-workspace-up; }
-    Mod+Next repeat=false { move-workspace-down; }
 
     Mod+Ctrl+Alt+h repeat=false { move-workspace-to-monitor-left; }
     Mod+Ctrl+Alt+l repeat=false { move-workspace-to-monitor-right; }
@@ -110,12 +108,11 @@ binds {
     // XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
     // XF86AudioMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     // XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
-    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
-    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
-    // XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    // XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+
+    // XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    // XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
+    // XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
+    // XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
 
     Print repeat=false { screenshot; }
     Alt+Print repeat=false { screenshot-window; }
