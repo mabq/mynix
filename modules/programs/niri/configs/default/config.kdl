@@ -7,8 +7,8 @@ include "./look-and-feel.kdl"
 include "./outputs.kdl"
 include "./startup.kdl"
 include "./window-rules.kdl"
-include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
+// include optional=true "~/.config/mynix/niri/outputs-macbook.kdl"
+
+include "./noctalia.kdl"
 
 screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
-
-// background
