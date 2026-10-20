@@ -25,7 +25,10 @@
 
         # https://docs.noctalia.dev/noctalia/getting-started/nixos/
         hardware.bluetooth.enable = true;
-        services.power-profiles-daemon.enable = true;
+
+        # services.power-profiles-daemon.enable = true;
+        services.tuned.enable = true;
+
         services.upower.enable = true;
 
         programs.noctalia = {
