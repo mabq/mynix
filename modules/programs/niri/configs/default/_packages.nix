@@ -6,7 +6,7 @@ pkgs: with pkgs; [
   chromium # Open source web browser from Google
   dropbox # Online stored folders (daemon version)
   foot # Fast, lightweight and minimalistic Wayland terminal emulator
-  hyprpicker # Wlroots-compatible Wayland color picker that does not suck
+  # hyprpicker # Wlroots-compatible Wayland color picker that does not suck
   libreoffice # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
   nautilus # File manager for GNOME
   niri # Scrollable-tiling Wayland compositor

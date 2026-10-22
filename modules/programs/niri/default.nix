@@ -27,14 +27,13 @@
         hardware.bluetooth.enable = true;
 
         # services.power-profiles-daemon.enable = true;
-        services.tuned.enable = true;
-
-        services.upower.enable = true;
+        # services.tuned.enable = true;
+        # services.upower.enable = true;
 
         programs.noctalia = {
           enable = true;
-          systemd.enable = true;
           recommendedServices.enable = true;
+          systemd.enable = true;
         };
 
         environment.systemPackages = import ./configs/${niriConfig}/_packages.nix pkgs;
