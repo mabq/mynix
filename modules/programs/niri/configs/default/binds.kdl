@@ -100,8 +100,7 @@ binds {
 
     Mod+return repeat=false hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
 
-    // (replaced with noctalia launcher)
-    // Mod+Space repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    // (most media keys execute noctalia commands, see that file)
 
     // Media/F-keys (toggle between then with `fn+Esc`)
     // XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; } // `-l 1.0` limits the volume to 100%

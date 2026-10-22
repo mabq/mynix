@@ -1,14 +1,12 @@
 binds {
     Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
-    Mod+i { spawn-sh "noctalia msg panel-toggle control-center"; }
-    Mod+s { spawn-sh "noctalia msg settings-toggle"; }
-
     Mod+Shift+space { spawn-sh "noctalia msg bar-toggle"; }
 
     // -------------------------------------------------------------------------
     // System controls
     // -------------------------------------------------------------------------
 
+    Mod+Ctrl+Comma { spawn-sh "noctalia msg settings-toggle"; }
     Mod+Ctrl+h { spawn-sh "noctalia msg panel-toggle control-center home"; }
     // Mod+Ctrl+m { spawn-sh "noctalia msg panel-toggle control-center media"; }
     Mod+Ctrl+a { spawn-sh "noctalia msg panel-toggle control-center audio"; }
