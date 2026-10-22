@@ -1,71 +1,3 @@
-binds {
-    Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
-    Mod+Shift+space { spawn-sh "noctalia msg bar-toggle"; }
-
-    // -------------------------------------------------------------------------
-    // System controls
-    // -------------------------------------------------------------------------
-
-    Mod+Ctrl+Comma { spawn-sh "noctalia msg settings-toggle"; }
-    Mod+Ctrl+h { spawn-sh "noctalia msg panel-toggle control-center home"; }
-    // Mod+Ctrl+m { spawn-sh "noctalia msg panel-toggle control-center media"; }
-    Mod+Ctrl+a { spawn-sh "noctalia msg panel-toggle control-center audio"; }
-    Mod+Ctrl+m { spawn-sh "noctalia msg panel-toggle control-center monitor"; }
-    Mod+Ctrl+s { spawn-sh "noctalia msg panel-toggle control-center system"; }
-    Mod+Ctrl+p { spawn-sh "noctalia msg panel-toggle control-center power"; }
-    Mod+Ctrl+n { spawn-sh "noctalia msg panel-toggle control-center network"; }
-    Mod+Ctrl+b { spawn-sh "noctalia msg panel-toggle control-center bluetooth"; }
-    Mod+Ctrl+w { spawn-sh "noctalia msg panel-toggle control-center weather"; }
-    Mod+Ctrl+c { spawn-sh "noctalia msg panel-toggle control-center calendar"; }
-    // Mod+Ctrl+n { spawn-sh "noctalia msg panel-toggle control-center notifications"; }
-
-    // -------------------------------------------------------------------------
-
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "noctalia msg volume-up"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "noctalia msg volume-down"; }
-    XF86AudioMute allow-when-locked=true { spawn-sh "noctalia msg volume-mute"; }
-
-    // -------------------------------------------------------------------------
-
-    // Monitor brightness
-
-    // (these don't work on the macbook)
-    // XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
-    // XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
-
-    // (brightnessctl + noctalia's on-screen-display feedback)
-    // XF86MonBrightnessUp allow-when-locked=true {
-    //     spawn-sh "brightnessctl --class=backlight set +10% && noctalia msg brightness-osd $(brightnessctl --class=backlight -m | cut -d',' -f4 | tr -d '%')"
-    // }
-    // XF86MonBrightnessDown allow-when-locked=true {
-    //     spawn-sh "brightnessctl --class=backlight set 10%- && noctalia msg brightness-osd $(brightnessctl --class=backlight -m | cut -d',' -f4 | tr -d '%')"
-    // }
-
-    // (brightnessctl without on-screen-display feedback)
-    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "brightnessctl --class=backlight set +10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl --class=backlight set 10%-"; }
-
-    // -------------------------------------------------------------------------
-
-    // Keyboard brightness
-
-    XF86KbdBrightnessUp allow-when-locked=true { spawn-sh "noctalia msg keyboard-backlight-set 100"; }
-    XF86KbdBrightnessDown allow-when-locked=true { spawn-sh "noctalia msg keyboard-backlight-set 0"; }
-
-    // -------------------------------------------------------------------------
-
-    XF86AudioPlay allow-when-locked=true { spawn-sh "noctalia msg media toggle"; }
-    // XF86AudioStop allow-when-locked=true { spawn-sh "noctalia msg media stop"; }
-    XF86AudioPrev allow-when-locked=true { spawn-sh "noctalia msg media previous"; }
-    XF86AudioNext allow-when-locked=true { spawn-sh "noctalia msg media next"; }
-    // XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    // XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
-    // XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
-    // XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
-}
-
-// -----------------------------------------------------------------------------
-
 // https://docs.noctalia.dev/noctalia/compositor-settings/niri/?section=option-2-stationary-wallpaper#option-2-stationary-wallpaper
 
 // Place the regular wallpaper on the backdrop.
@@ -85,6 +17,8 @@ overview {
     off
   }
 }
+
+// -----------------------------------------------------------------------------
 
 debug {
   // Allows notification actions and window activation from Noctalia.
